@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: geofin-postgres
+    environment:
+      POSTGRES_USER: geofin
+      POSTGRES_PASSWORD: geofin_secure_pw
+      POSTGRES_DB: geofintel
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U geofin -d geofintel"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: geofin-redis
+    ports: ["6379:6379"]
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+
+  api:
+    build: .
+    container_name: geofin-api
+    ports: ["8000:8000"]
+    env_file: .env
+    environment:
+      PG_HOST: postgres
+      REDIS_HOST: redis
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    command: uvicorn API_layer.api:app --host 0.0.0.0 --port 8000 --reload
+    volumes: [.:/app]
+
+  dashboard:
+    build: .
+    container_name: geofin-dashboard
+    ports: ["8501:8501"]
+    env_file: .env
+    environment:
+      API_URL: http://api:8000
+    depends_on: [api]
+    command: streamlit run dashboard.py --server.port 8501 --server.address 0.0.0.0
+    volumes: [.:/app]
+
+volumes:
+  pgdata:
