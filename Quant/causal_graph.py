@@ -150,13 +150,14 @@ class CausalGraphBuilder:
                 epicenter_idio_return= decomposed_moves[0].idiosyncratic_return if decomposed_moves else 0.0,
                 moves = decomposed_moves,
             )
+            singleton_count = 1 if decomposed_moves else 0
 
             return CausalGraph(
-                clusters[cluster],
+                clusters = [cluster],
                 edges = [],
                 tickers = [m.ticker for m in decomposed_moves],
                 num_clusters = 1,
-                num_singletons= 1,
+                num_singletons = singleton_count,
             )
         
         tickers = [m.ticker for m in decomposed_moves]
@@ -197,7 +198,7 @@ class CausalGraphBuilder:
                     )
 
                     edge = CausalEdge(
-                        source = valid_tickers[i] if lead_lab >= 0 else valid_tickers[j],
+                        source = valid_tickers[i] if lead_lag >= 0 else valid_tickers[j],
                         target = valid_tickers[j] if lead_lag >= 0 else valid_tickers[i],
                         correlation = round(raw_corr, 3),
                         partial_correlation= round(partial_corr, 3),
@@ -219,7 +220,7 @@ class CausalGraphBuilder:
         for ticker in missing_tickers:
             if ticker in move_lookup:
                 clusters.append(MoveCluster(
-                    cluster_id = max(c.cluster_id for c in clusters) + 1 if clusters else 0.0,
+                    cluster_id = max(c.cluster_id for c in clusters) + 1 if clusters else 0,
                     tickers = [ticker],
                     epicenter_ticker = ticker,
                     epicenter_idio_return= move_lookup[ticker].idiosyncratic_return,
@@ -258,6 +259,8 @@ class CausalGraphBuilder:
                 tickers_str, period = f"{self.lookback_days + 10}d",
                 group_by = "tickers", progress = False, threads = True,
             )
+            if data is None:
+                return None
 
             returns = pd.DataFrame()
             for t in all_tickers:
@@ -293,15 +296,17 @@ class CausalGraphBuilder:
             #No market factor available - falling back to raw correlations
             return returns_df[tickers].corr().values
         
-        spy = returns_df["SPY"].values
+        spy = np.asarray(returns_df["SPY"].to_numpy(), dtype=float)
 
         #Residualize each ticker against SPY
         residuals = {}
         for t in tickers:
-            y = returns_df[t].values
+            y = np.asarray(returns_df[t].to_numpy(), dtype=float)
 
             #Simple OLS: y = a + b*SPY + e
-            X = np.column_stack([np.ones(len(spy)), spy])
+            X = np.empty((spy.shape[0], 2), dtype=float)
+            X[:, 0] = 1.0
+            X[:, 1] = spy
 
             try:
                 betas, _, _, _ = np.linalg.lstsq(X, y, rcond = None)
@@ -315,13 +320,35 @@ class CausalGraphBuilder:
             for j in range(i + 1, n):
                 r_i = residuals[tickers[i]]
                 r_j = residuals[tickers[j]]
-                corr = np.corrcoef(r_i, r_j)[0,1]
-                if np.isnan(corr):
-                    corr = 0.0
+                corr = self._safe_corr(r_i, r_j)
                 partial_corr[i, j] = corr
                 partial_corr[j, i] = corr 
 
         return partial_corr
+
+    @staticmethod
+    def _safe_corr(x: object, y: object) -> float:
+        """Compute Pearson correlation defensively for typing/runtime stability."""
+        x_arr = np.asarray(x, dtype=float)
+        y_arr = np.asarray(y, dtype=float)
+        n = min(x_arr.shape[0], y_arr.shape[0])
+        if n < 2:
+            return 0.0
+
+        x_arr = x_arr[-n:]
+        y_arr = y_arr[-n:]
+        valid = np.isfinite(x_arr) & np.isfinite(y_arr)
+        if valid.sum() < 2:
+            return 0.0
+
+        x_valid = x_arr[valid]
+        y_valid = y_arr[valid]
+        x_centered = x_valid - x_valid.mean()
+        y_centered = y_valid - y_valid.mean()
+        denom = float(np.linalg.norm(x_centered) * np.linalg.norm(y_centered))
+        if denom == 0.0:
+            return 0.0
+        return float(np.dot(x_centered, y_centered) / denom)
     
     #-- Lead Lag Detection -- #
 
@@ -341,17 +368,17 @@ class CausalGraphBuilder:
         b = b[-n:]
 
         best_lag = 0
-        best_corr = abs(np.corrcoef(a, b)[0,1])
+        best_corr = abs(self._safe_corr(a, b))
 
         for lag in range(1, max_lag + 1):
             #A leads B by 'lag' days
-            corr_forward = abs(np.corrcoef(a[:-lag], b[lag:])[0,1])
+            corr_forward = abs(self._safe_corr(a[:-lag], b[lag:]))
             if corr_forward > best_corr:
                 best_corr = corr_forward
                 best_lag = lag 
 
             #B leads A by 'lag' days
-            corr_backward = abs(np.corrcoef(a[lag:], b[:-lag])[0,1])
+            corr_backward = abs(self._safe_corr(a[lag:], b[:-lag]))
             if corr_backward > best_corr:
                 best_corr = corr_backward
                 best_lag = -lag 
@@ -485,11 +512,11 @@ class CausalGraphBuilder:
 
             #Average correlations
             avg_corr = (
-                np.mean([e.correlation for e in internal_edges])
+                float(np.mean([e.correlation for e in internal_edges]))
                 if internal_edges else 0.0
             )
             avg_partial = (
-                np.mean([e.partial_correlation for e in internal_edges])
+                float(np.mean([e.partial_correlation for e in internal_edges]))
                 if internal_edges else 0.0
             )
 
@@ -506,12 +533,12 @@ class CausalGraphBuilder:
                 epicenter_ticker = epicenter.ticker,
                 epicenter_idio_return=epicenter.idiosyncratic_return,
                 dominant_sector=dominant_sector,
-                avg_correlation=round(avg_corr, 3),
-                avg_partial_correlation=round(avg_partial,3),
+                avg_correlation=float(round(avg_corr, 3)),
+                avg_partial_correlation=float(round(avg_partial,3)),
                 moves = cluster_moves,
                 internal_edges = internal_edges,
-                total_return_range= = return_range,
-                coherence_score=round(coherence, 3),
+                total_return_range = return_range,
+                coherence_score=float(round(coherence, 3)),
             ))
 
         #Sort by max severity then epicenter magnitude

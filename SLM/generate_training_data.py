@@ -24,7 +24,7 @@ import numpy as np
 import yfinance as yf 
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import SystemMessage, HumanMessage
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, SecretStr
 
 from Data.settings import Settings, SECTOR_TICKERS, TICKER_COMPANY_NAMES
 from SLM.model import CLASSIFICATION_LABELS
@@ -91,7 +91,7 @@ def find_historical_moves(
     for ticker in tickers:
         try:
             data = yf.download(ticker, period = f"{lookback_days}d", progress = False)
-            if data.empty or len(data) < 60:
+            if data is None or data.empty or len(data) < 60:
                 continue 
 
             close = data["Close"].dropna()
@@ -194,10 +194,12 @@ async def label_move_with_claude(
     """
 
     llm = ChatAnthropic(
-        model = settings.FAST_MODEL,
-        anthropic_api_key = settings.ANTHROPIC_API_KEY,
-        max_tokens = 2048,
-        temperature = 0.1
+        model_name = settings.FAST_MODEL,
+        api_key = SecretStr(settings.ANTHROPIC_API_KEY),
+        max_tokens_to_sample = 2048,
+        temperature = 0.1,
+        timeout = None,
+        stop = None,
     )
     labeler = llm.with_structured_output(MoveLabelBatch)
 
@@ -222,7 +224,7 @@ For each article, provide relevance, causality, and sentiment scores.
 If no articles are found, still classify the move based on the ticker, date, and magnitude."""
 
     try:
-        result = await labeler.ainvoke([
+        raw_result = await labeler.ainvoke([
             SystemMessage(content=(
                 "You are a financial data labeler creating training data for an ML model. "
                 "Be precise and consistent. For classification, choose the single best category. "
@@ -232,7 +234,11 @@ If no articles are found, still classify the move based on the ticker, date, and
             )),
             HumanMessage(content=prompt),
         ])
-        return result
+        return (
+            raw_result
+            if isinstance(raw_result, MoveLabelBatch)
+            else MoveLabelBatch.model_validate(raw_result)
+        )
     except Exception as e:
         logger.warning(f"Claude labeling failed for {move['ticker']} {move['date']}: {e}")
         return None 
@@ -314,7 +320,7 @@ async def generate_training_dataset(
             cls_examples.append(asdict(ClassificationExample(
                 text = move_text,
                 label = labels.move_category,
-                label_idx = CLASSIFICATION_LABELS.index(lables.move_category),
+                label_idx = CLASSIFICATION_LABELS.index(labels.move_category),
                 confidence = labels.move_confidence,
                 ticker = move["ticker"],
                 move_pct = move["pct_change"],
@@ -391,7 +397,7 @@ async def generate_training_dataset(
 
 
 if __name__ == "__main__":
-    import argprse
+    import argparse
 
     parser = argparse.ArgumentParser(description="Generate SLM training data")
     parser.add_argument("--lookback", type=int, default=365, help="Days of history")

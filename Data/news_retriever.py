@@ -159,6 +159,11 @@ class NewsRetriever:
 
                 title = item.get("title", "")
                 relevance = self._compute_relevance(title, search_terms, ticker)
+                try:
+                    # GDELT tone is roughly -10..10; normalize to NewsArticle's -1..1.
+                    sentiment = max(-1.0, min(1.0, float(item.get("tone", 0)) / 10.0))
+                except (TypeError, ValueError):
+                    sentiment = 0.0
 
                 articles.append(NewsArticle(
                     url = item.get("url", ""),
@@ -167,7 +172,7 @@ class NewsRetriever:
                     source_name = item.get("domain", "unknown"),
                     source = EventSource.GDELT,
                     published_at = pub_date,
-                    sentiment_score = float(item.get("tone", 0)), 10.0,
+                    sentiment_score = sentiment,
                     relevance_score = relevance,
                     matched_ticker = ticker,
                 ))
@@ -208,7 +213,7 @@ class NewsRetriever:
             articles = []
             for item in data.get("articles", []):
                 try:
-                    pub_date = datetime.formisoformat(
+                    pub_date = datetime.fromisoformat(
                         item.get("publishedAt", "").replace("Z", "+00:00")
                     )
                 except (ValueError, TypeError):

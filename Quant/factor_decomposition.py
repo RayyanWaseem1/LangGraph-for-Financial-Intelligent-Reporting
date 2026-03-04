@@ -184,7 +184,7 @@ class FactorDecomposer:
         }).dropna() 
 
         #Add sector ETF if available
-        sector_etf = SECTOR_ETFS.get(sector)
+        sector_etf = SECTOR_ETFS.get(sector) if sector else None
         has_sector = False 
         if sector_etf:
             sector_returns = self._get_returns(sector_etf)
@@ -200,20 +200,31 @@ class FactorDecomposer:
         aligned = aligned.tail(self.lookback_days)
 
         #Regression: R_ticker = α + β_mkt × R_mkt + β_sec × R_sec_resid + ε
-        Y = aligned["ticker"].values 
-        X_mkt = aligned["market"].values 
+        Y = np.asarray(aligned["ticker"].to_numpy(), dtype=float)
+        X_mkt = np.asarray(aligned["market"].to_numpy(), dtype=float)
+        sec_on_mkt_beta = 0.0
 
         if has_sector:
             #orthogonalize sector returns against the market
             #R_sec_resid = R_sec - β(R_sec, R_mkt) × R_mkt
-            X_sec = aligned["sector"].values
-            sec_on_mkt_beta = np.cov(X_sec, X_mkt)[0, 1] / (np.var(X_mkt) + 1e-10)
+            X_sec = np.asarray(aligned["sector"].to_numpy(), dtype=float)
+            x_sec_centered = X_sec - float(np.mean(X_sec))
+            x_mkt_centered = X_mkt - float(np.mean(X_mkt))
+            denom_n = max(X_mkt.shape[0] - 1, 1)
+            sec_on_mkt_cov = float(np.dot(x_sec_centered, x_mkt_centered) / denom_n)
+            mkt_var = float(np.dot(x_mkt_centered, x_mkt_centered) / denom_n)
+            sec_on_mkt_beta = sec_on_mkt_cov / (mkt_var + 1e-10)
             X_sec_resid = X_sec - sec_on_mkt_beta * X_mkt 
 
             #Build design matrix: [1, R_mkt, R_sec_resid]
-            X = np.column_stack([np.ones(len(Y)), X_mkt, X_sec_resid])
+            X = np.empty((Y.shape[0], 3), dtype=float)
+            X[:, 0] = 1.0
+            X[:, 1] = X_mkt
+            X[:, 2] = X_sec_resid
         else: 
-            X = np.column_stack([np.ones(len(Y)), X_mkt])
+            X = np.empty((Y.shape[0], 2), dtype=float)
+            X[:, 0] = 1.0
+            X[:, 1] = X_mkt
 
         #OLS regression
         try:
@@ -313,6 +324,8 @@ class FactorDecomposer:
                 tickers_str, period = f"{lookback}d",
                 group_by = "ticker", progress = False, threads = True,
             )
+            if data is None:
+                return
 
             for ticker in tickers_needed:
                 try:
@@ -335,6 +348,8 @@ class FactorDecomposer:
         
         try:
             data = yf.download(ticker, period = f"{self.lookback_days + 20}d", progress = False)
+            if data is None:
+                return None
             if data.empty:
                 return None 
             returns = data["Close"].pct_change().dropna()
@@ -408,7 +423,10 @@ class ReturnPredictor:
         #Fetch VIX for regime conditioning
         try:
             vix_data = yf.download("^VIX", period = f"{self.lookback_days + 10}d", progress = False)
-            vix_series = vix_data["Close"].dropna() if not vix_data.empty else None
+            if vix_data is None:
+                vix_series = None
+            else:
+                vix_series = vix_data["Close"].dropna() if not vix_data.empty else None
         except Exception:
             vix_series = None 
 
@@ -428,7 +446,7 @@ class ReturnPredictor:
         """ Fit the model and compute prediction residual for one ticker"""
         ticker = move.ticker
         sector = move.sector.value if move.sector else TICKER_TO_SECTOR.get(ticker)
-        sector_etf = SECTOR_ETFS.get(sector, "SPY")
+        sector_etf = SECTOR_ETFS.get(sector, "SPY") if sector else "SPY"
 
         #Donwloading historical data
         tickers_needed = f"{ticker} SPY {sector_etf}"
@@ -437,7 +455,7 @@ class ReturnPredictor:
             group_by = "ticker", progress = False,
         )
 
-        if data.empty:
+        if data is None or data.empty:
             return None 
         
         #Extract returns
@@ -454,7 +472,7 @@ class ReturnPredictor:
     
         tk_ret = tk_close.pct_change().dropna()
         spy_ret = spy_close.pct_change().dropna()
-        sec_ret = sec_close.pct_chang().dropna()
+        sec_ret = sec_close.pct_change().dropna()
 
         #Building feature matrix 
         features = pd.DataFrame(index = tk_ret.index)
@@ -464,7 +482,8 @@ class ReturnPredictor:
         features["sec_mom_20d"] = sec_ret.rolling(20).mean() 
         features["spy_mom_5d"] = spy_ret.rolling(5).mean()
         features["rvol_20d"] = tk_ret.rolling(20).std()
-        features["dow"] = features.index.dayofweek / 4.0 #normalized 
+        dow_index = pd.DatetimeIndex(pd.to_datetime(features.index, errors="coerce"))
+        features["dow"] = dow_index.dayofweek.astype(float) / 4.0 #normalized 
 
         if vix_series is not None:
             features["vix"] = vix_series.reindex(features.index).ffill() / 40.0 #normalized
@@ -477,14 +496,18 @@ class ReturnPredictor:
         train = features.iloc[:-1]
         test = features.iloc[-1:]
 
-        Y_train = train["target"].values
+        Y_train = np.asarray(train["target"].to_numpy(), dtype=float)
         X_cols = [c for c in features.columns if c != "target"]
-        X_train = train[X_cols].values
-        X_test = test[X_cols].values 
+        X_train_raw = np.asarray(train[X_cols].to_numpy(), dtype=float)
+        X_test_raw = np.asarray(test[X_cols].to_numpy(), dtype=float)
 
         #Add intercept 
-        X_train = np.column_stack([np.ones(len(X_train)), X_train])
-        X_test = np.column_stack([np.ones(len(X_test)), X_test])
+        X_train = np.empty((X_train_raw.shape[0], X_train_raw.shape[1] + 1), dtype=float)
+        X_train[:, 0] = 1.0
+        X_train[:, 1:] = X_train_raw
+        X_test = np.empty((X_test_raw.shape[0], X_test_raw.shape[1] + 1), dtype=float)
+        X_test[:, 0] = 1.0
+        X_test[:, 1:] = X_test_raw
 
         #OLS
         try:
@@ -495,7 +518,7 @@ class ReturnPredictor:
         #Residual statistics from training period 
         train_pred = X_train @ betas
         train_resid = Y_train - train_pred 
-        sigma_resid = np.std(train_resid)
+        sigma_resid = float(np.std(train_resid))
         if sigma_resid < 1e-10:
             sigma_resid = 1e-10
 
@@ -503,12 +526,12 @@ class ReturnPredictor:
         predicted = float(X_test @ betas)
         actual = move.pct_change / 100.0
         residual = actual - predicted 
-        residual_sigma = abs(residual) / sigma_resid 
+        residual_sigma = float(abs(residual) / sigma_resid)
 
         return {
-            "predicted_return_pct": round(predicted * 100, 2),
-            "actual_return_pct": move.pct_change,
-            "residual_pct": round(residual * 100, 2),
-            "residual_sigma": round(residual_sigma, 2),
-            "model_sigma_resid": round(sigma_resid * 100, 4),
+            "predicted_return_pct": float(round(predicted * 100, 2)),
+            "actual_return_pct": float(move.pct_change),
+            "residual_pct": float(round(residual * 100, 2)),
+            "residual_sigma": float(round(residual_sigma, 2)),
+            "model_sigma_resid": float(round(sigma_resid * 100, 4)),
         }

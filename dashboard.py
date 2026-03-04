@@ -103,7 +103,7 @@ elif page == "🚨 Alerts":
     hours = col1.slider("Lookback (hours)", 1, 168, 24)
     level = col2.selectbox("Level", ["All", "critical", "high", "medium", "low"])
 
-    params = {"hours": hours, "limit": 100}
+    params: dict[str, int | str] = {"hours": hours, "limit": 100}
     if level != "All":
         params["level"] = level
 

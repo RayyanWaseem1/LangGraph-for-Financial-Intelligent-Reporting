@@ -20,7 +20,7 @@ Why I'm using FinBERT over a smaller DistilBERT:
 import torch 
 import torch.nn as nn
 from transformers import AutoModel, AutoTokenizer
-from typing import Dict, List, Optional, Tuple, 
+from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass 
 from enum import Enum
 
@@ -39,6 +39,19 @@ CLASSIFICATION_LABELS = [
 NUM_CLASSES = len(CLASSIFICATION_LABELS)
 LABEL_TO_IDX = {label: i for i, label in enumerate(CLASSIFICATION_LABELS)}
 IDX_TO_LABEL = {i: label for i, label in enumerate(CLASSIFICATION_LABELS)}
+
+def _best_label_score(category_probs: Dict[str, float]) -> Tuple[str, float]:
+    """Return the highest-probability label without relying on `max(..., key=...)` typing."""
+    if not category_probs:
+        return "unknown", 0.0
+
+    best_label = next(iter(category_probs))
+    best_prob = category_probs[best_label]
+    for label, prob in category_probs.items():
+        if prob > best_prob:
+            best_label = label
+            best_prob = prob
+    return best_label, float(best_prob)
 
 @dataclass
 class SLMOutput:
@@ -208,7 +221,7 @@ class MultiTaskLoss(nn.Module):
     """
 
     def __init__(self):
-        super().__init__():
+        super().__init__()
 
         #Learnable log-variance parameters for uncertainty weighting
         self.log_var_cls = nn.Parameter(torch.zeros(1))
@@ -312,29 +325,29 @@ class SLMInference:
         ).to(self.device)
 
         outputs = self.model(
-            input_ids = inputs["inputs_ids"],
+            input_ids = inputs["input_ids"],
             attention_mask = inputs["attention_mask"],
         )
 
         #Classification
-        logits = outputs["classification_logits"][0]
+        logits = outputs["classification_logits"].select(0, 0)
         probs = torch.softmax(logits, dim = -1)
-        top_idx = probs.argmax().item()
-        confidence = probs[top_idx].item()
+        probs_list = [float(p) for p in probs.detach().cpu().tolist()]
 
         category_probs = {
-            CLASSIFICATION_LABELS[i]: probs[i].item()
-            for i in range(NUM_CLASSES)
+            label: prob
+            for label, prob in zip(CLASSIFICATION_LABELS, probs_list)
         }
+        predicted_category, confidence = _best_label_score(category_probs)
 
         #Sentiment
-        sentiment = outputs["sentiment"][0].item()
+        sentiment = float(outputs["sentiment"].select(0, 0).item())
 
         #Relevance
-        relevance = outputs["relevaance"][0].item() 
+        relevance = float(outputs["relevance"].select(0, 0).item()) 
 
         return SLMOutput(
-            predicted_category = IDX_TO_LABEL[top_idx],
+            predicted_category = predicted_category,
             category_probabilities=category_probs,
             classification_confidence=confidence,
             sentiment_score=round(sentiment, 4),
@@ -356,25 +369,28 @@ class SLMInference:
         )
 
         results = []
-        batch_size = len(texts)
 
-        for i in range(batch_size):
-            logits = outputs["classification_logits"][i]
+        for logits, sent_val, rel_val in zip(
+            outputs["classification_logits"],
+            outputs["sentiment"],
+            outputs["relevance"],
+        ):
             probs = torch.softmax(logits, dim = -1)
-            top_idx = probs.argmax().item() 
+            probs_list = [float(p) for p in probs.detach().cpu().tolist()]
 
             category_probs = {
-                CLASSIFICATION_LABELS[j]: probs[j].item()
-                for j in range(NUM_CLASSES)
+                label: prob
+                for label, prob in zip(CLASSIFICATION_LABELS, probs_list)
             }
+            predicted_category, confidence = _best_label_score(category_probs)
 
             results.append(SLMOutput(
-                predicted_category = IDX_TO_LABEL[top_idx],
+                predicted_category = predicted_category,
                 category_probabilities= category_probs,
-                classification_confidence= probs[top_idx].item(),
-                sentiment_score = round(outputs["sentiment"][i].item(), 4),
-                relevance_score=round(outputs["relevance"][i].item(), 4),
-                is_relevant = outputs["relevance"][i].item() >= self.relevance_threshold,
+                classification_confidence = confidence,
+                sentiment_score = round(float(sent_val.item()), 4),
+                relevance_score=round(float(rel_val.item()), 4),
+                is_relevant = float(rel_val.item()) >= self.relevance_threshold,
             ))
 
         return results 
@@ -393,9 +409,14 @@ class SLMInference:
             task = "classification",
         )
 
-        probs = torch.softmax(outputs["classification_logits"][0], dim = -1)
-        top_idx = probs.argmax().item()
-        return IDX_TO_LABEL[top_idx], probs[top_idx].item()
+        probs = torch.softmax(outputs["classification_logits"].select(0, 0), dim = -1)
+        probs_list = [float(p) for p in probs.detach().cpu().tolist()]
+        category_probs = {
+            label: prob
+            for label, prob in zip(CLASSIFICATION_LABELS, probs_list)
+        }
+        predicted_category, confidence = _best_label_score(category_probs)
+        return predicted_category, confidence
     
     @torch.no_grad()
     def score_sentiment(self, text: str) -> float:
@@ -410,7 +431,7 @@ class SLMInference:
             attention_mask = inputs["attention_mask"],
             task = "sentiment",
         )
-        return outputs["sentiment"][0].item() 
+        return float(outputs["sentiment"].select(0, 0).item()) 
     
     @torch.no_grad()
     def score_relevance(self, text: str) -> float:
@@ -425,4 +446,4 @@ class SLMInference:
             attention_mask = inputs["attention_mask"],
             task = "relevance",
         )
-        return outputs["relevance"][0].item()
+        return float(outputs["relevance"].select(0, 0).item())

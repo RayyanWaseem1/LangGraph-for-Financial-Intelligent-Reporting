@@ -5,12 +5,10 @@ PostgreSQL for persistent storage, Redis for caching/pub-sub.
 
 import json
 import logging
+import importlib
 from datetime import datetime, timezone, timedelta
 from typing import List, Optional, Dict, Any
 from contextlib import asynccontextmanager
-
-import asyncpg
-import redis.asyncio as redis
 
 from Data.data_model import PriceMove, MoveAlert, MarketBrief
 from Data.settings import Settings
@@ -75,9 +73,16 @@ class PostgresStore:
 
     def __init__(self):
         self.settings = Settings()
-        self.pool: Optional[asyncpg.Pool] = None
+        self.pool: Optional[Any] = None
 
     async def connect(self):
+        try:
+            asyncpg = importlib.import_module("asyncpg")
+        except ModuleNotFoundError as e:
+            raise RuntimeError(
+                "asyncpg is required for PostgreSQL storage. Install dependencies from requirements.txt."
+            ) from e
+
         self.pool = await asyncpg.create_pool(
             host=self.settings.PG_HOST, port=self.settings.PG_PORT,
             user=self.settings.PG_USER, password=self.settings.PG_PASSWORD,
@@ -86,8 +91,14 @@ class PostgresStore:
         await self._init_schema()
         logger.info("PostgreSQL connected")
 
+    def _require_pool(self) -> Any:
+        if self.pool is None:
+            raise RuntimeError("PostgreSQL pool is not connected")
+        return self.pool
+
     async def _init_schema(self):
-        async with self.pool.acquire() as conn:
+        pool = self._require_pool()
+        async with pool.acquire() as conn:
             await conn.execute(self.SCHEMA_SQL)
 
     async def close(self):
@@ -95,7 +106,8 @@ class PostgresStore:
             await self.pool.close()
 
     async def store_move(self, move: PriceMove):
-        async with self.pool.acquire() as conn:
+        pool = self._require_pool()
+        async with pool.acquire() as conn:
             await conn.execute(
                 """INSERT INTO flagged_moves
                    (ticker, company_name, sector, period, direction, pct_change,
@@ -112,7 +124,8 @@ class PostgresStore:
             )
 
     async def store_alert(self, alert: MoveAlert):
-        async with self.pool.acquire() as conn:
+        pool = self._require_pool()
+        async with pool.acquire() as conn:
             await conn.execute(
                 """INSERT INTO alerts
                    (id, ticker, alert_level, title, summary, root_cause_category,
@@ -129,7 +142,8 @@ class PostgresStore:
             )
 
     async def store_brief(self, brief: MarketBrief):
-        async with self.pool.acquire() as conn:
+        pool = self._require_pool()
+        async with pool.acquire() as conn:
             await conn.execute(
                 """INSERT INTO briefs
                    (id, date, portfolio_name, executive_summary,
@@ -142,7 +156,8 @@ class PostgresStore:
             )
 
     async def get_recent_alerts(self, hours: int = 24, limit: int = 50) -> List[Dict]:
-        async with self.pool.acquire() as conn:
+        pool = self._require_pool()
+        async with pool.acquire() as conn:
             cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
             rows = await conn.fetch(
                 "SELECT * FROM alerts WHERE created_at > $1 ORDER BY created_at DESC LIMIT $2",
@@ -151,7 +166,8 @@ class PostgresStore:
             return [dict(r) for r in rows]
 
     async def get_recent_moves(self, hours: int = 24, limit: int = 100) -> List[Dict]:
-        async with self.pool.acquire() as conn:
+        pool = self._require_pool()
+        async with pool.acquire() as conn:
             cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
             rows = await conn.fetch(
                 "SELECT * FROM flagged_moves WHERE detected_at > $1 ORDER BY detected_at DESC LIMIT $2",
@@ -167,33 +183,50 @@ class RedisCache:
 
     def __init__(self):
         self.settings = Settings()
-        self.client: Optional[redis.Redis] = None
+        self.client: Optional[Any] = None
 
     async def connect(self):
-        self.client = redis.Redis(
+        try:
+            redis_asyncio = importlib.import_module("redis.asyncio")
+        except ModuleNotFoundError as e:
+            raise RuntimeError(
+                "redis.asyncio is required for Redis cache. Install dependencies from requirements.txt."
+            ) from e
+
+        client = redis_asyncio.Redis(
             host=self.settings.REDIS_HOST, port=self.settings.REDIS_PORT,
             db=self.settings.REDIS_DB, decode_responses=True,
         )
-        await self.client.ping()
+        await client.ping()
+        self.client = client
         logger.info("Redis connected")
+
+    def _require_client(self) -> Any:
+        if self.client is None:
+            raise RuntimeError("Redis client is not connected")
+        return self.client
 
     async def close(self):
         if self.client:
             await self.client.close()
 
     async def publish_alert(self, alert_data: Dict):
-        await self.client.publish(self.ALERT_CHANNEL, json.dumps(alert_data, default=str))
+        client = self._require_client()
+        await client.publish(self.ALERT_CHANNEL, json.dumps(alert_data, default=str))
 
     async def subscribe_alerts(self):
-        pubsub = self.client.pubsub()
+        client = self._require_client()
+        pubsub = client.pubsub()
         await pubsub.subscribe(self.ALERT_CHANNEL)
         return pubsub
 
     async def cache_snapshot(self, data: Dict, ttl: int = 300):
-        await self.client.setex("market:snapshot", ttl, json.dumps(data, default=str))
+        client = self._require_client()
+        await client.setex("market:snapshot", ttl, json.dumps(data, default=str))
 
     async def get_snapshot(self) -> Optional[Dict]:
-        data = await self.client.get("market:snapshot")
+        client = self._require_client()
+        data = await client.get("market:snapshot")
         return json.loads(data) if data else None
 
 

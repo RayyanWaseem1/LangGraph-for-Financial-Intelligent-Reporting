@@ -105,9 +105,10 @@ async def trigger_scan(req: ScanRequest):
             )
 
     task = asyncio.create_task(_run())
+    ticker_count = len(req.tickers or [])
     return ScanResponse(
         status="started",
-        message=f"Scan triggered: {'S&P 500' if req.use_sp500 else f'{len(req.tickers)} tickers'}",
+        message=f"Scan triggered: {'S&P 500' if req.use_sp500 else f'{ticker_count} tickers'}",
         task_id=str(id(task)),
     )
 
@@ -147,8 +148,12 @@ async def get_moves(
 @app.get("/api/v1/briefs")
 async def get_briefs(limit: int = Query(10, ge=1, le=50)):
     """Retrieve recent intelligence briefs."""
+    pool = storage.postgres.pool
+    if pool is None:
+        raise HTTPException(503, "Database unavailable")
+
     try:
-        async with storage.postgres.pool.acquire() as conn:
+        async with pool.acquire() as conn:
             rows = await conn.fetch(
                 "SELECT id, date, portfolio_name, executive_summary, "
                 "tickers_monitored, tickers_flagged, total_articles "
@@ -161,8 +166,12 @@ async def get_briefs(limit: int = Query(10, ge=1, le=50)):
 
 @app.get("/api/v1/briefs/{brief_id}")
 async def get_brief(brief_id: str):
+    pool = storage.postgres.pool
+    if pool is None:
+        raise HTTPException(503, "Database unavailable")
+
     try:
-        async with storage.postgres.pool.acquire() as conn:
+        async with pool.acquire() as conn:
             row = await conn.fetchrow("SELECT brief_json FROM briefs WHERE id = $1", brief_id)
         if not row:
             raise HTTPException(404, "Brief not found")

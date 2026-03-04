@@ -108,12 +108,6 @@ class FinPipeline:
         original_moves = [m.original_move for m in significant if m.original_move]
         prediction_results = self.predictor.fit_and_predict(original_moves)
 
-        #Enrich decomposed moves with prediction data
-        for dm in significant:
-            pred = prediction_results.get(dm.ticker)
-            if pred:
-                dm._prediction = pred #Attach for downstream use
-
         logger.info(
             f"Prediction model fitted: {len(prediction_results)} tickers | "
             f"Average residual sigma: {self._avg_pred_sigma(prediction_results):.1f}"

@@ -12,7 +12,7 @@ from typing import List, Dict, Optional
 from datetime import datetime 
 
 import torch 
-from torch.utils.data. import Dataset, DataLoader, random_split
+from torch.utils.data import Dataset, DataLoader, random_split
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from transformers import AutoTokenizer
@@ -23,6 +23,7 @@ from SLM.model import (
 )
 
 logger = logging.getLogger(__name__)
+EpochMetrics = Dict[str, float | Dict[str, float]]
 
 # -- Datasets -- #
 
@@ -147,8 +148,8 @@ class SLMTrainer:
     def __init__(
         self,
         model: FinancialMultiTaskSLM,
-        train_dataset: MultiTaskFinancialDataset,
-        val_dataset: Optional[MultiTaskFinancialDataset] = None,
+        train_dataset: Dataset,
+        val_dataset: Optional[Dataset] = None,
         batch_size: int = 32,
         learning_rate: float = 2e-5,
         weight_decay: float = 0.01,
@@ -222,18 +223,26 @@ class SLMTrainer:
                 "val": val_metrics
             })
 
-            task_weights = train_metrics.get("task_weights", {})
+            task_weights_raw = train_metrics.get("task_weights", {})
+            task_weights: Dict[str, float] = (
+                task_weights_raw if isinstance(task_weights_raw, dict) else {}
+            )
+            train_total_raw = train_metrics.get("total", 0.0)
+            train_total = float(train_total_raw) if isinstance(train_total_raw, (int, float)) else 0.0
+            val_total = val_metrics.get("total")
+            val_total_text = f"{float(val_total):.4f}" if isinstance(val_total, (int, float)) else "N/A"
             logger.info(
                 f"Epoch {epoch + 1} / {self.epochs} | "
-                f"Train loss: {train_metrics['total']:.4f} | "
-                f"Val loss: {val_metrics.get('total', 'N/A')} | "
+                f"Train loss: {train_total:.4f} | "
+                f"Val loss: {val_total_text} | "
                 f"Weights: cls = {task_weights.get('classification', 0):.2f} "
                 f"sent = {task_weights.get('sentiment', 0):.2f} "
                 f"rel = {task_weights.get('relevance', 0):.2f}"
             )
 
             #Checkpoint best model
-            val_loss = val_metrics.get("total", train_metrics["total"])
+            val_loss_raw = val_metrics.get("total", train_total)
+            val_loss = float(val_loss_raw) if isinstance(val_loss_raw, (int, float)) else train_total
             if val_loss < self.best_val_loss:
                 self.best_val_loss = val_loss
                 self._save_checkpoint("best")
@@ -244,12 +253,13 @@ class SLMTrainer:
         self._save_history()
         logger.info(f"Training complete. Models saved to {self.output_dir}")
     
-    def _train_epoch(self, epoch: int) -> Dict[str, float]:
+    def _train_epoch(self, epoch: int) -> EpochMetrics:
         """ One training epoch"""
         self.model.train()
         total_loss = 0.0
         batch_count = 0
         accumulated_metrics = {}
+        last_task_weights: Dict[str, float] = {}
 
         for batch in self.train_loader:
             input_ids = batch["input_ids"].to(self.device)
@@ -283,20 +293,29 @@ class SLMTrainer:
 
             total_loss += metrics["total"]
             batch_count += 1
+            task_weights_raw = metrics.get("task_weights", {})
+            if isinstance(task_weights_raw, dict):
+                last_task_weights = task_weights_raw
 
             #Accumulate per task metrics
             for k, v in metrics.items():
                 if k not in ("total", "task_weights"):
                     accumulated_metrics[k] = accumulated_metrics.get(k, 0) + v
+        if batch_count == 0:
+            return {"total": 0.0, "task_weights": last_task_weights}
+
         avg_metrics = {k: v / batch_count for k, v in accumulated_metrics.items()}
         avg_metrics["total"] = total_loss / batch_count 
-        avg_metrics["task_weights"] = metrics.get("task_weights", {})
+        avg_metrics["task_weights"] = last_task_weights
 
         return avg_metrics 
     
     @torch.no_grad() 
     def _validate(self, epoch: int) -> Dict[str, float]:
         """ Validation pass"""
+        if self.val_loader is None:
+            return {"total": 0.0, "cls_accuracy": 0.0}
+
         self.model.eval()
         total_loss = 0.0
         batch_count = 0

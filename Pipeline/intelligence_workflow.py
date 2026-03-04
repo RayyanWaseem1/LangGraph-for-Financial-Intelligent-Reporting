@@ -18,14 +18,15 @@ Pipeline: SLM Agent -> LLM Agent -> Output
 import logging
 import asyncio 
 from datetime import datetime, timezone 
-from typing import List, Dict, Any, Optional, TypedDict, Annotated
+from typing import List, Dict, Any, Optional, TypedDict, Annotated, TYPE_CHECKING
 import operator 
 import json 
 
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import SystemMessage, HumanMessage
 from langgraph.graph import StateGraph, END
-from pydantic import BaseModel, Field 
+from langgraph.graph.state import CompiledStateGraph
+from pydantic import BaseModel, Field, SecretStr 
 
 from Data.data_model import (
     PriceMove, NewsArticle, TickerNewsBundle, MarketSnapshot,
@@ -37,24 +38,32 @@ from Data.data_model import (
 from Data.settings import Settings
 from SLM.model import SLMInference, SLMOutput, CLASSIFICATION_LABELS
 
+if TYPE_CHECKING:
+    from Quant.factor_decomposition import DecomposedMove
+    from Quant.causal_graph import CausalGraph
+
 logger = logging.getLogger(__name__)
 settings = Settings() 
 
 #-- LLM Client (Agent 2 only, Agent 1 only uses local SLM) -- #
 
 primary_llm = ChatAnthropic(
-    model = settings.PRIMARY_MODEL,
-    anthropic_api_key = settings.ANTHROPIC_API_KEY,
-    max_tokens = 4096,
+    model_name = settings.PRIMARY_MODEL,
+    api_key = SecretStr(settings.ANTHROPIC_API_KEY),
+    max_tokens_to_sample = 4096,
     temperature = 0.2,
+    timeout = None,
+    stop = None,
 )
 
 #Fallback to Haiku for when SLM is not available
 fallback_llm = ChatAnthropic(
-    model = settings.FAST_MODEL,
-    anthropic_api_key = settings.ANTHROPIC_API_KEY,
-    max_tokens = 2048,
+    model_name = settings.FAST_MODEL,
+    api_key = SecretStr(settings.ANTHROPIC_API_KEY),
+    max_tokens_to_sample = 2048,
     temperature = 0.1,
+    timeout = None,
+    stop = None,
 )
 
 # -- SLM Initialization -- #
@@ -306,10 +315,15 @@ ARTICLES:
 Classify the root cause, provide sentiment scores (-1 to 1) and relevance scores (0 to 1) for each article."""
 
         try:
-            result = await classifier.ainvoke([
+            raw_result = await classifier.ainvoke([
                 SystemMessage(content = "You are a financial analyst. Classify moves and score articles."),
                 HumanMessage(content = prompt),
             ])
+            result = (
+                raw_result
+                if isinstance(raw_result, HaikuClassification)
+                else HaikuClassification.model_validate(raw_result)
+            )
 
             scored_articles = []
             for i, art in enumerate(articles):
@@ -357,7 +371,7 @@ Classify the root cause, provide sentiment scores (-1 to 1) and relevance scores
                 "relevant_articles": [],
                 "all_scored_particles": [],
                 "sector_move_count": 0,
-                "is_broad_market_move"; False,
+                "is_broad_market_move": False,
                 "processed_by": "haiku_fallback_error",
             })
 
@@ -537,7 +551,7 @@ Generate impact assessments per cluster and a synthesized brief."""
     assessor = primary_llm.with_structured_output(ImpactAndBrief)
 
     try:
-        result = await assessor.ainvoke([
+        raw_result = await assessor.ainvoke([
             SystemMessage(content=(
                 "You are the Chief Market Strategist at a quantitative hedge fund. "
                 "You receive factor-decomposed, cluster-analyzed move data. "
@@ -549,6 +563,11 @@ Generate impact assessments per cluster and a synthesized brief."""
             )),
             HumanMessage(content=prompt),
         ])
+        result = (
+            raw_result
+            if isinstance(raw_result, ImpactAndBrief)
+            else ImpactAndBrief.model_validate(raw_result)
+        )
 
         #-- Building alerts fromt the LLM response
         alerts = []
@@ -643,7 +662,7 @@ Generate impact assessments per cluster and a synthesized brief."""
         }
     
 # -- Building the Two Agent Workflow --#
-def build_pipeline() -> StateGraph:
+def build_pipeline() -> CompiledStateGraph[PipelineState, None, PipelineState, PipelineState]:
     """Construct the 2-agent LangGraph pipeline: SLM → LLM."""
     workflow = StateGraph(PipelineState)
 
@@ -678,9 +697,6 @@ async def run_intelligence_pipeline(
     - prediction_results: What the quant model predicted vs. actual
     - systematic_moves: Moves explained by market/sector (for context)
     """
-    from Quant.factor_decomposition import DecomposedMove
-    from Quant.causal_graph import CausalGraph
-
     start_time = datetime.now(timezone.utc)
 
     # Serialize decomposed moves with factor data
