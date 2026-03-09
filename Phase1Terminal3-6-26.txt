@@ -1,0 +1,146 @@
+(.venv) (base) rayyanwaseem@Rayyans-MacBook-Pro LangGraph-for-Financial-Intelligent-Reporting % python -m Pipeline.run_pipeline --sp500  
+
+    ╔══════════════════════════════════════════════════════════════════╗
+    ║  Financial Intelligence System                                   ║
+    ║  Quant Decomposition → Causal Graph → SLM → LLM Brief            ║
+    ╚══════════════════════════════════════════════════════════════════╝
+    
+  Portfolio: S&P 500
+  Thresholds: raw=2.0σ, idiosyncratic=1.5σ
+2026-03-06 14:55:21,827 - Data.market_monitor - WARNING - Failed to fetch S&p500 list: HTTP Error 403: Forbidden. Using cached list.
+2026-03-06 14:55:21,828 - Data.market_monitor - INFO - Monitoring 50 tickers (S&P 500)
+2026-03-06 14:55:21,845 - __main__ - INFO - ======================================================================
+2026-03-06 14:55:21,845 - __main__ - INFO - Financial Intelligence Pipeline
+2026-03-06 14:55:21,845 - __main__ - INFO - ======================================================================
+2026-03-06 14:55:21,845 - __main__ - INFO - 
+ [1/6] Scanning the portfolio for significant moves ...
+2026-03-06 14:55:21,845 - Data.market_monitor - INFO - Scanning 50 tickers for significant moves 
+2026-03-06 14:55:28,214 - Data.market_monitor - INFO - Scan complete: 7 signficant moves detectedout of 50 tickers
+2026-03-06 14:55:28,215 - __main__ - INFO -  7 raw significant moves detected
+2026-03-06 14:55:28,215 - __main__ - INFO - 
+ [2/6] Decomposing moves into market/sector/idiosyncratic components...
+2026-03-06 14:55:28,215 - Quant.factor_decomposition - INFO - Decomposing 7 moves into factor components
+2026-03-06 14:55:28,537 - Quant.factor_decomposition - INFO - Decomposition complete: 7 significant idiosyncratic moves, 0 mostly systematic (filtered out)
+2026-03-06 14:55:28,538 - __main__ - INFO - Factor decomposition: 7 genuine idiosyncratic moves, 0 filtered (explained by market/sector beta)
+
+ Market: SPY -0.92% | QQQ -0.93% | VIX 26.63
+
+ Significant idiosyncratic moves (7): 
+ 🔴 BLK: -7.2% total -> market -1.1% + sector -0.6% + IDIO -5.4% (4.3 sigma) [CRITICAL] | R-squared = 0.46
+ 🔴 UPS: -12.6% total -> market -0.6% + sector -0.2% + IDIO -11.9% (7.6 sigma) [CRITICAL] | R-squared = 0.17
+ 🟢 BA: +3.9% total -> market -0.7% + sector -0.1% + IDIO +4.8% (2.7 sigma) [HIGH] | R-squared = 0.15
+ 🔴 KO: -5.5% total -> market +0.3% + sector +0.1% + IDIO -6.0% (7.4 sigma) [CRITICAL] | R-squared = 0.41
+ 🔴 BLK: -9.7% total -> market -1.1% + sector -0.6% + IDIO -7.9% (6.3 sigma) [CRITICAL] | R-squared = 0.46
+ 🔴 PEP: -6.7% total -> market +0.3% + sector +0.2% + IDIO -7.2% (7.3 sigma) [CRITICAL] | R-squared = 0.44
+ 🔴 PG: -2.7% total -> market +0.4% + sector +0.1% + IDIO -3.2% (3.8 sigma) [CRITICAL] | R-squared = 0.51
+2026-03-06 14:55:28,538 - __main__ - INFO - [3/6] Computing prediction residuals (what can't the model explain?) ...
+2026-03-06 14:55:30,578 - __main__ - INFO - Prediction model fitted: 0 tickers | Average residual sigma: 0.0
+2026-03-06 14:55:30,578 - __main__ - INFO - 
+[4/6] Retrieving news for 7 idiosyncratic moves
+2026-03-06 14:55:30,578 - Data.news_retriever - INFO - Retrieving news for 6 unique tickers (lookback = 72h)
+2026-03-06 14:55:30,952 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22BlackRock%2C+Inc.%22+OR+%22BLK%22+OR+%22%24BLK%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-06 14:55:30,954 - Data.news_retriever - WARNING - GDELT search failed for BLK: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22BlackRock%2C+Inc.%22+OR+%22BLK%22+OR+%22%24BLK%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-06 14:55:31,164 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22BlackRock%2C+Inc.%22+OR+%22BLK%22&from=2026-03-03T19%3A55%3A30&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-06 14:55:33,008 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22+OR+%22%24UPS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-06 14:55:33,011 - Data.news_retriever - WARNING - GDELT parse error for UPS: Expecting value: line 1 column 1 (char 0)
+2026-03-06 14:55:33,091 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22&from=2026-03-03T19%3A55%3A33&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-06 14:55:34,889 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Boeing%22+OR+%22BA%22+OR+%22%24BA%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-06 14:55:34,892 - Data.news_retriever - WARNING - GDELT parse error for BA: Expecting value: line 1 column 1 (char 0)
+2026-03-06 14:55:34,989 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Boeing%22+OR+%22BA%22&from=2026-03-03T19%3A55%3A34&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-06 14:55:36,797 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Coca+Cola%22+OR+%22KO%22+OR+%22%24KO%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-06 14:55:36,800 - Data.news_retriever - WARNING - GDELT parse error for KO: Expecting value: line 1 column 1 (char 0)
+2026-03-06 14:55:36,888 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Coca+Cola%22+OR+%22KO%22&from=2026-03-03T19%3A55%3A36&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-06 14:55:38,691 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22PepsiCo%2C+Inc.%22+OR+%22PEP%22+OR+%22%24PEP%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-06 14:55:38,694 - Data.news_retriever - WARNING - GDELT search failed for PEP: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22PepsiCo%2C+Inc.%22+OR+%22PEP%22+OR+%22%24PEP%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-06 14:55:38,771 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22PepsiCo%2C+Inc.%22+OR+%22PEP%22&from=2026-03-03T19%3A55%3A38&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-06 14:55:40,558 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Procter+Gamble%22+OR+%22PG%22+OR+%22%24PG%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-06 14:55:40,562 - Data.news_retriever - WARNING - GDELT parse error for PG: Expecting value: line 1 column 1 (char 0)
+2026-03-06 14:55:40,644 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Procter+Gamble%22+OR+%22PG%22&from=2026-03-03T19%3A55%3A40&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-06 14:55:40,645 - Data.news_retriever - INFO - Retrieved 101 total articles for 6 tickers
+2026-03-06 14:55:40,645 - __main__ - INFO - Retrieved 101 articles for 6 tickers
+2026-03-06 14:55:40,645 - __main__ - INFO - 
+ [5/6] Building causal grpah (clustering related moves) ...
+2026-03-06 14:55:40,645 - Quant.causal_graph - INFO - Building causal graph for 7 flagged tickers
+2026-03-06 14:55:40,999 - Quant.causal_graph - WARNING - Matrix shape mismatch in causal graph builder (corr=(7, 7), partial=(6, 6), tickers=7). Truncating to 6.
+2026-03-06 14:55:41,007 - Quant.causal_graph - INFO - Causal graph: 3 clusters (1 multi-move, 2 singletons), 5 edges
+
+ Causal graph: 3 clusters (1 multi-move, 2 singletons)
+ [Cluster 2] UPS, KO, PEP, PG | epicenter: UPS (-11.9% | sector: consumer_staples | coherence: 0.44
+ [Singleton] BLK: idio -7.9%
+ [Singleton] BA: idio +4.8%
+2026-03-06 14:55:41,007 - __main__ - INFO - 
+ [6/6] Running SLM -> LLM intelligence pipeline on 3 clusters...
+2026-03-06 14:55:41,020 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-06 14:55:41,020 - Pipeline.intelligence_workflow - INFO - [Agent 1: SLM] Classification + Sentiment + Relevance
+2026-03-06 14:55:41,020 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-06 14:55:41,184 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-06 14:55:41,216 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-06 14:55:41,277 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-06 14:55:41,311 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-06 14:55:41,367 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-03-06 14:55:41,425 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-03-06 14:55:41,497 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-06 14:55:41,527 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-06 14:55:42,263 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-03-06 14:55:42,353 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-03-06 14:55:42,473 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/main "HTTP/1.1 200 OK"
+2026-03-06 14:55:42,573 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/discussions?p=0 "HTTP/1.1 200 OK"
+Loading weights: 100%|████████████████████████████████████████████████████████| 199/199 [00:00<00:00, 10507.94it/s, Materializing param=pooler.dense.weight]
+BertModel LOAD REPORT from: ProsusAI/finbert
+Key                          | Status     |  | 
+-----------------------------+------------+--+-
+classifier.bias              | UNEXPECTED |  | 
+bert.embeddings.position_ids | UNEXPECTED |  | 
+classifier.weight            | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED    :can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+ No fine tuned weights at models/financial_slm, using the base model
+2026-03-06 14:55:42,646 - Pipeline.intelligence_workflow - INFO - SLM loaded - using local model for classification/sentiment/relevance
+2026-03-06 14:55:42,646 - Pipeline.intelligence_workflow - INFO - [SLM] Running local inference ... 
+2026-03-06 14:55:42,658 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/refs%2Fpr%2F29 "HTTP/1.1 200 OK"
+2026-03-06 14:55:42,712 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+2026-03-06 14:55:42,769 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors "HTTP/1.1 302 Found"
+2026-03-06 14:55:44,952 - Pipeline.intelligence_workflow - INFO - [SLM] Processed 7 moves locally
+2026-03-06 14:55:44,952 - Pipeline.intelligence_workflow - INFO - [Agent 1] Enriched 7 moves
+2026-03-06 14:55:44,953 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-06 14:55:44,953 - Pipeline.intelligence_workflow - INFO - [Agent 2: LLM] Impact Assessment + Synthesis + Brief
+2026-03-06 14:55:44,953 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-06 14:57:21,434 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-06 14:57:21,464 - Pipeline.intelligence_workflow - INFO - [Agent 2] Generated 7 alerts, 2 critical (1 LLM call)
+2026-03-06 14:57:21,465 - Pipeline.intelligence_workflow - INFO - Pipeline complete: 7 alerts, 2 critical, 100.5s | SLM → LLM (2-agent architecture)
+
+ ================================================================================
+ Market Intelligence Brief
+================================================================================
+
+ 2026-03-06 19:57 UTC
+ S&P 500 : 50 monitored -> 7 flagged
+ Generated in: 100.5s
+
+ Executive Summary 
+--------------------------------------------------------------------------------
+Today's idiosyncratic moves are dominated by a consumer staples logistics cluster centered on UPS (-11.9%, 7.6σ), which is driving significant contagion through causal links to KO (-6.0%, 7.4σ), PEP (-7.2%, 7.3σ), and PG (-3.2%, 3.8σ) with 0.44 cluster coherence. This represents a shared supply chain cost shock—likely tariff-impacted logistics costs or volume guidance concerns—not company-specific issues. The highest-risk signal is BLK's -7.9% (6.3σ) singleton move with zero news, requiring immediate investigation for undisclosed material events. BA's +4.8% (2.7σ) unexplained gain suggests a pending positive catalyst, warranting monitoring for disclosure. Immediate actions: investigate BLK for hidden catalyst, determine UPS cluster driver (company vs sector-wide), and reduce exposure to hi
+
+ Critical Alerts (2)
+ [CRITICAL] BLK -7.9% idiosyncratic collapse with no disclosed catalyst - investigate immediately
+ BlackRock suffered a -7.9% idiosyncratic move (6.3 sigma) with no news flow and misclassified as 'geopolitical_tension' by SLM. This is a singleton move uncorrelated with market/sector factors, sugges
+ [CRITICAL] UPS -11.9% idiosyncratic collapse triggers consumer staples supply chain contagion
+ UPS suffered a -11.9% idiosyncratic move (7.6 sigma), serving as the epicenter for a consumer staples cluster collapse. The causal structure shows UPS driving correlated moves in PEP (-7.2%), KO (-6.0
+
+ Top Recommendations
+ 1. [CRITICAL] : 
+ 6.3 sigma idiosyncratic move with zero news is highest risk signal in portfolio; check SEC filings, unusual options activity, CDS spreads, and institu
+ 2. [CRITICAL] : 
+ UPS -11.9% (7.6 sigma) is driving -$XXM in consumer staples contagion through causal links; determine if logistics cost shock is UPS-specific or secto
+ 3. [HIGH] : 
+ Cluster coherence of 0.44 with 7+ sigma moves across KO, PEP indicates material undisclosed supply chain cost pressure; reduce PEP (highest interconne
+ 4. [MEDIUM] : 
+ +4.8% idiosyncratic move (2.7 sigma) with no news suggests pending positive announcement; hold existing positions and watch for FAA certification news
+ 5. [MEDIUM] : 
+ PG's -3.2% move is smallest in cluster despite causal links from UPS/KO/PEP; investigate if lower sensitivity reflects better logistics cost managemen
+2026-03-06 14:57:21,467 - __main__ - INFO -  Brief saved to: market_breif_20260306_195721.json
+2026-03-06 14:57:21,467 - __main__ - INFO - Pipeline Completed!
+(.venv) (base) rayyanwaseem@Rayyans-MacBook-Pro LangGraph-for-Financial-Intelligent-Reporting % 

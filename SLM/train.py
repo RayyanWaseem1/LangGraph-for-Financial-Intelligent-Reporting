@@ -19,7 +19,7 @@ from transformers import AutoTokenizer
 
 from SLM.model import (
     FinancialMultiTaskSLM, MultiTaskLoss,
-    CLASSIFICATION_LABELS, LABEL_TO_IDX, NUM_CLASSES,
+    CLASSIFICATION_LABELS, LABEL_TO_IDX, NUM_CLASSES, consolidate_label,
 )
 
 logger = logging.getLogger(__name__)
@@ -31,6 +31,7 @@ class MultiTaskFinancialDataset(Dataset):
     """
     Combined dataset for all three tasks
     Each example has text + labels for one or more tasks
+    Automatically remaps the fine-grained labels to consolidated categories
     """
 
     def __init__(
@@ -45,19 +46,36 @@ class MultiTaskFinancialDataset(Dataset):
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
         self.max_length = max_length 
         self.examples = []
+        self.cls_label_counts = {} #for computing the class weights
 
         #Load classification examples
         if cls_path and Path(cls_path).exists():
+            skipped = 0
             with open(cls_path) as f:
                 for line in f:
                     ex = json.loads(line)
+                    #Remap old fine-grained labels to the consolidated
+                    old_label = ex.get("label", "unknown")
+                    new_label = consolidate_label(old_label)
+                    label_idx = LABEL_TO_IDX.get(new_label)
+
+                    if label_idx is None:
+                        skipped += 1
+                        continue 
+
                     self.examples.append({
-                        "test": ex["text"],
-                        "task": "classifiation",
-                        "cls_label": ex["label_idx"],
+                        "text": ex["text"],
+                        "task": "classification",
+                        "cls_label": label_idx,
                         "sent_label": None,
                         "rel_label": None,
                     })
+
+                    #Track the label distribution for class weights
+                    self.cls_label_counts[label_idx] = self.cls_label_counts.get(label_idx, 0) + 1
+
+            if skipped:
+                logger.warning(f"Skipped {skipped} classification examples with unmappable labels")
 
         #Load sentiment examples
         if sent_path and Path(sent_path).exists():
@@ -86,6 +104,68 @@ class MultiTaskFinancialDataset(Dataset):
                     })
         
         logger.info(f"Loaded {len(self.examples)} total training examples")
+
+        #Log classification distribution
+        if self.cls_label_counts:
+            total_cls = sum(self.cls_label_counts.values())
+            dist_str = ", ".join(
+                f"{CLASSIFICATION_LABELS[idx]} = {count}"
+                for idx, count in sorted(self.cls_label_counts.items())
+            )
+            logger.info(f"Classification distribution ({total_cls} total): {dist_str}")
+
+    def compute_class_weights(self) -> Optional[torch.Tensor]:
+        """
+        Compute the dampened inverse-frequency class weights for imbalanced classificaiton.
+
+        Uses sqrt(inverse_frequency) instead of raw inverse_frequency to prevent extreme 
+        weight ratios that cause the model to ignore the majority class. 
+
+        With the raw inverse frequency: earnings = 0.01, geopolitical = 2.36 (236:1 ratio).
+        The model was ignoring 74% of the data, and accuracy dropped below random chance
+
+        With sqrt dampening: earnings should be = 0.15, geopolitical = 1.5 (10:1 ratio).
+        Hopefully rare classes are upweighted but majority class still matters
+
+        Will also caps maximum weight ratio at 15:1 as a safety bound
+        """
+        if not self.cls_label_counts:
+            return None 
+
+        total = sum(self.cls_label_counts.values())
+        n_classes_present = sum(1 for c in self.cls_label_counts.values() if c > 0)
+
+        weights = torch.zeros(NUM_CLASSES)
+        for idx in range(NUM_CLASSES):
+            count = self.cls_label_counts.get(idx, 0)
+            if count > 0:
+                #Inverse frequency: rarer classes get higher weight
+                raw_weight = total / (n_classes_present * count)
+                weights[idx] = float(raw_weight ** 0.5)
+            else:
+                #No examples for this class - set small weight so it doesn't
+                #dominate loss if the model accidentally predicts it
+                weights[idx] = 0.1
+
+        #Normalize so mean weight = 1.0 (preserves the loss scale)
+        weights = weights / weights.mean() 
+
+        #Cap max/min ratio at 15:1
+        min_weight = weights[weights > 0.01].min()
+        max_allowed = min_weight * 15.0
+        weights = torch.clamp(weights, min = min_weight, max = max_allowed)
+
+        #Re-normalize after clamping
+        weights = weights / weights.mean()
+
+        weight_str = ", ".join(
+            f"{CLASSIFICATION_LABELS[i]} = {weights[i]:.2f}"
+            for i in range(NUM_CLASSES)
+        )
+        max_ratio = weights.max() / weights[weights > 0].min()
+        logger.info(f"Classification class weights: {weight_str} (max ratio: {max_ratio:.1f}:1)")
+
+        return weights 
 
     def __len__(self):
         return len(self.examples)
@@ -117,13 +197,21 @@ class MultiTaskFinancialDataset(Dataset):
         return item 
     
 def collate_fn(batch):
-    """ Custom collate that handles optional labels"""
+    """Custom collate with per-task masks to support mixed-task batches."""
     result = {
         "input_ids": torch.stack([b["input_ids"] for b in batch]),
         "attention_mask": torch.stack([b["attention_mask"] for b in batch]),
     }
 
-    #Collect labels only for examples that have them
+    #Track which rows have labels for each task so logits can be sliced accordingly
+    cls_mask = torch.tensor(["cls_label" in b for b in batch], dtype=torch.bool)
+    sent_mask = torch.tensor(["sent_label" in b for b in batch], dtype=torch.bool)
+    rel_mask = torch.tensor(["rel_label" in b for b in batch], dtype=torch.bool)
+    result["cls_mask"] = cls_mask
+    result["sent_mask"] = sent_mask
+    result["rel_mask"] = rel_mask
+
+    #Collect labels only for examples that have them (same order as masks)
     cls_labels = [b["cls_label"] for b in batch if "cls_label" in b]
     sent_labels = [b["sent_label"] for b in batch if "sent_label" in b]
     rel_labels = [b["rel_label"] for b in batch if "rel_label" in b]
@@ -156,6 +244,7 @@ class SLMTrainer:
         epochs: int = 10,
         device: str = "auto",
         output_dir: str = "models/financial_slm",
+        cls_class_weights: Optional[torch.Tensor] = None,
     ):
         
         if device == "auto":
@@ -164,7 +253,11 @@ class SLMTrainer:
             self.device = torch.device(device)
 
         self.model = model.to(self.device)
-        self.loss_fn = MultiTaskLoss().to(self.device)
+
+        #Move class weights to device if provided
+        if cls_class_weights is not None:
+            cls_class_weights = cls_class_weights.to(self.device)
+        self.loss_fn = MultiTaskLoss(cls_class_weights=cls_class_weights).to(self.device)
         self.epochs = epochs
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents = True, exist_ok = True)
@@ -182,6 +275,7 @@ class SLMTrainer:
         backbone_params = list(model.backbone.parameters())
         head_params = (
             list(model.shared_projection.parameters()) + 
+            list(model.classification_head.parameters()) +
             list(model.sentiment_head.parameters()) + 
             list(model.relevance_head.parameters())
         )
@@ -229,15 +323,15 @@ class SLMTrainer:
             )
             train_total_raw = train_metrics.get("total", 0.0)
             train_total = float(train_total_raw) if isinstance(train_total_raw, (int, float)) else 0.0
-            val_total = val_metrics.get("total")
-            val_total_text = f"{float(val_total):.4f}" if isinstance(val_total, (int, float)) else "N/A"
+            val_total_raw = val_metrics.get("total")
+            val_total_text = f"{float(val_total_raw):.4f}" if isinstance(val_total_raw, (int, float)) else "N/A"
             logger.info(
-                f"Epoch {epoch + 1} / {self.epochs} | "
+                f"Epoch {epoch+1} / {self.epochs} | "
                 f"Train loss: {train_total:.4f} | "
                 f"Val loss: {val_total_text} | "
                 f"Weights: cls = {task_weights.get('classification', 0):.2f} "
-                f"sent = {task_weights.get('sentiment', 0):.2f} "
-                f"rel = {task_weights.get('relevance', 0):.2f}"
+                f"Sent = {task_weights.get('sentiment', 0):.2f} "
+                f"Rel = {task_weights.get('relevance', 0):.2f}"
             )
 
             #Checkpoint best model
@@ -264,24 +358,34 @@ class SLMTrainer:
         for batch in self.train_loader:
             input_ids = batch["input_ids"].to(self.device)
             attention_mask = batch["attention_mask"].to(self.device)
+            cls_mask = batch["cls_mask"].to(self.device)
+            sent_mask = batch["sent_mask"].to(self.device)
+            rel_mask = batch["rel_mask"].to(self.device)
 
             #Forward pass (all tasks)
             outputs = self.model(input_ids, attention_mask)
+            loss_outputs = dict(outputs)
 
             #Compute multi-task loss
-            cls_targets = batch.get("cls_labels", None)
-            sent_targets = batch.get("sent_labels", None)
-            rel_targets = batch.get("rel_labels", None)
+            cls_targets = batch["cls_labels"].to(self.device) if "cls_labels" in batch else None
+            sent_targets = batch["sent_labels"].to(self.device) if "sent_labels" in batch else None
+            rel_targets = batch["rel_labels"].to(self.device) if "rel_labels" in batch else None
 
-            if cls_targets is not None:
-                cls_targets = cls_targets.to(self.device)
-            if sent_targets is not None:
-                sent_targets = sent_targets.to(self.device)
-            if rel_targets is not None:
-                rel_targets = rel_targets.to(self.device)
+            if cls_targets is not None and cls_mask.any().item():
+                loss_outputs["classification_logits"] = outputs["classification_logits"][cls_mask]
+            else:
+                cls_targets = None
+            if sent_targets is not None and sent_mask.any().item():
+                loss_outputs["sentiment"] = outputs["sentiment"][sent_mask]
+            else:
+                sent_targets = None
+            if rel_targets is not None and rel_mask.any().item():
+                loss_outputs["relevance"] = outputs["relevance"][rel_mask]
+            else:
+                rel_targets = None
 
             loss, metrics = self.loss_fn(
-                outputs, cls_targets, sent_targets, rel_targets,
+                loss_outputs, cls_targets, sent_targets, rel_targets,
             )
 
             #Backward pass
@@ -301,6 +405,7 @@ class SLMTrainer:
             for k, v in metrics.items():
                 if k not in ("total", "task_weights"):
                     accumulated_metrics[k] = accumulated_metrics.get(k, 0) + v
+
         if batch_count == 0:
             return {"total": 0.0, "task_weights": last_task_weights}
 
@@ -314,7 +419,7 @@ class SLMTrainer:
     def _validate(self, epoch: int) -> Dict[str, float]:
         """ Validation pass"""
         if self.val_loader is None:
-            return {"total": 0.0, "cls_accuracy": 0.0}
+            return {"total": 0.0, "classification_accuracy": 0.0}
 
         self.model.eval()
         total_loss = 0.0
@@ -322,27 +427,41 @@ class SLMTrainer:
         correct_cls = 0
         total_cls = 0
 
-        for batch in self.val_loader:
+        val_loader = self.val_loader
+        for batch in val_loader:
             input_ids = batch["input_ids"].to(self.device)
             attention_mask = batch["attention_mask"].to(self.device)
+            cls_mask = batch["cls_mask"].to(self.device)
+            sent_mask = batch["sent_mask"].to(self.device)
+            rel_mask = batch["rel_mask"].to(self.device)
 
             outputs = self.model(input_ids, attention_mask)
+            loss_outputs = dict(outputs)
 
-            cls_targets = batch.get("cls_labels", None)
-            sent_targets = batch.get("sent_labels", None)
-            rel_targets = batch.get("rel_labels", None)
+            cls_targets = batch["cls_labels"].to(self.device) if "cls_labels" in batch else None
+            sent_targets = batch["sent_labels"].to(self.device) if "sent_labels" in batch else None
+            rel_targets = batch["rel_labels"].to(self.device) if "rel_labels" in batch else None
 
-            if cls_targets is not None:
-                cls_targets = cls_targets.to(self.device)
-                preds = outputs["classificaiton_logits"].argmax(dim = -1)
+            if cls_targets is not None and cls_mask.any().item():
+                loss_outputs["classification_logits"] = outputs["classification_logits"][cls_mask]
+                preds = loss_outputs["classification_logits"].argmax(dim = -1)
                 correct_cls += (preds == cls_targets).sum().item()
                 total_cls += cls_targets.size(0)
-            if sent_targets is not None:
-                sent_targets = sent_targets.to(self.device)
-            if rel_targets is not None:
-                rel_targets = rel_targets.to(self.device)
+            else:
+                cls_targets = None
 
-            loss, metrics = self.loss_fn(outputs, cls_targets, sent_targets, rel_targets)
+            if sent_targets is not None and sent_mask.any().item():
+                loss_outputs["sentiment"] = outputs["sentiment"][sent_mask]
+            else:
+                sent_targets = None
+
+            if rel_targets is not None and rel_mask.any().item():
+                loss_outputs["relevance"] = outputs["relevance"][rel_mask]
+            else:
+                rel_targets = None
+
+            loss, metrics = self.loss_fn(
+                loss_outputs, cls_targets, sent_targets, rel_targets,)
             total_loss += metrics["total"]
             batch_count += 1
 
@@ -384,6 +503,9 @@ def main():
         rel_path=str(data_dir / "relevance_train.jsonl"),
         tokenizer_name=args.backbone,
     )
+    
+    #Compute inverse-frequency class weights BEFORE splitting
+    cls_class_weights = full_dataset.compute_class_weights()
 
     # Train/val split
     val_size = int(len(full_dataset) * args.val_split)
@@ -407,6 +529,7 @@ def main():
         learning_rate=args.lr,
         epochs=args.epochs,
         output_dir=args.output_dir,
+        cls_class_weights=cls_class_weights,
     )
     trainer.train()
 

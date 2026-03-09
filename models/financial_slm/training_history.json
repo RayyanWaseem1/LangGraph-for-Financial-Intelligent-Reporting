@@ -1,0 +1,92 @@
+[
+  {
+    "epoch": 1,
+    "train": {
+      "classification": 8.416386349315054,
+      "sentiment": 0.15559299536124754,
+      "relevance": 0.6454936829343271,
+      "total": 9.190589799639884,
+      "task_weights": {
+        "classification": 0.993956983089447,
+        "sentiment": 1.007054090499878,
+        "relevance": 1.006852626800537
+      }
+    },
+    "val": {
+      "total": 8.7191,
+      "classification_accuracy": 0.0765
+    }
+  },
+  {
+    "epoch": 2,
+    "train": {
+      "classification": 8.189622971783862,
+      "sentiment": 0.07107933266621863,
+      "relevance": 0.6047623067508253,
+      "total": 8.791267470864767,
+      "task_weights": {
+        "classification": 0.9890427589416504,
+        "sentiment": 1.0124813318252563,
+        "relevance": 1.0122307538986206
+      }
+    },
+    "val": {
+      "total": 8.5124,
+      "classification_accuracy": 0.0436
+    }
+  },
+  {
+    "epoch": 3,
+    "train": {
+      "classification": 8.081478036521526,
+      "sentiment": 0.05682551191924206,
+      "relevance": 0.5773785714520497,
+      "total": 8.607658024751737,
+      "task_weights": {
+        "classification": 0.9859395027160645,
+        "sentiment": 1.0159283876419067,
+        "relevance": 1.0156569480895996
+      }
+    },
+    "val": {
+      "total": 8.4009,
+      "classification_accuracy": 0.0667
+    }
+  },
+  {
+    "epoch": 4,
+    "train": {
+      "classification": 8.054568721169836,
+      "sentiment": 0.048451615655963405,
+      "relevance": 0.5390060186553537,
+      "total": 8.515141934491275,
+      "task_weights": {
+        "classification": 0.9846275448799133,
+        "sentiment": 1.017380952835083,
+        "relevance": 1.0171359777450562
+      }
+    },
+    "val": {
+      "total": 8.3557,
+      "classification_accuracy": 0.0379
+    }
+  },
+  {
+    "epoch": 5,
+    "train": {
+      "classification": 8.081208483724112,
+      "sentiment": 0.05128825413863125,
+      "relevance": 0.5290631443010957,
+      "total": 8.528336831860328,
+      "task_weights": {
+        "classification": 0.9844266176223755,
+        "sentiment": 1.0176018476486206,
+        "relevance": 1.0173581838607788
+      }
+    },
+    "val": {
+      "total": 8.3477,
+      "classification_accuracy": 0.0527
+    }
+  }
+]

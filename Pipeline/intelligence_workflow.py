@@ -50,7 +50,7 @@ settings = Settings()
 primary_llm = ChatAnthropic(
     model_name = settings.PRIMARY_MODEL,
     api_key = SecretStr(settings.ANTHROPIC_API_KEY),
-    max_tokens_to_sample = 4096,
+    max_tokens_to_sample = 16384,
     temperature = 0.2,
     timeout = None,
     stop = None,
@@ -128,15 +128,24 @@ class ImpactAndBrief(BaseModel):
         forward_looking: str = ""
 
     #Per move assessments
-    move_impacts: List[MoveImpact] = Field(description = "Impact assessment for each move")
+    move_impacts: List[MoveImpact] = Field(
+        default_factory = list,
+        description = "Impact assessment for each move")
 
     #Synthesized brief
-    executive_summary: str = Field(description = "3-5 sentence executive summary")
-    sector_summaries: Dict[str, str] = Field(description = "Per-sector summary")
+    executive_summary: str = Field(
+        default = "Brief generation incomplete",
+        description = "3-5 sentence executive summary")
+    sector_summaries: Dict[str, str] = Field(
+        default_factory = dict,
+        description = "Per-sector summary")
     top_recommendations: List[Dict[str, str]] = Field(
+        default_factory = list,
         description = "Top 5 action recommendations across all moves"
     )
-    risk_watchlist: str = Field(description = "Key risks to monitor")
+    risk_watchlist: str = Field(
+        default = "No risk watchlist generated",
+        description = "Key risks to monitor")
 
 #Fallback structured output when SLM is unavailable (For when Agent 1 uses Haiku)
 class HaikuClassification(BaseModel):

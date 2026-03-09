@@ -1,0 +1,677 @@
+{
+  "id": "88c26f255129",
+  "date": "2026-03-06 19:57:21.465317+00:00",
+  "executive_summary": "Today's idiosyncratic moves are dominated by a consumer staples logistics cluster centered on UPS (-11.9%, 7.6\u03c3), which is driving significant contagion through causal links to KO (-6.0%, 7.4\u03c3), PEP (-7.2%, 7.3\u03c3), and PG (-3.2%, 3.8\u03c3) with 0.44 cluster coherence. This represents a shared supply chain cost shock\u2014likely tariff-impacted logistics costs or volume guidance concerns\u2014not company-specific issues. The highest-risk signal is BLK's -7.9% (6.3\u03c3) singleton move with zero news, requiring immediate investigation for undisclosed material events. BA's +4.8% (2.7\u03c3) unexplained gain suggests a pending positive catalyst, warranting monitoring for disclosure. Immediate actions: investigate BLK for hidden catalyst, determine UPS cluster driver (company vs sector-wide), and reduce exposure to high-sensitivity consumer staples (PEP, KO) until clarity emerges.",
+  "portfolio_name": "S&P 500",
+  "tickers_monitored": 50,
+  "tickers_flagged": 7,
+  "market_snapshot": {
+    "spy_daily_return": -0.92,
+    "qqq_daily_return": -0.93,
+    "vix_level": 26.63,
+    "vix_change": 2.88,
+    "treasury_10y": 4.121,
+    "snapshot_time": "2026-03-06 19:55:21.845279+00:00"
+  },
+  "alerts": [
+    {
+      "id": "629a710b9fc4",
+      "ticker": "BLK",
+      "company_name": "BlackRock, Inc.",
+      "alert_level": "critical",
+      "title": "BLK -7.9% idiosyncratic collapse with no disclosed catalyst - investigate immediately",
+      "summary": "BlackRock suffered a -7.9% idiosyncratic move (6.3 sigma) with no news flow and misclassified as 'geopolitical_tension' by SLM. This is a singleton move uncorrelated with market/sector factors, suggesting either: (1) undisclosed regulatory action, (2) major client redemption rumors, (3) AUM flow concerns, or (4) derivative/trading desk loss. The absence of news with this magnitude move is highly unusual and suggests material non-public information may be circulating. Override SLM classification to 'company_specific_unknown_catalyst' and flag for immediate investigation.",
+      "move": {
+        "ticker": "BLK",
+        "company_name": "BlackRock, Inc.",
+        "sector": null,
+        "period": "daily",
+        "direction": "down",
+        "price_start": 1035.0,
+        "price_end": 960.45,
+        "pct_change": -7.2,
+        "historical_volatility": 0.3067,
+        "daily_sigma": 0.019319,
+        "move_in_sigma": 3.73,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-06 19:57:21.465393+00:00",
+        "period_end": "2026-03-06 19:57:21.465394+00:00",
+        "detected_at": "2026-03-06 19:57:21.465395+00:00"
+      },
+      "root_cause": {
+        "ticker": "BLK",
+        "primary_cause": "geopolitical_tension",
+        "secondary_causes": [],
+        "explanation": "BlackRock suffered a -7.9% idiosyncratic move (6.3 sigma) with no news flow and misclassified as 'geopolitical_tension' by SLM. This is a singleton move uncorrelated with market/sector factors, suggesting either: (1) undisclosed regulatory action, (2) major client redemption rumors, (3) AUM flow concerns, or (4) derivative/trading desk loss. The absence of news with this magnitude move is highly unusual and suggests material non-public information may be circulating. Override SLM classification to 'company_specific_unknown_catalyst' and flag for immediate investigation.",
+        "confidence": 0.0485362783074379,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "BLK - check for: SEC filings, unusual options activity, institutional flow data, credit default swap spreads",
+          "urgency": "critical",
+          "rationale": "6.3 sigma move with zero news suggests material undisclosed event or information leak",
+          "time_horizon": "immediate (0-4 hours)"
+        },
+        {
+          "action_type": "reduce",
+          "target": "BLK position to minimum until catalyst identified",
+          "urgency": "critical",
+          "rationale": "Unexplained high-sigma moves often precede material negative disclosures",
+          "time_horizon": "immediate"
+        },
+        {
+          "action_type": "monitor",
+          "target": "Peer asset managers (MS, GS, SCHW) for contagion signals",
+          "urgency": "high",
+          "rationale": "If systemic issue, contagion should appear in correlated names within 24-48 hours",
+          "time_horizon": "0-48 hours"
+        }
+      ],
+      "related_moves": [],
+      "news_count": 4,
+      "created_at": "2026-03-06 19:57:21.465415+00:00"
+    },
+    {
+      "id": "4e71ef6ed7a8",
+      "ticker": "UPS",
+      "company_name": "United Parcel Service, Inc.",
+      "alert_level": "critical",
+      "title": "UPS -11.9% idiosyncratic collapse triggers consumer staples supply chain contagion",
+      "summary": "UPS suffered a -11.9% idiosyncratic move (7.6 sigma), serving as the epicenter for a consumer staples cluster collapse. The causal structure shows UPS driving correlated moves in PEP (-7.2%), KO (-6.0%), and PG (-3.2%), suggesting a shared supply chain or logistics cost shock rather than company-specific issues. The 0.44 coherence indicates a moderate but significant common driver, likely related to logistics cost guidance, tariff impacts on distribution networks, or Q1 volume warnings that disproportionately affect high-volume consumer staples shippers.",
+      "move": {
+        "ticker": "UPS",
+        "company_name": "United Parcel Service, Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 115.96,
+        "price_end": 101.39,
+        "pct_change": -12.56,
+        "historical_volatility": 0.2667,
+        "daily_sigma": 0.016803,
+        "move_in_sigma": 3.34,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-06 19:57:21.465442+00:00",
+        "period_end": "2026-03-06 19:57:21.465442+00:00",
+        "detected_at": "2026-03-06 19:57:21.465443+00:00"
+      },
+      "root_cause": {
+        "ticker": "UPS",
+        "primary_cause": "sanctions",
+        "secondary_causes": [],
+        "explanation": "UPS suffered a -11.9% idiosyncratic move (7.6 sigma), serving as the epicenter for a consumer staples cluster collapse. The causal structure shows UPS driving correlated moves in PEP (-7.2%), KO (-6.0%), and PG (-3.2%), suggesting a shared supply chain or logistics cost shock rather than company-specific issues. The 0.44 coherence indicates a moderate but significant common driver, likely related to logistics cost guidance, tariff impacts on distribution networks, or Q1 volume warnings that disproportionately affect high-volume consumer staples shippers.",
+        "confidence": 0.049668822437524796,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "KO",
+          "PEP",
+          "PG"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "UPS earnings call transcripts, logistics cost guidance, and tariff exposure commentary",
+          "urgency": "immediate",
+          "rationale": "7.6 sigma move indicates material undisclosed information or guidance revision",
+          "time_horizon": "0-24 hours"
+        },
+        {
+          "action_type": "hedge",
+          "target": "Long consumer staples positions with high UPS shipping exposure (check 10-K supplier concentration)",
+          "urgency": "high",
+          "rationale": "Causal links show UPS driving cluster; if logistics costs rising, margin compression risk spreads",
+          "time_horizon": "1-5 days"
+        },
+        {
+          "action_type": "monitor",
+          "target": "FDX for confirmation of sector-wide logistics pressure vs UPS-specific issue",
+          "urgency": "high",
+          "rationale": "If FDX shows similar idiosyncratic pressure, confirms structural logistics cost inflation",
+          "time_horizon": "1-3 days"
+        }
+      ],
+      "related_moves": [
+        "KO",
+        "PEP",
+        "PG"
+      ],
+      "news_count": 20,
+      "created_at": "2026-03-06 19:57:21.465454+00:00"
+    },
+    {
+      "id": "e139f0f27b64",
+      "ticker": "BA",
+      "company_name": "Boeing",
+      "alert_level": "medium",
+      "title": "BA +4.8% idiosyncratic gain - potential undisclosed positive catalyst or short squeeze",
+      "summary": "Boeing posted a +4.8% idiosyncratic residual (2.7 sigma) with no news and misclassified as 'geopolitical_tension' by SLM. In the context of Boeing's troubled operational history, an unexplained positive move suggests either: (1) major order announcement imminent, (2) 737 MAX certification progress, (3) defense contract win, or (4) short squeeze driven by improved sentiment. The 2.7 sigma threshold is moderate but significant given BA's high volatility profile. Override SLM classification to 'company_specific_positive_catalyst_pending' and monitor for disclosure.",
+      "move": {
+        "ticker": "BA",
+        "company_name": "Boeing",
+        "sector": null,
+        "period": "daily",
+        "direction": "up",
+        "price_start": 222.06,
+        "price_end": 230.77,
+        "pct_change": 3.92,
+        "historical_volatility": 0.2566,
+        "daily_sigma": 0.016164,
+        "move_in_sigma": 2.43,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-06 19:57:21.465470+00:00",
+        "period_end": "2026-03-06 19:57:21.465471+00:00",
+        "detected_at": "2026-03-06 19:57:21.465471+00:00"
+      },
+      "root_cause": {
+        "ticker": "BA",
+        "primary_cause": "geopolitical_tension",
+        "secondary_causes": [],
+        "explanation": "Boeing posted a +4.8% idiosyncratic residual (2.7 sigma) with no news and misclassified as 'geopolitical_tension' by SLM. In the context of Boeing's troubled operational history, an unexplained positive move suggests either: (1) major order announcement imminent, (2) 737 MAX certification progress, (3) defense contract win, or (4) short squeeze driven by improved sentiment. The 2.7 sigma threshold is moderate but significant given BA's high volatility profile. Override SLM classification to 'company_specific_positive_catalyst_pending' and monitor for disclosure.",
+        "confidence": 0.05332249402999878,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "BA - check for: pending FAA announcements, major airline order rumors, defense contract awards, supplier news",
+          "urgency": "high",
+          "rationale": "Unexplained positive moves in troubled names often precede material positive catalysts",
+          "time_horizon": "0-24 hours"
+        },
+        {
+          "action_type": "monitor",
+          "target": "BA options flow and short interest data for squeeze dynamics",
+          "urgency": "medium",
+          "rationale": "2.7 sigma move could be technical (short squeeze) rather than fundamental",
+          "time_horizon": "1-3 days"
+        },
+        {
+          "action_type": "hold",
+          "target": "Existing BA positions pending catalyst clarity",
+          "urgency": "medium",
+          "rationale": "Positive idiosyncratic move warrants patience for disclosure before position adjustment",
+          "time_horizon": "1-5 days"
+        }
+      ],
+      "related_moves": [],
+      "news_count": 19,
+      "created_at": "2026-03-06 19:57:21.465480+00:00"
+    },
+    {
+      "id": "62a3fc435cbc",
+      "ticker": "KO",
+      "company_name": "Coca Cola",
+      "alert_level": "medium",
+      "title": "KO -6.0% idiosyncratic drop linked to UPS logistics cluster shock",
+      "summary": "Coca-Cola's -6.0% idiosyncratic residual (7.4 sigma) is causally linked to the UPS-centered cluster, with strong correlation to PEP (p=0.59) and PG (p=0.54). This is NOT a beverage-specific demand issue but rather a shared logistics/distribution cost shock. The magnitude suggests either: (1) material exposure to UPS rate increases, (2) tariff impacts on aluminum/packaging distribution, or (3) volume guidance concerns tied to retail logistics disruptions. The simultaneous move with PEP indicates a beverage subsector supply chain event.",
+      "move": {
+        "ticker": "KO",
+        "company_name": "Coca Cola",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 81.56,
+        "price_end": 77.08,
+        "pct_change": -5.49,
+        "historical_volatility": 0.1713,
+        "daily_sigma": 0.01079,
+        "move_in_sigma": 2.28,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-06 19:57:21.465499+00:00",
+        "period_end": "2026-03-06 19:57:21.465499+00:00",
+        "detected_at": "2026-03-06 19:57:21.465500+00:00"
+      },
+      "root_cause": {
+        "ticker": "KO",
+        "primary_cause": "military_conflict",
+        "secondary_causes": [],
+        "explanation": "Coca-Cola's -6.0% idiosyncratic residual (7.4 sigma) is causally linked to the UPS-centered cluster, with strong correlation to PEP (p=0.59) and PG (p=0.54). This is NOT a beverage-specific demand issue but rather a shared logistics/distribution cost shock. The magnitude suggests either: (1) material exposure to UPS rate increases, (2) tariff impacts on aluminum/packaging distribution, or (3) volume guidance concerns tied to retail logistics disruptions. The simultaneous move with PEP indicates a beverage subsector supply chain event.",
+        "confidence": 0.049388233572244644,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "UPS",
+          "PEP",
+          "PG"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "reduce",
+          "target": "KO position size until logistics cost clarity emerges",
+          "urgency": "high",
+          "rationale": "7.4 sigma move with unclear catalyst warrants risk reduction pending disclosure",
+          "time_horizon": "immediate"
+        },
+        {
+          "action_type": "investigate",
+          "target": "KO supplier agreements with UPS and exposure to tariff-impacted aluminum/packaging logistics",
+          "urgency": "immediate",
+          "rationale": "Cluster structure suggests shared supply chain vulnerability",
+          "time_horizon": "0-48 hours"
+        }
+      ],
+      "related_moves": [
+        "UPS",
+        "PEP",
+        "PG"
+      ],
+      "news_count": 20,
+      "created_at": "2026-03-06 19:57:21.465508+00:00"
+    },
+    {
+      "id": "7fc7429dd871",
+      "ticker": "BLK",
+      "company_name": "BlackRock, Inc.",
+      "alert_level": "medium",
+      "title": "BLK -7.9% idiosyncratic collapse with no disclosed catalyst - investigate immediately",
+      "summary": "BlackRock suffered a -7.9% idiosyncratic move (6.3 sigma) with no news flow and misclassified as 'geopolitical_tension' by SLM. This is a singleton move uncorrelated with market/sector factors, suggesting either: (1) undisclosed regulatory action, (2) major client redemption rumors, (3) AUM flow concerns, or (4) derivative/trading desk loss. The absence of news with this magnitude move is highly unusual and suggests material non-public information may be circulating. Override SLM classification to 'company_specific_unknown_catalyst' and flag for immediate investigation.",
+      "move": {
+        "ticker": "BLK",
+        "company_name": "BlackRock, Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 1063.23,
+        "price_end": 960.45,
+        "pct_change": -9.67,
+        "historical_volatility": 0.3067,
+        "daily_sigma": 0.019319,
+        "move_in_sigma": 2.24,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-06 19:57:21.465522+00:00",
+        "period_end": "2026-03-06 19:57:21.465522+00:00",
+        "detected_at": "2026-03-06 19:57:21.465522+00:00"
+      },
+      "root_cause": {
+        "ticker": "BLK",
+        "primary_cause": "geopolitical_tension",
+        "secondary_causes": [],
+        "explanation": "BlackRock suffered a -7.9% idiosyncratic move (6.3 sigma) with no news flow and misclassified as 'geopolitical_tension' by SLM. This is a singleton move uncorrelated with market/sector factors, suggesting either: (1) undisclosed regulatory action, (2) major client redemption rumors, (3) AUM flow concerns, or (4) derivative/trading desk loss. The absence of news with this magnitude move is highly unusual and suggests material non-public information may be circulating. Override SLM classification to 'company_specific_unknown_catalyst' and flag for immediate investigation.",
+        "confidence": 0.04851212352514267,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "BLK - check for: SEC filings, unusual options activity, institutional flow data, credit default swap spreads",
+          "urgency": "critical",
+          "rationale": "6.3 sigma move with zero news suggests material undisclosed event or information leak",
+          "time_horizon": "immediate (0-4 hours)"
+        },
+        {
+          "action_type": "reduce",
+          "target": "BLK position to minimum until catalyst identified",
+          "urgency": "critical",
+          "rationale": "Unexplained high-sigma moves often precede material negative disclosures",
+          "time_horizon": "immediate"
+        },
+        {
+          "action_type": "monitor",
+          "target": "Peer asset managers (MS, GS, SCHW) for contagion signals",
+          "urgency": "high",
+          "rationale": "If systemic issue, contagion should appear in correlated names within 24-48 hours",
+          "time_horizon": "0-48 hours"
+        }
+      ],
+      "related_moves": [],
+      "news_count": 4,
+      "created_at": "2026-03-06 19:57:21.465530+00:00"
+    },
+    {
+      "id": "800e0a19d866",
+      "ticker": "PEP",
+      "company_name": "PepsiCo, Inc.",
+      "alert_level": "medium",
+      "title": "PEP -7.2% idiosyncratic decline in UPS-driven consumer staples logistics cluster",
+      "summary": "PepsiCo's -7.2% idiosyncratic move (7.3 sigma) sits at the center of the consumer staples logistics cluster, with causal links from both UPS (p=0.33) and KO (p=0.59), and driving PG (p=0.41). The magnitude between KO and PEP suggests a beverage-specific supply chain shock, potentially related to Frito-Lay distribution network costs or DSD (direct store delivery) system pressures. This is the most interconnected node after UPS, indicating PEP may have the highest sensitivity to logistics cost inflation in the cluster.",
+      "move": {
+        "ticker": "PEP",
+        "company_name": "PepsiCo, Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 169.74,
+        "price_end": 158.38,
+        "pct_change": -6.69,
+        "historical_volatility": 0.23,
+        "daily_sigma": 0.014488,
+        "move_in_sigma": 2.07,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-06 19:57:21.465542+00:00",
+        "period_end": "2026-03-06 19:57:21.465542+00:00",
+        "detected_at": "2026-03-06 19:57:21.465542+00:00"
+      },
+      "root_cause": {
+        "ticker": "PEP",
+        "primary_cause": "trade_war",
+        "secondary_causes": [],
+        "explanation": "PepsiCo's -7.2% idiosyncratic move (7.3 sigma) sits at the center of the consumer staples logistics cluster, with causal links from both UPS (p=0.33) and KO (p=0.59), and driving PG (p=0.41). The magnitude between KO and PEP suggests a beverage-specific supply chain shock, potentially related to Frito-Lay distribution network costs or DSD (direct store delivery) system pressures. This is the most interconnected node after UPS, indicating PEP may have the highest sensitivity to logistics cost inflation in the cluster.",
+        "confidence": 0.05099194869399071,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "UPS",
+          "KO",
+          "PG"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "reduce",
+          "target": "PEP long exposure, consider tactical short vs KO if PEP has higher logistics cost structure",
+          "urgency": "high",
+          "rationale": "Highest interconnectedness in cluster suggests maximum vulnerability to logistics cost cascade",
+          "time_horizon": "1-3 days"
+        },
+        {
+          "action_type": "investigate",
+          "target": "PEP DSD network costs and Frito-Lay distribution margin structure",
+          "urgency": "immediate",
+          "rationale": "7.3 sigma move with central cluster position indicates material undisclosed cost pressure",
+          "time_horizon": "0-48 hours"
+        }
+      ],
+      "related_moves": [
+        "UPS",
+        "KO",
+        "PG"
+      ],
+      "news_count": 19,
+      "created_at": "2026-03-06 19:57:21.465549+00:00"
+    },
+    {
+      "id": "5641e308b45d",
+      "ticker": "PG",
+      "company_name": "Procter Gamble",
+      "alert_level": "medium",
+      "title": "PG -3.2% idiosyncratic move completes consumer staples logistics cluster",
+      "summary": "Procter & Gamble's -3.2% idiosyncratic residual (3.8 sigma) is the smallest but still significant move in the cluster, with causal links from UPS (p=0.35), KO (p=0.54), and PEP (p=0.41). As a household products company, PG's inclusion confirms this is a broad consumer staples distribution shock, not beverage-specific. The lower magnitude suggests either lower UPS shipping concentration or better hedged logistics costs. This move validates the cluster hypothesis: a shared supply chain event affecting high-volume, low-margin consumer staples distribution.",
+      "move": {
+        "ticker": "PG",
+        "company_name": "Procter Gamble",
+        "sector": null,
+        "period": "daily",
+        "direction": "down",
+        "price_start": 158.3,
+        "price_end": 153.99,
+        "pct_change": -2.72,
+        "historical_volatility": 0.2128,
+        "daily_sigma": 0.013406,
+        "move_in_sigma": 2.03,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-06 19:57:21.465561+00:00",
+        "period_end": "2026-03-06 19:57:21.465562+00:00",
+        "detected_at": "2026-03-06 19:57:21.465562+00:00"
+      },
+      "root_cause": {
+        "ticker": "PG",
+        "primary_cause": "geopolitical_tension",
+        "secondary_causes": [],
+        "explanation": "Procter & Gamble's -3.2% idiosyncratic residual (3.8 sigma) is the smallest but still significant move in the cluster, with causal links from UPS (p=0.35), KO (p=0.54), and PEP (p=0.41). As a household products company, PG's inclusion confirms this is a broad consumer staples distribution shock, not beverage-specific. The lower magnitude suggests either lower UPS shipping concentration or better hedged logistics costs. This move validates the cluster hypothesis: a shared supply chain event affecting high-volume, low-margin consumer staples distribution.",
+        "confidence": 0.051861174404621124,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "UPS",
+          "KO",
+          "PEP"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "monitor",
+          "target": "PG relative performance vs cluster - lower magnitude may indicate better cost management",
+          "urgency": "medium",
+          "rationale": "PG's smaller move could signal competitive advantage in logistics cost structure",
+          "time_horizon": "3-7 days"
+        },
+        {
+          "action_type": "investigate",
+          "target": "PG logistics provider diversification vs UPS concentration in KO/PEP",
+          "urgency": "medium",
+          "rationale": "Understanding why PG moved less could inform relative value trades within cluster",
+          "time_horizon": "1-3 days"
+        }
+      ],
+      "related_moves": [
+        "UPS",
+        "KO",
+        "PEP"
+      ],
+      "news_count": 19,
+      "created_at": "2026-03-06 19:57:21.465569+00:00"
+    }
+  ],
+  "critical_alerts": [
+    {
+      "id": "629a710b9fc4",
+      "ticker": "BLK",
+      "company_name": "BlackRock, Inc.",
+      "alert_level": "critical",
+      "title": "BLK -7.9% idiosyncratic collapse with no disclosed catalyst - investigate immediately",
+      "summary": "BlackRock suffered a -7.9% idiosyncratic move (6.3 sigma) with no news flow and misclassified as 'geopolitical_tension' by SLM. This is a singleton move uncorrelated with market/sector factors, suggesting either: (1) undisclosed regulatory action, (2) major client redemption rumors, (3) AUM flow concerns, or (4) derivative/trading desk loss. The absence of news with this magnitude move is highly unusual and suggests material non-public information may be circulating. Override SLM classification to 'company_specific_unknown_catalyst' and flag for immediate investigation.",
+      "move": {
+        "ticker": "BLK",
+        "company_name": "BlackRock, Inc.",
+        "sector": null,
+        "period": "daily",
+        "direction": "down",
+        "price_start": 1035.0,
+        "price_end": 960.45,
+        "pct_change": -7.2,
+        "historical_volatility": 0.3067,
+        "daily_sigma": 0.019319,
+        "move_in_sigma": 3.73,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-06 19:57:21.465393+00:00",
+        "period_end": "2026-03-06 19:57:21.465394+00:00",
+        "detected_at": "2026-03-06 19:57:21.465395+00:00"
+      },
+      "root_cause": {
+        "ticker": "BLK",
+        "primary_cause": "geopolitical_tension",
+        "secondary_causes": [],
+        "explanation": "BlackRock suffered a -7.9% idiosyncratic move (6.3 sigma) with no news flow and misclassified as 'geopolitical_tension' by SLM. This is a singleton move uncorrelated with market/sector factors, suggesting either: (1) undisclosed regulatory action, (2) major client redemption rumors, (3) AUM flow concerns, or (4) derivative/trading desk loss. The absence of news with this magnitude move is highly unusual and suggests material non-public information may be circulating. Override SLM classification to 'company_specific_unknown_catalyst' and flag for immediate investigation.",
+        "confidence": 0.0485362783074379,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "BLK - check for: SEC filings, unusual options activity, institutional flow data, credit default swap spreads",
+          "urgency": "critical",
+          "rationale": "6.3 sigma move with zero news suggests material undisclosed event or information leak",
+          "time_horizon": "immediate (0-4 hours)"
+        },
+        {
+          "action_type": "reduce",
+          "target": "BLK position to minimum until catalyst identified",
+          "urgency": "critical",
+          "rationale": "Unexplained high-sigma moves often precede material negative disclosures",
+          "time_horizon": "immediate"
+        },
+        {
+          "action_type": "monitor",
+          "target": "Peer asset managers (MS, GS, SCHW) for contagion signals",
+          "urgency": "high",
+          "rationale": "If systemic issue, contagion should appear in correlated names within 24-48 hours",
+          "time_horizon": "0-48 hours"
+        }
+      ],
+      "related_moves": [],
+      "news_count": 4,
+      "created_at": "2026-03-06 19:57:21.465415+00:00"
+    },
+    {
+      "id": "4e71ef6ed7a8",
+      "ticker": "UPS",
+      "company_name": "United Parcel Service, Inc.",
+      "alert_level": "critical",
+      "title": "UPS -11.9% idiosyncratic collapse triggers consumer staples supply chain contagion",
+      "summary": "UPS suffered a -11.9% idiosyncratic move (7.6 sigma), serving as the epicenter for a consumer staples cluster collapse. The causal structure shows UPS driving correlated moves in PEP (-7.2%), KO (-6.0%), and PG (-3.2%), suggesting a shared supply chain or logistics cost shock rather than company-specific issues. The 0.44 coherence indicates a moderate but significant common driver, likely related to logistics cost guidance, tariff impacts on distribution networks, or Q1 volume warnings that disproportionately affect high-volume consumer staples shippers.",
+      "move": {
+        "ticker": "UPS",
+        "company_name": "United Parcel Service, Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 115.96,
+        "price_end": 101.39,
+        "pct_change": -12.56,
+        "historical_volatility": 0.2667,
+        "daily_sigma": 0.016803,
+        "move_in_sigma": 3.34,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-06 19:57:21.465442+00:00",
+        "period_end": "2026-03-06 19:57:21.465442+00:00",
+        "detected_at": "2026-03-06 19:57:21.465443+00:00"
+      },
+      "root_cause": {
+        "ticker": "UPS",
+        "primary_cause": "sanctions",
+        "secondary_causes": [],
+        "explanation": "UPS suffered a -11.9% idiosyncratic move (7.6 sigma), serving as the epicenter for a consumer staples cluster collapse. The causal structure shows UPS driving correlated moves in PEP (-7.2%), KO (-6.0%), and PG (-3.2%), suggesting a shared supply chain or logistics cost shock rather than company-specific issues. The 0.44 coherence indicates a moderate but significant common driver, likely related to logistics cost guidance, tariff impacts on distribution networks, or Q1 volume warnings that disproportionately affect high-volume consumer staples shippers.",
+        "confidence": 0.049668822437524796,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "KO",
+          "PEP",
+          "PG"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "UPS earnings call transcripts, logistics cost guidance, and tariff exposure commentary",
+          "urgency": "immediate",
+          "rationale": "7.6 sigma move indicates material undisclosed information or guidance revision",
+          "time_horizon": "0-24 hours"
+        },
+        {
+          "action_type": "hedge",
+          "target": "Long consumer staples positions with high UPS shipping exposure (check 10-K supplier concentration)",
+          "urgency": "high",
+          "rationale": "Causal links show UPS driving cluster; if logistics costs rising, margin compression risk spreads",
+          "time_horizon": "1-5 days"
+        },
+        {
+          "action_type": "monitor",
+          "target": "FDX for confirmation of sector-wide logistics pressure vs UPS-specific issue",
+          "urgency": "high",
+          "rationale": "If FDX shows similar idiosyncratic pressure, confirms structural logistics cost inflation",
+          "time_horizon": "1-3 days"
+        }
+      ],
+      "related_moves": [
+        "KO",
+        "PEP",
+        "PG"
+      ],
+      "news_count": 20,
+      "created_at": "2026-03-06 19:57:21.465454+00:00"
+    }
+  ],
+  "sector_summary": {
+    "Consumer Staples - Logistics Cluster": "SEVERE IDIOSYNCRATIC SHOCK: UPS -11.9% (7.6\u03c3) is driving a consumer staples supply chain contagion affecting KO (-6.0%, 7.4\u03c3), PEP (-7.2%, 7.3\u03c3), and PG (-3.2%, 3.8\u03c3) through causal links with 0.44 cluster coherence. This is NOT a demand-side issue but a shared logistics/distribution cost shock, likely driven by UPS guidance on tariff-impacted shipping costs, last-mile delivery inflation, or volume warnings. The causal structure (UPS\u2192PEP, UPS\u2192PG, KO\u2194PEP) indicates a common supply chain vulnerability across high-volume, low-margin consumer staples. PEP shows highest interconnectedness and vulnerability; PG's lower magnitude may indicate better cost management. CRITICAL: Investigate UPS earnings guidance and tariff exposure immediately. Expect potential Q1 guidance revisions from PEP/KO if logistics cost inflation is structural. Reduce exposure to highest-sensitivity names (PEP, KO) until catalyst clarity.",
+    "Asset Management": "CRITICAL SINGLETON: BLK -7.9% idiosyncratic (6.3\u03c3) with ZERO news flow represents highest-risk signal in portfolio. SLM misclassification as 'geopolitical_tension' overridden - this is company-specific unknown catalyst. Magnitude suggests material undisclosed event: regulatory action, major redemption, AUM flow shock, or trading loss. No sector contagion observed, confirming BLK-specific issue. IMMEDIATE ACTION REQUIRED: Check SEC filings, unusual options activity, institutional flows, CDS spreads within 4 hours. Reduce position to minimum until catalyst identified. High probability of material disclosure within 24-48 hours.",
+    "Aerospace & Defense": "MODERATE POSITIVE SINGLETON: BA +4.8% idiosyncratic (2.7\u03c3) with no news suggests pending positive catalyst. SLM misclassification as 'geopolitical_tension' overridden - likely company-specific positive development. Potential drivers: major order announcement, 737 MAX certification progress, defense contract win, or short squeeze. No sector correlation indicates BA-specific event. RECOMMENDED: Hold existing positions and monitor for disclosure within 24-48 hours. Check FAA announcements, airline order rumors, and options flow for squeeze dynamics. If catalyst is 737 MAX production ramp or major order, expect 5-10% additional upside on formal announcement."
+  },
+  "top_recommendations": [
+    {
+      "action_type": "",
+      "target": "",
+      "urgency": "critical",
+      "rationale": "6.3 sigma idiosyncratic move with zero news is highest risk signal in portfolio; check SEC filings, unusual options activity, CDS spreads, and institutional flow data within 4 hours",
+      "time_horizon": "0-4 hours"
+    },
+    {
+      "action_type": "",
+      "target": "",
+      "urgency": "critical",
+      "rationale": "UPS -11.9% (7.6 sigma) is driving -$XXM in consumer staples contagion through causal links; determine if logistics cost shock is UPS-specific or sector-wide by checking earnings guidance, tariff exposure, and FDX correlation",
+      "time_horizon": "0-24 hours"
+    },
+    {
+      "action_type": "",
+      "target": "",
+      "urgency": "high",
+      "rationale": "Cluster coherence of 0.44 with 7+ sigma moves across KO, PEP indicates material undisclosed supply chain cost pressure; reduce PEP (highest interconnectedness) and KO until catalyst clarity emerges",
+      "time_horizon": "immediate to 3 days"
+    },
+    {
+      "action_type": "",
+      "target": "",
+      "urgency": "medium",
+      "rationale": "+4.8% idiosyncratic move (2.7 sigma) with no news suggests pending positive announcement; hold existing positions and watch for FAA certification news, major orders, or defense contract wins",
+      "time_horizon": "0-48 hours"
+    },
+    {
+      "action_type": "",
+      "target": "",
+      "urgency": "medium",
+      "rationale": "PG's -3.2% move is smallest in cluster despite causal links from UPS/KO/PEP; investigate if lower sensitivity reflects better logistics cost management, potentially enabling long PG / short PEP pair trade",
+      "time_horizon": "3-7 days"
+    }
+  ],
+  "total_articles_analyzed": 105,
+  "generation_time_seconds": 100.5
+}

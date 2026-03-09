@@ -10,6 +10,7 @@ from datetime import datetime, timezone, timedelta
 from typing import List, Dict, Optional 
 
 import httpx
+import yfinance as yf
 
 from Data.data_model import (
     PriceMove, NewsArticle, TickerNewsBundle, EventSource
@@ -61,24 +62,18 @@ class NewsRetriever:
 
         bundles = []
 
-        #Process concurrently in batches of 5 to avoid any rate limits 
-        batch_size = 5
-        for i in range(0, len(unique_moves), batch_size):
-            batch = unique_moves[i:i + batch_size]
-            tasks = [
-                self._retrieve_for_ticker(move, lookback, max_articles)
-                for move in batch
-            ]
-            results = await asyncio.gather(*tasks, return_exceptions = True)
-            for result in results:
+        #Process sequentially with delay to avoid getting previous GDELT 429 rate limits
+        for i, move in enumerate(unique_moves):
+            try:
+                result = await self._retrieve_for_ticker(move, lookback, max_articles)
                 if isinstance(result, TickerNewsBundle):
                     bundles.append(result)
-                elif isinstance(result, Exception):
-                    logger.warning(f"News retrieval error: {result}")
+            except Exception as e:
+                logger.warning(f"News retrieval error for {move.ticker}: {e}")
 
-            #Rate limit pause between batches
-            if i + batch_size < len(unique_moves):
-                await asyncio.sleep(1.0)
+            #Staggering requests to stay under rate limit
+            if i < len(unique_moves) - 1:
+                await asyncio.sleep(1.5)
 
         total_articles = sum(b.article_count for b in bundles)
         logger.info(f"Retrieved {total_articles} total articles for {len(bundles)} tickers")

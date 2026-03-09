@@ -36,9 +36,38 @@ from Data.settings import Settings, TICKER_TO_SECTOR
 
 logger = logging.getLogger(__name__)
 
+def _extract_close(data: pd.DataFrame, ticker: str, all_tickers: List[str]) -> Optional[pd.Series]:
+    """
+    Robustly extracts Close price series form yfinance data
+    Handles the old style (flat columns) and newer style (multi-index columns)
+    """
+    try:
+        if isinstance(data.columns, pd.MultiIndex):
+            #Multi-level columns: trying (ticker, "Close") or ("Close", ticker)
+            if len(all_tickers) == 1:
+                #Single ticker download - drop the extra level
+                flat = data.droplevel("Ticker", axis = 1) if "Ticker" in data.columns.names else data.droplevel(0, axis = 1)
+                result = flat["Close"].dropna()
+            else:
+                #Multi-ticker download with group_by = "ticker"
+                try:
+                    result = data[ticker]["Close"].dropna()
+                except KeyError:
+                    result = data["Close"][ticker].dropna()
+        else:
+            result = data["Close"].dropna()
+
+        #Ensure its a series and not a DataFrame
+        if isinstance(result, pd.DataFrame):
+            result = result.iloc[:, 0]
+
+        return result if len(result) > 0 else None 
+    except (KeyError, TypeError):
+        return None 
+
 #-- Sector ETF Mapping --#
 
-SECTOR_ETFS = {
+SECTOR_ETFS: Dict[str, str] = {
     "technology": "XLK",
     "financials": "XLF",
     "energy": "XLE",
@@ -329,12 +358,10 @@ class FactorDecomposer:
 
             for ticker in tickers_needed:
                 try:
-                    if len(tickers_needed) == 1:
-                        close = data["Close"].dropna() 
-                    else:
-                        close = data[ticker]["Close"].dropna()
-                    returns = close.pct_change().dropna()
-                    self._market_data_cache[ticker] = returns 
+                    close = _extract_close(data, ticker, list(tickers_needed))
+                    if close is not None:
+                        returns: pd.Series = close.pct_change().dropna()
+                        self._market_data_cache[ticker] = returns  
                 except (KeyError, TypeError):
                     continue 
 
@@ -347,12 +374,15 @@ class FactorDecomposer:
             return self._market_data_cache[ticker]
         
         try:
-            data = yf.download(ticker, period = f"{self.lookback_days + 20}d", progress = False)
-            if data is None:
-                return None
-            if data.empty:
+            data: Optional[pd.DataFrame] = yf.download(
+                ticker, period = f"{self.lookback_days + 20}d", progress = False
+            )
+            if data is None or data.empty:
                 return None 
-            returns = data["Close"].pct_change().dropna()
+            close = _extract_close(data, ticker, [ticker])
+            if close is None:
+                return None 
+            returns: pd.Series = close.pct_change().dropna()
             self._market_data_cache[ticker] = returns 
             return returns 
         except Exception:
@@ -421,12 +451,14 @@ class ReturnPredictor:
         results = {}
 
         #Fetch VIX for regime conditioning
+        vix_series: Optional[pd.Series] = None
         try:
-            vix_data = yf.download("^VIX", period = f"{self.lookback_days + 10}d", progress = False)
-            if vix_data is None:
-                vix_series = None
-            else:
-                vix_series = vix_data["Close"].dropna() if not vix_data.empty else None
+            vix_data: Optional[pd.DataFrame] = yf.download(
+                "^VIX", period = f"{self.lookback_days + 10}d", progress = False
+            )
+            if vix_data is not None and not vix_data.empty:
+                vix_close = _extract_close(vix_data, "^VIX", ["^VIX"])
+                vix_series = vix_close if vix_close is not None else None
         except Exception:
             vix_series = None 
 
@@ -446,34 +478,42 @@ class ReturnPredictor:
         """ Fit the model and compute prediction residual for one ticker"""
         ticker = move.ticker
         sector = move.sector.value if move.sector else TICKER_TO_SECTOR.get(ticker)
-        sector_etf = SECTOR_ETFS.get(sector, "SPY") if sector else "SPY"
+        sector_key = sector or ""
+        sector_etf = SECTOR_ETFS[sector_key] if sector_key in SECTOR_ETFS else "SPY"
 
         #Donwloading historical data
-        tickers_needed = f"{ticker} SPY {sector_etf}"
-        data = yf.download(
-            tickers_needed, period = f"{self.lookback_days + 10}d",
-            group_by = "ticker", progress = False,
-        )
+        unique_tickers = list(set([ticker, "SPY", sector_etf]))
+        tickers_needed = " ".join(unique_tickers)
+
+        try:
+            data: Optional[pd.DataFrame] = yf.download(
+                tickers_needed, period = f"{self.lookback_days + 10}d",
+                group_by="ticker", progress = False,
+            )
+        except Exception as e:
+            logger.warning(f"Prediction data download failed for {ticker}: {e}")
+            return None 
+        
 
         if data is None or data.empty:
-            return None 
+            return None
         
         #Extract returns
         try:
-            if ticker == "SPY" and sector_etf == "SPY":
-                #Edge case: ticker is SPY itself
-                tk_close = data["SPY"]["Close"].dropna()
-            else:
-                tk_close = data[ticker]["Close"].dropna()
-            spy_close = data["SPY"]["Close"].dropna()
-            sec_close = data[sector_etf]["Close"].dropna()
-        except (KeyError, TypeError):
+            tk_close = _extract_close(data, ticker, unique_tickers)
+            spy_close = _extract_close(data, "SPY", unique_tickers)
+            sec_close = _extract_close(data, sector_etf, unique_tickers)
+        except (KeyError, TypeError) as e:
+            logger.warning(f"Prediction data extraction failed for {ticker}: {e}")
+            return None
+
+        if tk_close is None or spy_close is None or sec_close is None:
             return None
     
         tk_ret = tk_close.pct_change().dropna()
         spy_ret = spy_close.pct_change().dropna()
         sec_ret = sec_close.pct_change().dropna()
-
+        
         #Building feature matrix 
         features = pd.DataFrame(index = tk_ret.index)
         features["target"] = tk_ret 

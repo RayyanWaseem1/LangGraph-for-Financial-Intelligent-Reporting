@@ -1,0 +1,680 @@
+2026-03-05 18:50:44,795 - Data.market_monitor - WARNING - Failed to fetch S&p500 list: Missing optional dependency 'lxml'.  Use pip or conda to install lxml.. Using cached list.
+2026-03-05 18:50:44,795 - Data.market_monitor - INFO - Monitoring 50 tickers (S&P 500)
+2026-03-05 18:50:44,815 - __main__ - INFO - ======================================================================
+2026-03-05 18:50:44,815 - __main__ - INFO - Financial Intelligence Pipeline
+2026-03-05 18:50:44,816 - __main__ - INFO - ======================================================================
+2026-03-05 18:50:44,816 - __main__ - INFO - 
+ [1/6] Scanning the portfolio for significant moves ...
+2026-03-05 18:50:44,816 - Data.market_monitor - INFO - Scanning 50 tickers for significant moves 
+2026-03-05 18:50:44,817 - yfinance - INFO - Failed to create TzCache, reason: Error creating TzCache folder: '/Users/rayyanwaseem/Library/Caches/py-yfinance' reason: [Errno 1] Operation not permitted: '/Users/rayyanwaseem/Library/Caches/py-yfinance'. TzCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-03-05 18:50:44,818 - yfinance - INFO - Failed to create TzCache, reason: Error creating TzCache folder: '/Users/rayyanwaseem/Library/Caches/py-yfinance' reason: [Errno 1] Operation not permitted: '/Users/rayyanwaseem/Library/Caches/py-yfinance'. TzCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-03-05 18:50:44,818 - yfinance - INFO - Failed to create TzCache, reason: Error creating TzCache folder: '/Users/rayyanwaseem/Library/Caches/py-yfinance' reason: [Errno 1] Operation not permitted: '/Users/rayyanwaseem/Library/Caches/py-yfinance'. TzCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-03-05 18:50:44,818 - yfinance - INFO - Failed to create TzCache, reason: Error creating TzCache folder: '/Users/rayyanwaseem/Library/Caches/py-yfinance' reason: [Errno 1] Operation not permitted: '/Users/rayyanwaseem/Library/Caches/py-yfinance'. TzCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-03-05 18:50:44,818 - yfinance - INFO - Failed to create CookieCache, reason: Error creating CookieCache folder: '/Users/rayyanwaseem/Library/Caches/py-yfinance' reason: [Errno 1] Operation not permitted: '/Users/rayyanwaseem/Library/Caches/py-yfinance'. CookieCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-03-05 18:50:44,821 - yfinance - ERROR - Failed to get ticker 'QQQ' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,822 - yfinance - ERROR - Failed to get ticker 'SPY' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,822 - yfinance - ERROR - Failed to get ticker '^TNX' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,823 - yfinance - ERROR - Failed to get ticker '^VIX' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,830 - yfinance - ERROR - 
+4 Failed downloads:
+2026-03-05 18:50:44,830 - yfinance - ERROR - ['QQQ', 'SPY']: DNSError('Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2026-03-05 18:50:44,832 - yfinance - ERROR - ['^TNX', '^VIX']: TypeError("'NoneType' object is not subscriptable")
+2026-03-05 18:50:44,838 - yfinance - ERROR - Failed to get ticker 'CVX' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,839 - yfinance - ERROR - Failed to get ticker 'LLY' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,840 - yfinance - ERROR - Failed to get ticker 'MRK' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,842 - yfinance - ERROR - Failed to get ticker 'AMZN' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,842 - yfinance - ERROR - Failed to get ticker 'TSLA' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,843 - yfinance - ERROR - Failed to get ticker 'DIS' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,844 - yfinance - ERROR - Failed to get ticker 'LMT' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,844 - yfinance - ERROR - Failed to get ticker 'GOOGL' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,845 - yfinance - ERROR - Failed to get ticker 'COST' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,846 - yfinance - ERROR - Failed to get ticker 'MSFT' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,846 - yfinance - ERROR - Failed to get ticker 'NKE' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,855 - yfinance - ERROR - Failed to get ticker 'KO' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,855 - yfinance - ERROR - Failed to get ticker 'MA' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,856 - yfinance - ERROR - Failed to get ticker 'WMT' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,857 - yfinance - ERROR - Failed to get ticker 'META' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,857 - yfinance - ERROR - Failed to get ticker 'AMD' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,858 - yfinance - ERROR - Failed to get ticker 'BA' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,859 - yfinance - ERROR - Failed to get ticker 'UPS' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,859 - yfinance - ERROR - Failed to get ticker 'DE' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,860 - yfinance - ERROR - Failed to get ticker 'BRK-B' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,861 - yfinance - ERROR - Failed to get ticker 'JNJ' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,861 - yfinance - ERROR - Failed to get ticker 'ABBV' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,870 - yfinance - ERROR - Failed to get ticker 'JPM' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,870 - yfinance - ERROR - Failed to get ticker 'TMO' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,871 - yfinance - ERROR - Failed to get ticker 'CRM' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,872 - yfinance - ERROR - Failed to get ticker 'CAT' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,873 - yfinance - ERROR - Failed to get ticker 'GE' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,873 - yfinance - ERROR - Failed to get ticker 'AVGO' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,874 - yfinance - ERROR - Failed to get ticker 'AAPL' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,875 - yfinance - ERROR - Failed to get ticker 'PEP' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,875 - yfinance - ERROR - Failed to get ticker 'NEE' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,876 - yfinance - ERROR - Failed to get ticker 'AXP' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,877 - yfinance - ERROR - Failed to get ticker 'NVDA' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,885 - yfinance - ERROR - Failed to get ticker 'HD' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,885 - yfinance - ERROR - Failed to get ticker 'XOM' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,886 - yfinance - ERROR - Failed to get ticker 'SBUX' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,887 - yfinance - ERROR - Failed to get ticker 'MCD' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,887 - yfinance - ERROR - Failed to get ticker 'GS' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,888 - yfinance - ERROR - Failed to get ticker 'BLK' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,889 - yfinance - ERROR - Failed to get ticker 'CSCO' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,889 - yfinance - ERROR - Failed to get ticker 'ORCL' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,890 - yfinance - ERROR - Failed to get ticker 'C' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,890 - yfinance - ERROR - Failed to get ticker 'RTX' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,891 - yfinance - ERROR - Failed to get ticker 'UNH' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,899 - yfinance - ERROR - Failed to get ticker 'PFE' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,899 - yfinance - ERROR - Failed to get ticker 'ACN' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,900 - yfinance - ERROR - Failed to get ticker 'LOW' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,901 - yfinance - ERROR - Failed to get ticker 'V' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,901 - yfinance - ERROR - Failed to get ticker 'PG' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,902 - yfinance - ERROR - Failed to get ticker 'NFLX' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:50:44,908 - yfinance - ERROR - 
+50 Failed downloads:
+2026-03-05 18:50:44,909 - yfinance - ERROR - ['CVX', 'LLY', 'MRK', 'AMZN', 'TSLA', 'DIS', 'LMT', 'GOOGL', 'COST', 'MSFT', 'NKE', 'KO', 'MA', 'WMT', 'META', 'AMD', 'BA', 'UPS', 'DE', 'BRK-B', 'JNJ', 'ABBV', 'JPM', 'TMO', 'CRM', 'CAT', 'GE', 'AVGO', 'AAPL', 'PEP', 'NEE', 'AXP', 'NVDA', 'HD', 'XOM', 'SBUX', 'MCD', 'GS', 'BLK', 'CSCO', 'ORCL', 'C', 'RTX', 'UNH', 'PFE', 'ACN', 'LOW', 'V', 'PG', 'NFLX']: TypeError("'NoneType' object is not subscriptable")
+2026-03-05 18:50:44,915 - Data.market_monitor - INFO - Scan complete: 0 signficant moves detectedout of 50 tickers
+2026-03-05 18:50:44,915 - __main__ - INFO - No significant moves detected. Portfolio is quiet.
+2026-03-05 18:51:40,361 - Data.market_monitor - WARNING - Failed to fetch S&p500 list: Missing optional dependency 'lxml'.  Use pip or conda to install lxml.. Using cached list.
+2026-03-05 18:51:40,361 - Data.market_monitor - INFO - Monitoring 50 tickers (S&P 500)
+2026-03-05 18:51:40,402 - __main__ - INFO - ======================================================================
+2026-03-05 18:51:40,402 - __main__ - INFO - Financial Intelligence Pipeline
+2026-03-05 18:51:40,402 - __main__ - INFO - ======================================================================
+2026-03-05 18:51:40,402 - __main__ - INFO - 
+ [1/6] Scanning the portfolio for significant moves ...
+2026-03-05 18:51:40,402 - Data.market_monitor - INFO - Scanning 50 tickers for significant moves 
+2026-03-05 18:51:40,404 - yfinance - INFO - Failed to create TzCache, reason: Error creating TzCache folder: '/Users/rayyanwaseem/Library/Caches/py-yfinance' reason: [Errno 17] File exists: '/Users/rayyanwaseem/Library/Caches/py-yfinance'. TzCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-03-05 18:51:40,404 - yfinance - INFO - Failed to create TzCache, reason: Error creating TzCache folder: '/Users/rayyanwaseem/Library/Caches/py-yfinance' reason: [Errno 17] File exists: '/Users/rayyanwaseem/Library/Caches/py-yfinance'. TzCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-03-05 18:51:41,098 - yfinance - ERROR - 
+1 Failed download:
+2026-03-05 18:51:41,098 - yfinance - ERROR - ['SPY']: OperationalError('database is locked')
+2026-03-05 18:51:47,364 - Data.market_monitor - INFO - Scan complete: 9 signficant moves detectedout of 50 tickers
+2026-03-05 18:51:47,365 - __main__ - INFO -  9 raw significant moves detected
+2026-03-05 18:51:47,365 - __main__ - INFO - 
+ [2/6] Decomposing moves into market/sector/idiosyncratic components...
+2026-03-05 18:51:47,365 - Quant.factor_decomposition - INFO - Decomposing 9 moves into factor components
+2026-03-05 18:51:47,833 - Quant.factor_decomposition - INFO - Decomposition complete: 6 significant idiosyncratic moves, 3 mostly systematic (filtered out)
+2026-03-05 18:51:47,833 - __main__ - INFO - Factor decomposition: 6 genuine idiosyncratic moves, 3 filtered (explained by market/sector beta)
+2026-03-05 18:51:47,834 - __main__ - INFO - [3/6] Computing prediction residuals (what can't the model explain?) ...
+2026-03-05 18:51:49,367 - __main__ - INFO - Prediction model fitted: 0 tickers | Average residual sigma: 0.0
+2026-03-05 18:51:49,367 - __main__ - INFO - 
+[4/6] Retrieving news for 6 idiosyncratic moves
+2026-03-05 18:51:49,367 - Data.news_retriever - INFO - Retrieving news for 5 unique tickers (lookback = 72h)
+2026-03-05 18:51:49,802 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22+OR+%22%24UPS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-05 18:51:49,820 - Data.news_retriever - WARNING - GDELT parse error for UPS: Expecting value: line 1 column 1 (char 0)
+2026-03-05 18:51:49,850 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Berkshire+Hathaway+Inc.%22+OR+%22BRK-B%22+OR+%22%24BRK-B%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-05 18:51:49,854 - Data.news_retriever - WARNING - GDELT parse error for BRK-B: Expecting value: line 1 column 1 (char 0)
+2026-03-05 18:51:49,880 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Johnson+Johnson%22+OR+%22JNJ%22+OR+%22%24JNJ%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-05 18:51:49,884 - Data.news_retriever - WARNING - GDELT parse error for JNJ: Expecting value: line 1 column 1 (char 0)
+2026-03-05 18:51:49,891 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Netflix%22+OR+%22NFLX%22+OR+%22%24NFLX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-05 18:51:49,896 - Data.news_retriever - WARNING - GDELT parse error for NFLX: Expecting value: line 1 column 1 (char 0)
+2026-03-05 18:51:49,900 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Goldman+Sachs%22+OR+%22GS%22+OR+%22%24GS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-05 18:51:49,902 - Data.news_retriever - WARNING - GDELT parse error for GS: Expecting value: line 1 column 1 (char 0)
+2026-03-05 18:51:50,048 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Berkshire+Hathaway+Inc.%22+OR+%22BRK-B%22&from=2026-03-02T23%3A51%3A49&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 18:51:50,059 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Johnson+Johnson%22+OR+%22JNJ%22&from=2026-03-02T23%3A51%3A49&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 18:51:50,065 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Goldman+Sachs%22+OR+%22GS%22&from=2026-03-02T23%3A51%3A49&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 18:51:50,070 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22&from=2026-03-02T23%3A51%3A49&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 18:51:50,083 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Netflix%22+OR+%22NFLX%22&from=2026-03-02T23%3A51%3A49&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 18:51:50,085 - Data.news_retriever - INFO - Retrieved 67 total articles for 5 tickers
+2026-03-05 18:51:50,085 - __main__ - INFO - Retrieved 67 articles for 5 tickers
+2026-03-05 18:51:50,085 - __main__ - INFO - 
+ [5/6] Building causal grpah (clustering related moves) ...
+2026-03-05 18:51:50,085 - Quant.causal_graph - INFO - Building causal graph for 6 flagged tickers
+2026-03-05 18:51:50,306 - __main__ - ERROR -  Pipeline error: index 5 is out of bounds for axis 1 with size 5
+Traceback (most recent call last):
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/Pipeline/run_pipeline.py", line 308, in main
+    await pipeline.run(
+    ...<4 lines>...
+    )
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/Pipeline/run_pipeline.py", line 137, in run
+    causal_graph = self.graph_builder.build_graph(significant)
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/Quant/causal_graph.py", line 188, in build_graph
+    partial_corr = partial_corr_matrix[i, j]
+                   ~~~~~~~~~~~~~~~~~~~^^^^^^
+IndexError: index 5 is out of bounds for axis 1 with size 5
+2026-03-05 18:59:05,513 - Data.market_monitor - WARNING - Failed to fetch S&p500 list: Missing optional dependency 'lxml'.  Use pip or conda to install lxml.. Using cached list.
+2026-03-05 18:59:05,514 - Data.market_monitor - INFO - Monitoring 50 tickers (S&P 500)
+2026-03-05 18:59:05,534 - __main__ - INFO - ======================================================================
+2026-03-05 18:59:05,534 - __main__ - INFO - Financial Intelligence Pipeline
+2026-03-05 18:59:05,535 - __main__ - INFO - ======================================================================
+2026-03-05 18:59:05,535 - __main__ - INFO - 
+ [1/6] Scanning the portfolio for significant moves ...
+2026-03-05 18:59:05,536 - Data.market_monitor - INFO - Scanning 50 tickers for significant moves 
+2026-03-05 18:59:05,537 - yfinance - INFO - Failed to create TzCache, reason: Cannot read and write in TzCache folder: '/Users/rayyanwaseem/Library/Caches/py-yfinance'. TzCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-03-05 18:59:05,537 - yfinance - INFO - Failed to create TzCache, reason: Cannot read and write in TzCache folder: '/Users/rayyanwaseem/Library/Caches/py-yfinance'. TzCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-03-05 18:59:05,537 - yfinance - INFO - Failed to create TzCache, reason: Cannot read and write in TzCache folder: '/Users/rayyanwaseem/Library/Caches/py-yfinance'. TzCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-03-05 18:59:05,538 - yfinance - INFO - Failed to create TzCache, reason: Cannot read and write in TzCache folder: '/Users/rayyanwaseem/Library/Caches/py-yfinance'. TzCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-03-05 18:59:05,538 - yfinance - INFO - Failed to create CookieCache, reason: Cannot read and write in CookieCache folder: '/Users/rayyanwaseem/Library/Caches/py-yfinance'. CookieCache will not be used. Tip: You can direct cache to use a different location with 'set_tz_cache_location(mylocation)'
+2026-03-05 18:59:05,542 - yfinance - ERROR - Failed to get ticker '^TNX' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,543 - yfinance - ERROR - Failed to get ticker 'SPY' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,543 - yfinance - ERROR - Failed to get ticker 'QQQ' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,544 - yfinance - ERROR - Failed to get ticker '^VIX' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,565 - yfinance - ERROR - 
+4 Failed downloads:
+2026-03-05 18:59:05,565 - yfinance - ERROR - ['^TNX', 'SPY']: DNSError('Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2026-03-05 18:59:05,565 - yfinance - ERROR - ['QQQ', '^VIX']: TypeError("'NoneType' object is not subscriptable")
+2026-03-05 18:59:05,575 - yfinance - ERROR - Failed to get ticker 'TMO' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,576 - yfinance - ERROR - Failed to get ticker 'ACN' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,577 - yfinance - ERROR - Failed to get ticker 'DIS' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,577 - yfinance - ERROR - Failed to get ticker 'ORCL' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,578 - yfinance - ERROR - Failed to get ticker 'AXP' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,579 - yfinance - ERROR - Failed to get ticker 'UNH' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,579 - yfinance - ERROR - Failed to get ticker 'SBUX' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,580 - yfinance - ERROR - Failed to get ticker 'XOM' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,581 - yfinance - ERROR - Failed to get ticker 'AMD' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,581 - yfinance - ERROR - Failed to get ticker 'NFLX' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,582 - yfinance - ERROR - Failed to get ticker 'LLY' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,590 - yfinance - ERROR - Failed to get ticker 'WMT' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,591 - yfinance - ERROR - Failed to get ticker 'TSLA' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,592 - yfinance - ERROR - Failed to get ticker 'MRK' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,592 - yfinance - ERROR - Failed to get ticker 'PEP' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,593 - yfinance - ERROR - Failed to get ticker 'BRK-B' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,594 - yfinance - ERROR - Failed to get ticker 'MCD' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,594 - yfinance - ERROR - Failed to get ticker 'JPM' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,595 - yfinance - ERROR - Failed to get ticker 'V' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,596 - yfinance - ERROR - Failed to get ticker 'DE' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,596 - yfinance - ERROR - Failed to get ticker 'NVDA' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,597 - yfinance - ERROR - Failed to get ticker 'ABBV' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,605 - yfinance - ERROR - Failed to get ticker 'LOW' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,606 - yfinance - ERROR - Failed to get ticker 'META' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,606 - yfinance - ERROR - Failed to get ticker 'PFE' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,607 - yfinance - ERROR - Failed to get ticker 'BLK' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,608 - yfinance - ERROR - Failed to get ticker 'MSFT' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,608 - yfinance - ERROR - Failed to get ticker 'MA' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,609 - yfinance - ERROR - Failed to get ticker 'AAPL' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,610 - yfinance - ERROR - Failed to get ticker 'COST' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,610 - yfinance - ERROR - Failed to get ticker 'GE' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,611 - yfinance - ERROR - Failed to get ticker 'C' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,612 - yfinance - ERROR - Failed to get ticker 'AMZN' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,620 - yfinance - ERROR - Failed to get ticker 'CVX' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,620 - yfinance - ERROR - Failed to get ticker 'LMT' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,621 - yfinance - ERROR - Failed to get ticker 'KO' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,622 - yfinance - ERROR - Failed to get ticker 'HD' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,622 - yfinance - ERROR - Failed to get ticker 'CSCO' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,623 - yfinance - ERROR - Failed to get ticker 'CAT' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,624 - yfinance - ERROR - Failed to get ticker 'RTX' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,624 - yfinance - ERROR - Failed to get ticker 'GS' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,625 - yfinance - ERROR - Failed to get ticker 'BA' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,626 - yfinance - ERROR - Failed to get ticker 'UPS' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,626 - yfinance - ERROR - Failed to get ticker 'AVGO' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,634 - yfinance - ERROR - Failed to get ticker 'GOOGL' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,634 - yfinance - ERROR - Failed to get ticker 'JNJ' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,635 - yfinance - ERROR - Failed to get ticker 'CRM' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,636 - yfinance - ERROR - Failed to get ticker 'PG' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,636 - yfinance - ERROR - Failed to get ticker 'NEE' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,637 - yfinance - ERROR - Failed to get ticker 'NKE' reason: Failed to perform, curl: (6) Could not resolve host: guce.yahoo.com. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-03-05 18:59:05,641 - yfinance - ERROR - 
+50 Failed downloads:
+2026-03-05 18:59:05,642 - yfinance - ERROR - ['TMO', 'ACN', 'DIS', 'ORCL', 'AXP', 'UNH', 'SBUX', 'XOM', 'AMD', 'NFLX', 'LLY', 'WMT', 'TSLA', 'MRK', 'PEP', 'BRK-B', 'MCD', 'JPM', 'V', 'DE', 'NVDA', 'ABBV', 'LOW', 'META', 'PFE', 'BLK', 'MSFT', 'MA', 'AAPL', 'COST', 'GE', 'C', 'AMZN', 'CVX', 'LMT', 'KO', 'HD', 'CSCO', 'CAT', 'RTX', 'GS', 'BA', 'UPS', 'AVGO', 'GOOGL', 'JNJ', 'CRM', 'PG', 'NEE', 'NKE']: TypeError("'NoneType' object is not subscriptable")
+2026-03-05 18:59:05,647 - Data.market_monitor - INFO - Scan complete: 0 signficant moves detectedout of 50 tickers
+2026-03-05 18:59:05,648 - __main__ - INFO - No significant moves detected. Portfolio is quiet.
+2026-03-05 19:02:25,203 - Data.market_monitor - WARNING - Failed to fetch S&p500 list: Missing optional dependency 'lxml'.  Use pip or conda to install lxml.. Using cached list.
+2026-03-05 19:02:25,204 - Data.market_monitor - INFO - Monitoring 50 tickers (S&P 500)
+2026-03-05 19:02:25,227 - __main__ - INFO - ======================================================================
+2026-03-05 19:02:25,227 - __main__ - INFO - Financial Intelligence Pipeline
+2026-03-05 19:02:25,227 - __main__ - INFO - ======================================================================
+2026-03-05 19:02:25,227 - __main__ - INFO - 
+ [1/6] Scanning the portfolio for significant moves ...
+2026-03-05 19:02:25,227 - Data.market_monitor - INFO - Scanning 50 tickers for significant moves 
+2026-03-05 19:02:32,388 - Data.market_monitor - INFO - Scan complete: 9 signficant moves detectedout of 50 tickers
+2026-03-05 19:02:32,390 - __main__ - INFO -  9 raw significant moves detected
+2026-03-05 19:02:32,390 - __main__ - INFO - 
+ [2/6] Decomposing moves into market/sector/idiosyncratic components...
+2026-03-05 19:02:32,390 - Quant.factor_decomposition - INFO - Decomposing 9 moves into factor components
+2026-03-05 19:02:32,831 - Quant.factor_decomposition - INFO - Decomposition complete: 6 significant idiosyncratic moves, 3 mostly systematic (filtered out)
+2026-03-05 19:02:32,831 - __main__ - INFO - Factor decomposition: 6 genuine idiosyncratic moves, 3 filtered (explained by market/sector beta)
+2026-03-05 19:02:32,831 - __main__ - INFO - [3/6] Computing prediction residuals (what can't the model explain?) ...
+2026-03-05 19:02:34,349 - __main__ - INFO - Prediction model fitted: 0 tickers | Average residual sigma: 0.0
+2026-03-05 19:02:34,349 - __main__ - INFO - 
+[4/6] Retrieving news for 6 idiosyncratic moves
+2026-03-05 19:02:34,349 - Data.news_retriever - INFO - Retrieving news for 5 unique tickers (lookback = 72h)
+2026-03-05 19:02:34,782 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Johnson+Johnson%22+OR+%22JNJ%22+OR+%22%24JNJ%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 19:02:34,792 - Data.news_retriever - WARNING - GDELT search failed for JNJ: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Johnson+Johnson%22+OR+%22JNJ%22+OR+%22%24JNJ%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 19:02:34,800 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Goldman+Sachs%22+OR+%22GS%22+OR+%22%24GS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 19:02:34,811 - Data.news_retriever - WARNING - GDELT search failed for GS: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Goldman+Sachs%22+OR+%22GS%22+OR+%22%24GS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 19:02:34,851 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22+OR+%22%24UPS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 19:02:34,852 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Netflix%22+OR+%22NFLX%22+OR+%22%24NFLX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 19:02:34,852 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Berkshire+Hathaway+Inc.%22+OR+%22BRK-B%22+OR+%22%24BRK-B%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 19:02:34,854 - Data.news_retriever - WARNING - GDELT search failed for UPS: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22+OR+%22%24UPS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 19:02:34,855 - Data.news_retriever - WARNING - GDELT search failed for NFLX: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Netflix%22+OR+%22NFLX%22+OR+%22%24NFLX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 19:02:34,866 - Data.news_retriever - WARNING - GDELT search failed for BRK-B: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Berkshire+Hathaway+Inc.%22+OR+%22BRK-B%22+OR+%22%24BRK-B%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 19:02:35,023 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Berkshire+Hathaway+Inc.%22+OR+%22BRK-B%22&from=2026-03-03T00%3A02%3A34&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 19:02:35,032 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Johnson+Johnson%22+OR+%22JNJ%22&from=2026-03-03T00%3A02%3A34&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 19:02:35,050 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Goldman+Sachs%22+OR+%22GS%22&from=2026-03-03T00%3A02%3A34&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 19:02:35,053 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Netflix%22+OR+%22NFLX%22&from=2026-03-03T00%3A02%3A34&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 19:02:35,054 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22&from=2026-03-03T00%3A02%3A34&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 19:02:35,056 - Data.news_retriever - INFO - Retrieved 67 total articles for 5 tickers
+2026-03-05 19:02:35,056 - __main__ - INFO - Retrieved 67 articles for 5 tickers
+2026-03-05 19:02:35,056 - __main__ - INFO - 
+ [5/6] Building causal grpah (clustering related moves) ...
+2026-03-05 19:02:35,056 - Quant.causal_graph - INFO - Deduplicated causal-graph input moves: 6 -> 5 unique tickers
+2026-03-05 19:02:35,056 - Quant.causal_graph - INFO - Building causal graph for 5 flagged tickers
+2026-03-05 19:02:35,338 - Quant.causal_graph - INFO - Causal graph: 4 clusters (1 multi-move, 3 singletons), 1 edges
+2026-03-05 19:02:35,338 - __main__ - INFO - 
+ [6/6] Running SLM -> LLM intelligence pipeline on 4 clusters...
+2026-03-05 19:02:35,352 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 19:02:35,352 - Pipeline.intelligence_workflow - INFO - [Agent 1: SLM] Classification + Sentiment + Relevance
+2026-03-05 19:02:35,352 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 19:02:35,559 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 19:02:35,589 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-05 19:02:35,622 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-05 19:02:35,724 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 19:02:35,753 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-05 19:02:35,781 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-05 19:02:35,842 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-03-05 19:02:35,899 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-03-05 19:02:35,971 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/vocab.txt "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 19:02:35,972 - huggingface_hub.utils._http - WARNING - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-03-05 19:02:36,004 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/vocab.txt "HTTP/1.1 200 OK"
+2026-03-05 19:02:36,035 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/vocab.txt "HTTP/1.1 200 OK"
+2026-03-05 19:02:36,131 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/tokenizer.json "HTTP/1.1 404 Not Found"
+2026-03-05 19:02:36,193 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/added_tokens.json "HTTP/1.1 404 Not Found"
+2026-03-05 19:02:36,258 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/special_tokens_map.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 19:02:36,289 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/special_tokens_map.json "HTTP/1.1 200 OK"
+2026-03-05 19:02:36,322 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/special_tokens_map.json "HTTP/1.1 200 OK"
+2026-03-05 19:02:36,419 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/chat_template.jinja "HTTP/1.1 404 Not Found"
+2026-03-05 19:02:36,515 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 19:02:36,545 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-05 19:02:46,205 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-03-05 19:02:46,280 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+2026-03-05 19:02:46,333 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/pytorch_model.bin "HTTP/1.1 302 Found"
+2026-03-05 19:02:46,707 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/xet-read-token/4556d13015211d73dccd3fdd39d39232506f3e43 "HTTP/1.1 200 OK"
+2026-03-05 19:02:54,699 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-03-05 19:02:54,821 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-03-05 19:02:54,934 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/main "HTTP/1.1 200 OK"
+2026-03-05 19:02:55,052 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/discussions?p=0 "HTTP/1.1 200 OK"
+2026-03-05 19:02:55,119 - Pipeline.intelligence_workflow - INFO - SLM loaded - using local model for classification/sentiment/relevance
+2026-03-05 19:02:55,119 - Pipeline.intelligence_workflow - INFO - [SLM] Running local inference ... 
+2026-03-05 19:02:55,149 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/refs%2Fpr%2F29 "HTTP/1.1 200 OK"
+2026-03-05 19:02:55,211 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+2026-03-05 19:02:55,263 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors "HTTP/1.1 302 Found"
+2026-03-05 19:02:55,316 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/xet-read-token/7db323f79b751944bcfa66298ec06977e4518306 "HTTP/1.1 200 OK"
+2026-03-05 19:02:57,137 - Pipeline.intelligence_workflow - INFO - [SLM] Processed 6 moves locally
+2026-03-05 19:02:57,137 - Pipeline.intelligence_workflow - INFO - [Agent 1] Enriched 6 moves
+2026-03-05 19:02:57,137 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 19:02:57,138 - Pipeline.intelligence_workflow - INFO - [Agent 2: LLM] Impact Assessment + Synthesis + Brief
+2026-03-05 19:02:57,138 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 19:04:14,481 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-05 19:04:14,508 - langchain_core.output_parsers.openai_tools - ERROR - Output parser received a `max_tokens` stop reason. The output is likely incomplete—please increase `max_tokens` or shorten your prompt.
+Traceback (most recent call last):
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/.venv/lib/python3.13/site-packages/langchain_core/output_parsers/openai_tools.py", line 369, in parse_result
+    pydantic_objects.append(tool(**res["args"]))
+                            ~~~~^^^^^^^^^^^^^^^
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/.venv/lib/python3.13/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 2 validation errors for ImpactAndBrief
+top_recommendations
+  Field required [type=missing, input_value={'move_impacts': [{'ticke...hin the conglomerate.'}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+risk_watchlist
+  Field required [type=missing, input_value={'move_impacts': [{'ticke...hin the conglomerate.'}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+2026-03-05 19:04:14,513 - Pipeline.intelligence_workflow - ERROR - LLM agent failed: 2 validation errors for ImpactAndBrief
+top_recommendations
+  Field required [type=missing, input_value={'move_impacts': [{'ticke...hin the conglomerate.'}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+risk_watchlist
+  Field required [type=missing, input_value={'move_impacts': [{'ticke...hin the conglomerate.'}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+Traceback (most recent call last):
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/Pipeline/intelligence_workflow.py", line 554, in llm_agent
+    raw_result = await assessor.ainvoke([
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    ])
+    ^^
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/.venv/lib/python3.13/site-packages/langchain_core/runnables/base.py", line 3197, in ainvoke
+    input_ = await coro_with_context(part(), context, create_task=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/.venv/lib/python3.13/site-packages/langchain_core/output_parsers/base.py", line 230, in ainvoke
+    return await self._acall_with_config(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/.venv/lib/python3.13/site-packages/langchain_core/runnables/base.py", line 2111, in _acall_with_config
+    output: Output = await coro_with_context(coro, context)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/.venv/lib/python3.13/site-packages/langchain_core/output_parsers/base.py", line 297, in aparse_result
+    return await run_in_executor(None, self.parse_result, result, partial=partial)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/.venv/lib/python3.13/site-packages/langchain_core/runnables/config.py", line 636, in run_in_executor
+    return await asyncio.get_running_loop().run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/.venv/lib/python3.13/site-packages/langchain_core/runnables/config.py", line 627, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/.venv/lib/python3.13/site-packages/langchain_core/output_parsers/openai_tools.py", line 369, in parse_result
+    pydantic_objects.append(tool(**res["args"]))
+                            ~~~~^^^^^^^^^^^^^^^
+  File "/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/.venv/lib/python3.13/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 2 validation errors for ImpactAndBrief
+top_recommendations
+  Field required [type=missing, input_value={'move_impacts': [{'ticke...hin the conglomerate.'}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+risk_watchlist
+  Field required [type=missing, input_value={'move_impacts': [{'ticke...hin the conglomerate.'}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/missing
+2026-03-05 19:04:14,520 - Pipeline.intelligence_workflow - INFO - Pipeline complete: 6 alerts, 1 critical, 99.2s | SLM → LLM (2-agent architecture)
+2026-03-05 19:04:14,522 - __main__ - INFO -  Brief saved to: market_breif_20260306_000414.json
+2026-03-05 19:04:14,522 - __main__ - INFO - Pipeline Completed!
+2026-03-05 19:58:17,631 - Data.market_monitor - WARNING - Failed to fetch S&p500 list: Missing optional dependency 'lxml'.  Use pip or conda to install lxml.. Using cached list.
+2026-03-05 19:58:17,632 - Data.market_monitor - INFO - Monitoring 50 tickers (S&P 500)
+2026-03-05 19:58:17,653 - __main__ - INFO - ======================================================================
+2026-03-05 19:58:17,653 - __main__ - INFO - Financial Intelligence Pipeline
+2026-03-05 19:58:17,653 - __main__ - INFO - ======================================================================
+2026-03-05 19:58:17,653 - __main__ - INFO - 
+ [1/6] Scanning the portfolio for significant moves ...
+2026-03-05 19:58:17,653 - Data.market_monitor - INFO - Scanning 50 tickers for significant moves 
+2026-03-05 19:58:23,737 - Data.market_monitor - INFO - Scan complete: 9 signficant moves detectedout of 50 tickers
+2026-03-05 19:58:23,738 - __main__ - INFO -  9 raw significant moves detected
+2026-03-05 19:58:23,738 - __main__ - INFO - 
+ [2/6] Decomposing moves into market/sector/idiosyncratic components...
+2026-03-05 19:58:23,738 - Quant.factor_decomposition - INFO - Decomposing 9 moves into factor components
+2026-03-05 19:58:24,161 - Quant.factor_decomposition - INFO - Decomposition complete: 6 significant idiosyncratic moves, 3 mostly systematic (filtered out)
+2026-03-05 19:58:24,161 - __main__ - INFO - Factor decomposition: 6 genuine idiosyncratic moves, 3 filtered (explained by market/sector beta)
+2026-03-05 19:58:24,161 - __main__ - INFO - [3/6] Computing prediction residuals (what can't the model explain?) ...
+2026-03-05 19:58:25,793 - __main__ - INFO - Prediction model fitted: 0 tickers | Average residual sigma: 0.0
+2026-03-05 19:58:25,793 - __main__ - INFO - 
+[4/6] Retrieving news for 6 idiosyncratic moves
+2026-03-05 19:58:25,793 - Data.news_retriever - INFO - Retrieving news for 5 unique tickers (lookback = 72h)
+2026-03-05 19:58:26,198 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22+OR+%22%24UPS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 19:58:26,204 - Data.news_retriever - WARNING - GDELT search failed for UPS: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22+OR+%22%24UPS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 19:58:26,446 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22&from=2026-03-03T00%3A58%3A26&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 19:58:28,249 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Netflix%22+OR+%22NFLX%22+OR+%22%24NFLX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 19:58:28,252 - Data.news_retriever - WARNING - GDELT search failed for NFLX: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Netflix%22+OR+%22NFLX%22+OR+%22%24NFLX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 19:58:28,330 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Netflix%22+OR+%22NFLX%22&from=2026-03-03T00%3A58%3A28&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 19:58:30,160 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Berkshire+Hathaway+Inc.%22+OR+%22BRK-B%22+OR+%22%24BRK-B%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-05 19:58:30,163 - Data.news_retriever - WARNING - GDELT parse error for BRK-B: Expecting value: line 1 column 1 (char 0)
+2026-03-05 19:58:30,219 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Berkshire+Hathaway+Inc.%22+OR+%22BRK-B%22&from=2026-03-03T00%3A58%3A30&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 19:58:32,085 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Johnson+Johnson%22+OR+%22JNJ%22+OR+%22%24JNJ%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-05 19:58:32,088 - Data.news_retriever - WARNING - GDELT parse error for JNJ: Expecting value: line 1 column 1 (char 0)
+2026-03-05 19:58:32,155 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Johnson+Johnson%22+OR+%22JNJ%22&from=2026-03-03T00%3A58%3A32&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 19:58:34,063 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Goldman+Sachs%22+OR+%22GS%22+OR+%22%24GS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 19:58:34,066 - Data.news_retriever - WARNING - GDELT search failed for GS: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Goldman+Sachs%22+OR+%22GS%22+OR+%22%24GS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 19:58:34,138 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Goldman+Sachs%22+OR+%22GS%22&from=2026-03-03T00%3A58%3A34&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 19:58:34,140 - Data.news_retriever - INFO - Retrieved 67 total articles for 5 tickers
+2026-03-05 19:58:34,140 - __main__ - INFO - Retrieved 67 articles for 5 tickers
+2026-03-05 19:58:34,140 - __main__ - INFO - 
+ [5/6] Building causal grpah (clustering related moves) ...
+2026-03-05 19:58:34,140 - Quant.causal_graph - INFO - Deduplicated causal-graph input moves: 6 -> 5 unique tickers
+2026-03-05 19:58:34,140 - Quant.causal_graph - INFO - Building causal graph for 5 flagged tickers
+2026-03-05 19:58:34,862 - Quant.causal_graph - INFO - Causal graph: 4 clusters (1 multi-move, 3 singletons), 1 edges
+2026-03-05 19:58:34,863 - __main__ - INFO - 
+ [6/6] Running SLM -> LLM intelligence pipeline on 4 clusters...
+2026-03-05 19:58:34,873 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 19:58:34,873 - Pipeline.intelligence_workflow - INFO - [Agent 1: SLM] Classification + Sentiment + Relevance
+2026-03-05 19:58:34,873 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 19:58:35,020 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 19:58:35,050 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-05 19:58:35,108 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 19:58:35,139 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-05 19:58:35,195 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-03-05 19:58:35,245 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-03-05 19:58:35,337 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 19:58:35,367 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-05 19:58:36,079 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-03-05 19:58:36,164 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-03-05 19:58:36,300 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/main "HTTP/1.1 200 OK"
+2026-03-05 19:58:36,428 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/discussions?p=0 "HTTP/1.1 200 OK"
+2026-03-05 19:58:36,483 - Pipeline.intelligence_workflow - INFO - SLM loaded - using local model for classification/sentiment/relevance
+2026-03-05 19:58:36,484 - Pipeline.intelligence_workflow - INFO - [SLM] Running local inference ... 
+2026-03-05 19:58:36,500 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/refs%2Fpr%2F29 "HTTP/1.1 200 OK"
+2026-03-05 19:58:36,560 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+2026-03-05 19:58:36,617 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors "HTTP/1.1 302 Found"
+2026-03-05 19:58:38,378 - Pipeline.intelligence_workflow - INFO - [SLM] Processed 6 moves locally
+2026-03-05 19:58:38,378 - Pipeline.intelligence_workflow - INFO - [Agent 1] Enriched 6 moves
+2026-03-05 19:58:38,379 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 19:58:38,379 - Pipeline.intelligence_workflow - INFO - [Agent 2: LLM] Impact Assessment + Synthesis + Brief
+2026-03-05 19:58:38,379 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 20:00:02,984 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-05 20:00:03,015 - Pipeline.intelligence_workflow - INFO - [Agent 2] Generated 6 alerts, 1 critical (1 LLM call)
+2026-03-05 20:00:03,017 - Pipeline.intelligence_workflow - INFO - Pipeline complete: 6 alerts, 1 critical, 88.2s | SLM → LLM (2-agent architecture)
+2026-03-05 20:00:03,018 - __main__ - INFO -  Brief saved to: market_breif_20260306_010003.json
+2026-03-05 20:00:03,018 - __main__ - INFO - Pipeline Completed!
+2026-03-05 20:03:21,924 - Data.market_monitor - WARNING - Failed to fetch S&p500 list: HTTP Error 403: Forbidden. Using cached list.
+2026-03-05 20:03:21,925 - Data.market_monitor - INFO - Monitoring 50 tickers (S&P 500)
+2026-03-05 20:03:21,949 - __main__ - INFO - ======================================================================
+2026-03-05 20:03:21,949 - __main__ - INFO - Financial Intelligence Pipeline
+2026-03-05 20:03:21,949 - __main__ - INFO - ======================================================================
+2026-03-05 20:03:21,949 - __main__ - INFO - 
+ [1/6] Scanning the portfolio for significant moves ...
+2026-03-05 20:03:21,949 - Data.market_monitor - INFO - Scanning 50 tickers for significant moves 
+2026-03-05 20:03:28,794 - Data.market_monitor - INFO - Scan complete: 9 signficant moves detectedout of 50 tickers
+2026-03-05 20:03:28,795 - __main__ - INFO -  9 raw significant moves detected
+2026-03-05 20:03:28,795 - __main__ - INFO - 
+ [2/6] Decomposing moves into market/sector/idiosyncratic components...
+2026-03-05 20:03:28,795 - Quant.factor_decomposition - INFO - Decomposing 9 moves into factor components
+2026-03-05 20:03:29,228 - Quant.factor_decomposition - INFO - Decomposition complete: 6 significant idiosyncratic moves, 3 mostly systematic (filtered out)
+2026-03-05 20:03:29,228 - __main__ - INFO - Factor decomposition: 6 genuine idiosyncratic moves, 3 filtered (explained by market/sector beta)
+2026-03-05 20:03:29,228 - __main__ - INFO - [3/6] Computing prediction residuals (what can't the model explain?) ...
+2026-03-05 20:03:31,138 - __main__ - INFO - Prediction model fitted: 0 tickers | Average residual sigma: 0.0
+2026-03-05 20:03:31,138 - __main__ - INFO - 
+[4/6] Retrieving news for 6 idiosyncratic moves
+2026-03-05 20:03:31,139 - Data.news_retriever - INFO - Retrieving news for 5 unique tickers (lookback = 72h)
+2026-03-05 20:03:31,465 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22+OR+%22%24UPS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 20:03:31,468 - Data.news_retriever - WARNING - GDELT search failed for UPS: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22+OR+%22%24UPS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 20:03:31,616 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22&from=2026-03-03T01%3A03%3A31&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 20:03:33,413 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Netflix%22+OR+%22NFLX%22+OR+%22%24NFLX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 20:03:33,415 - Data.news_retriever - WARNING - GDELT search failed for NFLX: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Netflix%22+OR+%22NFLX%22+OR+%22%24NFLX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 20:03:33,492 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Netflix%22+OR+%22NFLX%22&from=2026-03-03T01%3A03%3A33&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 20:03:35,283 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Berkshire+Hathaway+Inc.%22+OR+%22BRK-B%22+OR+%22%24BRK-B%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 20:03:35,285 - Data.news_retriever - WARNING - GDELT search failed for BRK-B: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Berkshire+Hathaway+Inc.%22+OR+%22BRK-B%22+OR+%22%24BRK-B%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 20:03:35,345 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Berkshire+Hathaway+Inc.%22+OR+%22BRK-B%22&from=2026-03-03T01%3A03%3A35&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 20:03:37,155 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Johnson+Johnson%22+OR+%22JNJ%22+OR+%22%24JNJ%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-05 20:03:37,159 - Data.news_retriever - WARNING - GDELT parse error for JNJ: Expecting value: line 1 column 1 (char 0)
+2026-03-05 20:03:37,224 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Johnson+Johnson%22+OR+%22JNJ%22&from=2026-03-03T01%3A03%3A37&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 20:03:39,038 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Goldman+Sachs%22+OR+%22GS%22+OR+%22%24GS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 20:03:39,041 - Data.news_retriever - WARNING - GDELT search failed for GS: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Goldman+Sachs%22+OR+%22GS%22+OR+%22%24GS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 20:03:39,116 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Goldman+Sachs%22+OR+%22GS%22&from=2026-03-03T01%3A03%3A39&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 20:03:39,119 - Data.news_retriever - INFO - Retrieved 67 total articles for 5 tickers
+2026-03-05 20:03:39,120 - __main__ - INFO - Retrieved 67 articles for 5 tickers
+2026-03-05 20:03:39,120 - __main__ - INFO - 
+ [5/6] Building causal grpah (clustering related moves) ...
+2026-03-05 20:03:39,120 - Quant.causal_graph - INFO - Deduplicated causal-graph input moves: 6 -> 5 unique tickers
+2026-03-05 20:03:39,120 - Quant.causal_graph - INFO - Building causal graph for 5 flagged tickers
+2026-03-05 20:03:39,406 - Quant.causal_graph - INFO - Causal graph: 4 clusters (1 multi-move, 3 singletons), 1 edges
+2026-03-05 20:03:39,406 - __main__ - INFO - 
+ [6/6] Running SLM -> LLM intelligence pipeline on 4 clusters...
+2026-03-05 20:03:39,419 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 20:03:39,419 - Pipeline.intelligence_workflow - INFO - [Agent 1: SLM] Classification + Sentiment + Relevance
+2026-03-05 20:03:39,419 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 20:03:39,565 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 20:03:39,599 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-05 20:03:39,659 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 20:03:39,660 - huggingface_hub.utils._http - WARNING - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-03-05 20:03:39,690 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-05 20:03:39,741 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-03-05 20:03:39,802 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-03-05 20:03:39,879 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 20:03:39,909 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-05 20:03:40,466 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-03-05 20:03:40,532 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-03-05 20:03:40,655 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/main "HTTP/1.1 200 OK"
+2026-03-05 20:03:40,730 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/discussions?p=0 "HTTP/1.1 200 OK"
+2026-03-05 20:03:40,822 - Pipeline.intelligence_workflow - INFO - SLM loaded - using local model for classification/sentiment/relevance
+2026-03-05 20:03:40,822 - Pipeline.intelligence_workflow - INFO - [SLM] Running local inference ... 
+2026-03-05 20:03:40,824 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/refs%2Fpr%2F29 "HTTP/1.1 200 OK"
+2026-03-05 20:03:40,878 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+2026-03-05 20:03:40,935 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors "HTTP/1.1 302 Found"
+2026-03-05 20:03:42,762 - Pipeline.intelligence_workflow - INFO - [SLM] Processed 6 moves locally
+2026-03-05 20:03:42,762 - Pipeline.intelligence_workflow - INFO - [Agent 1] Enriched 6 moves
+2026-03-05 20:03:42,763 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 20:03:42,763 - Pipeline.intelligence_workflow - INFO - [Agent 2: LLM] Impact Assessment + Synthesis + Brief
+2026-03-05 20:03:42,763 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 20:05:01,006 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-05 20:05:01,038 - Pipeline.intelligence_workflow - INFO - [Agent 2] Generated 6 alerts, 1 critical (1 LLM call)
+2026-03-05 20:05:01,039 - Pipeline.intelligence_workflow - INFO - Pipeline complete: 6 alerts, 1 critical, 81.6s | SLM → LLM (2-agent architecture)
+2026-03-05 20:05:01,041 - __main__ - INFO -  Brief saved to: market_breif_20260306_010501.json
+2026-03-05 20:05:01,041 - __main__ - INFO - Pipeline Completed!
+2026-03-05 21:31:39,018 - Data.market_monitor - WARNING - Failed to fetch S&p500 list: HTTP Error 403: Forbidden. Using cached list.
+2026-03-05 21:31:39,020 - Data.market_monitor - INFO - Monitoring 50 tickers (S&P 500)
+2026-03-05 21:31:39,043 - __main__ - INFO - ======================================================================
+2026-03-05 21:31:39,043 - __main__ - INFO - Financial Intelligence Pipeline
+2026-03-05 21:31:39,043 - __main__ - INFO - ======================================================================
+2026-03-05 21:31:39,043 - __main__ - INFO - 
+ [1/6] Scanning the portfolio for significant moves ...
+2026-03-05 21:31:39,043 - Data.market_monitor - INFO - Scanning 50 tickers for significant moves 
+2026-03-05 21:31:45,200 - Data.market_monitor - INFO - Scan complete: 9 signficant moves detectedout of 50 tickers
+2026-03-05 21:31:45,201 - __main__ - INFO -  9 raw significant moves detected
+2026-03-05 21:31:45,202 - __main__ - INFO - 
+ [2/6] Decomposing moves into market/sector/idiosyncratic components...
+2026-03-05 21:31:45,202 - Quant.factor_decomposition - INFO - Decomposing 9 moves into factor components
+2026-03-05 21:31:45,643 - Quant.factor_decomposition - INFO - Decomposition complete: 6 significant idiosyncratic moves, 3 mostly systematic (filtered out)
+2026-03-05 21:31:45,643 - __main__ - INFO - Factor decomposition: 6 genuine idiosyncratic moves, 3 filtered (explained by market/sector beta)
+2026-03-05 21:31:45,643 - __main__ - INFO - [3/6] Computing prediction residuals (what can't the model explain?) ...
+2026-03-05 21:31:47,049 - __main__ - INFO - Prediction model fitted: 0 tickers | Average residual sigma: 0.0
+2026-03-05 21:31:47,050 - __main__ - INFO - 
+[4/6] Retrieving news for 6 idiosyncratic moves
+2026-03-05 21:31:47,050 - Data.news_retriever - INFO - Retrieving news for 5 unique tickers (lookback = 72h)
+2026-03-05 21:31:47,454 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22+OR+%22%24UPS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 21:31:47,456 - Data.news_retriever - WARNING - GDELT search failed for UPS: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22+OR+%22%24UPS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 21:31:47,676 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22&from=2026-03-03T02%3A31%3A47&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 21:31:49,487 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Netflix%22+OR+%22NFLX%22+OR+%22%24NFLX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-05 21:31:49,490 - Data.news_retriever - WARNING - GDELT search failed for NFLX: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Netflix%22+OR+%22NFLX%22+OR+%22%24NFLX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-05 21:31:49,592 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Netflix%22+OR+%22NFLX%22&from=2026-03-03T02%3A31%3A49&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 21:31:51,389 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Berkshire+Hathaway+Inc.%22+OR+%22BRK-B%22+OR+%22%24BRK-B%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-05 21:31:51,391 - Data.news_retriever - WARNING - GDELT parse error for BRK-B: Expecting value: line 1 column 1 (char 0)
+2026-03-05 21:31:51,453 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Berkshire+Hathaway+Inc.%22+OR+%22BRK-B%22&from=2026-03-03T02%3A31%3A51&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 21:31:53,261 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Johnson+Johnson%22+OR+%22JNJ%22+OR+%22%24JNJ%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-05 21:31:53,263 - Data.news_retriever - WARNING - GDELT parse error for JNJ: Expecting value: line 1 column 1 (char 0)
+2026-03-05 21:31:53,333 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Johnson+Johnson%22+OR+%22JNJ%22&from=2026-03-03T02%3A31%3A53&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 21:31:55,234 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Goldman+Sachs%22+OR+%22GS%22+OR+%22%24GS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-05 21:31:55,236 - Data.news_retriever - WARNING - GDELT parse error for GS: Expecting value: line 1 column 1 (char 0)
+2026-03-05 21:31:55,311 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Goldman+Sachs%22+OR+%22GS%22&from=2026-03-03T02%3A31%3A55&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-05 21:31:55,315 - Data.news_retriever - INFO - Retrieved 68 total articles for 5 tickers
+2026-03-05 21:31:55,315 - __main__ - INFO - Retrieved 68 articles for 5 tickers
+2026-03-05 21:31:55,315 - __main__ - INFO - 
+ [5/6] Building causal grpah (clustering related moves) ...
+2026-03-05 21:31:55,315 - Quant.causal_graph - INFO - Deduplicated causal-graph input moves: 6 -> 5 unique tickers
+2026-03-05 21:31:55,315 - Quant.causal_graph - INFO - Building causal graph for 5 flagged tickers
+2026-03-05 21:31:55,571 - Quant.causal_graph - INFO - Causal graph: 4 clusters (1 multi-move, 3 singletons), 1 edges
+2026-03-05 21:31:55,571 - __main__ - INFO - 
+ [6/6] Running SLM -> LLM intelligence pipeline on 4 clusters...
+2026-03-05 21:31:55,583 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 21:31:55,583 - Pipeline.intelligence_workflow - INFO - [Agent 1: SLM] Classification + Sentiment + Relevance
+2026-03-05 21:31:55,583 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 21:31:55,728 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 21:31:55,763 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-05 21:31:55,823 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 21:31:55,855 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-05 21:31:55,918 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-03-05 21:31:55,977 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-03-05 21:31:56,052 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-05 21:31:56,080 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-05 21:31:56,959 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-03-05 21:31:57,030 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-03-05 21:31:57,159 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/main "HTTP/1.1 200 OK"
+2026-03-05 21:31:57,262 - Pipeline.intelligence_workflow - INFO - SLM loaded - using local model for classification/sentiment/relevance
+2026-03-05 21:31:57,263 - Pipeline.intelligence_workflow - INFO - [SLM] Running local inference ... 
+2026-03-05 21:31:57,273 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/discussions?p=0 "HTTP/1.1 200 OK"
+2026-03-05 21:31:57,339 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/refs%2Fpr%2F29 "HTTP/1.1 200 OK"
+2026-03-05 21:31:57,404 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+2026-03-05 21:31:57,466 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors "HTTP/1.1 302 Found"
+2026-03-05 21:31:59,138 - Pipeline.intelligence_workflow - INFO - [SLM] Processed 6 moves locally
+2026-03-05 21:31:59,138 - Pipeline.intelligence_workflow - INFO - [Agent 1] Enriched 6 moves
+2026-03-05 21:31:59,139 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 21:31:59,139 - Pipeline.intelligence_workflow - INFO - [Agent 2: LLM] Impact Assessment + Synthesis + Brief
+2026-03-05 21:31:59,139 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-05 21:33:12,677 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-05 21:33:12,714 - Pipeline.intelligence_workflow - INFO - [Agent 2] Generated 6 alerts, 1 critical (1 LLM call)
+2026-03-05 21:33:12,716 - Pipeline.intelligence_workflow - INFO - Pipeline complete: 6 alerts, 1 critical, 77.1s | SLM → LLM (2-agent architecture)
+2026-03-05 21:33:12,720 - __main__ - INFO -  Brief saved to: market_breif_20260306_023312.json
+2026-03-05 21:33:12,720 - __main__ - INFO - Pipeline Completed!
+2026-03-06 14:55:21,827 - Data.market_monitor - WARNING - Failed to fetch S&p500 list: HTTP Error 403: Forbidden. Using cached list.
+2026-03-06 14:55:21,828 - Data.market_monitor - INFO - Monitoring 50 tickers (S&P 500)
+2026-03-06 14:55:21,845 - __main__ - INFO - ======================================================================
+2026-03-06 14:55:21,845 - __main__ - INFO - Financial Intelligence Pipeline
+2026-03-06 14:55:21,845 - __main__ - INFO - ======================================================================
+2026-03-06 14:55:21,845 - __main__ - INFO - 
+ [1/6] Scanning the portfolio for significant moves ...
+2026-03-06 14:55:21,845 - Data.market_monitor - INFO - Scanning 50 tickers for significant moves 
+2026-03-06 14:55:28,214 - Data.market_monitor - INFO - Scan complete: 7 signficant moves detectedout of 50 tickers
+2026-03-06 14:55:28,215 - __main__ - INFO -  7 raw significant moves detected
+2026-03-06 14:55:28,215 - __main__ - INFO - 
+ [2/6] Decomposing moves into market/sector/idiosyncratic components...
+2026-03-06 14:55:28,215 - Quant.factor_decomposition - INFO - Decomposing 7 moves into factor components
+2026-03-06 14:55:28,537 - Quant.factor_decomposition - INFO - Decomposition complete: 7 significant idiosyncratic moves, 0 mostly systematic (filtered out)
+2026-03-06 14:55:28,538 - __main__ - INFO - Factor decomposition: 7 genuine idiosyncratic moves, 0 filtered (explained by market/sector beta)
+2026-03-06 14:55:28,538 - __main__ - INFO - [3/6] Computing prediction residuals (what can't the model explain?) ...
+2026-03-06 14:55:30,578 - __main__ - INFO - Prediction model fitted: 0 tickers | Average residual sigma: 0.0
+2026-03-06 14:55:30,578 - __main__ - INFO - 
+[4/6] Retrieving news for 7 idiosyncratic moves
+2026-03-06 14:55:30,578 - Data.news_retriever - INFO - Retrieving news for 6 unique tickers (lookback = 72h)
+2026-03-06 14:55:30,952 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22BlackRock%2C+Inc.%22+OR+%22BLK%22+OR+%22%24BLK%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-06 14:55:30,954 - Data.news_retriever - WARNING - GDELT search failed for BLK: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22BlackRock%2C+Inc.%22+OR+%22BLK%22+OR+%22%24BLK%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-06 14:55:31,164 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22BlackRock%2C+Inc.%22+OR+%22BLK%22&from=2026-03-03T19%3A55%3A30&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-06 14:55:33,008 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22+OR+%22%24UPS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-06 14:55:33,011 - Data.news_retriever - WARNING - GDELT parse error for UPS: Expecting value: line 1 column 1 (char 0)
+2026-03-06 14:55:33,091 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22&from=2026-03-03T19%3A55%3A33&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-06 14:55:34,889 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Boeing%22+OR+%22BA%22+OR+%22%24BA%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-06 14:55:34,892 - Data.news_retriever - WARNING - GDELT parse error for BA: Expecting value: line 1 column 1 (char 0)
+2026-03-06 14:55:34,989 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Boeing%22+OR+%22BA%22&from=2026-03-03T19%3A55%3A34&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-06 14:55:36,797 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Coca+Cola%22+OR+%22KO%22+OR+%22%24KO%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-06 14:55:36,800 - Data.news_retriever - WARNING - GDELT parse error for KO: Expecting value: line 1 column 1 (char 0)
+2026-03-06 14:55:36,888 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Coca+Cola%22+OR+%22KO%22&from=2026-03-03T19%3A55%3A36&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-06 14:55:38,691 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22PepsiCo%2C+Inc.%22+OR+%22PEP%22+OR+%22%24PEP%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-06 14:55:38,694 - Data.news_retriever - WARNING - GDELT search failed for PEP: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22PepsiCo%2C+Inc.%22+OR+%22PEP%22+OR+%22%24PEP%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-06 14:55:38,771 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22PepsiCo%2C+Inc.%22+OR+%22PEP%22&from=2026-03-03T19%3A55%3A38&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-06 14:55:40,558 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Procter+Gamble%22+OR+%22PG%22+OR+%22%24PG%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-06 14:55:40,562 - Data.news_retriever - WARNING - GDELT parse error for PG: Expecting value: line 1 column 1 (char 0)
+2026-03-06 14:55:40,644 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Procter+Gamble%22+OR+%22PG%22&from=2026-03-03T19%3A55%3A40&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-06 14:55:40,645 - Data.news_retriever - INFO - Retrieved 101 total articles for 6 tickers
+2026-03-06 14:55:40,645 - __main__ - INFO - Retrieved 101 articles for 6 tickers
+2026-03-06 14:55:40,645 - __main__ - INFO - 
+ [5/6] Building causal grpah (clustering related moves) ...
+2026-03-06 14:55:40,645 - Quant.causal_graph - INFO - Building causal graph for 7 flagged tickers
+2026-03-06 14:55:40,999 - Quant.causal_graph - WARNING - Matrix shape mismatch in causal graph builder (corr=(7, 7), partial=(6, 6), tickers=7). Truncating to 6.
+2026-03-06 14:55:41,007 - Quant.causal_graph - INFO - Causal graph: 3 clusters (1 multi-move, 2 singletons), 5 edges
+2026-03-06 14:55:41,007 - __main__ - INFO - 
+ [6/6] Running SLM -> LLM intelligence pipeline on 3 clusters...
+2026-03-06 14:55:41,020 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-06 14:55:41,020 - Pipeline.intelligence_workflow - INFO - [Agent 1: SLM] Classification + Sentiment + Relevance
+2026-03-06 14:55:41,020 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-06 14:55:41,184 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-06 14:55:41,216 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-06 14:55:41,277 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-06 14:55:41,311 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-06 14:55:41,367 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-03-06 14:55:41,425 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-03-06 14:55:41,497 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-06 14:55:41,527 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-06 14:55:42,263 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-03-06 14:55:42,353 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-03-06 14:55:42,473 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/main "HTTP/1.1 200 OK"
+2026-03-06 14:55:42,573 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/discussions?p=0 "HTTP/1.1 200 OK"
+2026-03-06 14:55:42,646 - Pipeline.intelligence_workflow - INFO - SLM loaded - using local model for classification/sentiment/relevance
+2026-03-06 14:55:42,646 - Pipeline.intelligence_workflow - INFO - [SLM] Running local inference ... 
+2026-03-06 14:55:42,658 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/refs%2Fpr%2F29 "HTTP/1.1 200 OK"
+2026-03-06 14:55:42,712 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+2026-03-06 14:55:42,769 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors "HTTP/1.1 302 Found"
+2026-03-06 14:55:44,952 - Pipeline.intelligence_workflow - INFO - [SLM] Processed 7 moves locally
+2026-03-06 14:55:44,952 - Pipeline.intelligence_workflow - INFO - [Agent 1] Enriched 7 moves
+2026-03-06 14:55:44,953 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-06 14:55:44,953 - Pipeline.intelligence_workflow - INFO - [Agent 2: LLM] Impact Assessment + Synthesis + Brief
+2026-03-06 14:55:44,953 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-06 14:57:21,434 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-06 14:57:21,464 - Pipeline.intelligence_workflow - INFO - [Agent 2] Generated 7 alerts, 2 critical (1 LLM call)
+2026-03-06 14:57:21,465 - Pipeline.intelligence_workflow - INFO - Pipeline complete: 7 alerts, 2 critical, 100.5s | SLM → LLM (2-agent architecture)
+2026-03-06 14:57:21,467 - __main__ - INFO -  Brief saved to: market_breif_20260306_195721.json
+2026-03-06 14:57:21,467 - __main__ - INFO - Pipeline Completed!

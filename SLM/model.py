@@ -25,33 +25,80 @@ from dataclasses import dataclass
 from enum import Enum
 
 # -- Task Definition -- #
+#Consolidated from 25 -> 6 categories based on the training data distribution. 
+#Most labels ended up with 0 examples. Only 6 labels had enough data
+#With 449 examples, 15 original categories had 0 data. So merging semantically similar
+#categories will give the model a realistic chance of learning the boundaries
+
+
+#CLASSIFICATION_LABELS = [
+    #"fed_announcement", "rate_decision", "trade_war", "sanctions",
+    #"military_conflict", "election", "bill_signing", "commodity_disruption",
+    #"regulatory_change", "earnings_surprise", "merger_acquisition",
+    #"currency_crisis", "sovereign_debt", "central_bank_policy",
+    #"pandemic_health", "tech_disruption", "climate_event", "labor_market",
+    #"infrastructure", "geopolitical_tension", "economic_data",
+    #"sector_rotation", "analyst_rating", "insider_activity", "unknown",
+#]
 
 CLASSIFICATION_LABELS = [
-    "fed_announcement", "rate_decision", "trade_war", "sanctions",
-    "military_conflict", "election", "bill_signing", "commodity_disruption",
-    "regulatory_change", "earnings_surprise", "merger_acquisition",
-    "currency_crisis", "sovereign_debt", "central_bank_policy",
-    "pandemic_health", "tech_disruption", "climate_event", "labor_market",
-    "infrastructure", "geopolitical_tension", "economic_data",
-    "sector_rotation", "analyst_rating", "insider_activity", "unknown",
+    "earnings", #Earnings surprise, guidance changes, revenue beats/misses
+    "macro_economic", #Fed announcements, rate decisions, economic data, central bank policy
+    "company_event", #M&A, analyst ratings, regulatory changes, insider activity, tech disruption
+    "geopolitical", #Trade war, sanctions, military conflict, elections, geopolitical tension
+    "sector_market", #Sector rotation, commodity disruption, labor market, climate, pandemic
+    "unknown", #Cannot determine the cause
 ]
+
+#Mapping from the original 25 fine-grained labels to the 6 consolidated labels
+#Used to remap existing training data during loading
+
+LABEL_CONSOLIDATION_MAP = {
+    # -> earnings
+    "earnings_surprise": "earnings",
+    # -> macro_economic
+    "fed_announcement": "macro_economic",
+    "rate_decision": "macro_economic",
+    "economic_data": "macro_economic",
+    "central_bank_policy": "macro_economic",
+    "currency_crisis": "macro_economic",
+    "sovereign_debt": "macro_economic",
+    "macro_economiic": "macro_economic",
+    # -> company_event
+    "merger_acquisition": "company_event",
+    "analyst_rating": "company_event",
+    "regulatory_change": "company_event",
+    "insider_activity": "company_event",
+    "tech_disruption": "company_event",
+    # -> geopolitical
+    "geopolitical_tension": "geopolitical",
+    "trade_war": "geopolitical",
+    "sanctions": "geopolitical",
+    "military_conflict": "geopolitical",
+    "election": "geopolitical",
+    "bill_signing": "geopolitical",
+    # -> sector_market
+    "sector_rotation": "sector_market",
+    "commodity_disruption": "sector_market",
+    "labor_market": "sector_market",
+    "infrastructure": "sector_market",
+    "climate_event": "sector_market",
+    "pandemic_health": "sector_market",
+    # -> unknown
+    "unknown": "unknown",
+}
 
 NUM_CLASSES = len(CLASSIFICATION_LABELS)
 LABEL_TO_IDX = {label: i for i, label in enumerate(CLASSIFICATION_LABELS)}
 IDX_TO_LABEL = {i: label for i, label in enumerate(CLASSIFICATION_LABELS)}
 
-def _best_label_score(category_probs: Dict[str, float]) -> Tuple[str, float]:
-    """Return the highest-probability label without relying on `max(..., key=...)` typing."""
-    if not category_probs:
-        return "unknown", 0.0
-
-    best_label = next(iter(category_probs))
-    best_prob = category_probs[best_label]
-    for label, prob in category_probs.items():
-        if prob > best_prob:
-            best_label = label
-            best_prob = prob
-    return best_label, float(best_prob)
+def consolidate_label(label: str) -> str:
+    """ Mapping a fine-grained label to its consolidated category"""
+    #Check if it's already a consolidated label
+    if label in LABEL_TO_IDX:
+        return label 
+    #Map from the old fine-grained label
+    return LABEL_CONSOLIDATION_MAP.get(label, "unknown")
 
 @dataclass
 class SLMOutput:
@@ -91,7 +138,7 @@ class FinancialMultiTaskSLM(nn.Module):
         backbone_name: str = "ProsusAI/finbert",
         hidden_dim: int = 768,
         head_hidden_dim: int = 256,
-        dropout: float = 0.1,
+        dropout: float = 0.3,
         freeze_backbone_layers: int = 0,
     ):
         
@@ -119,7 +166,7 @@ class FinancialMultiTaskSLM(nn.Module):
             nn.Dropout(dropout),
         )
 
-        #-- Classificaiton Head (25 CATEGORIES) -- #
+        #-- Classificaiton Head (6 categories) -- #
         self.classification_head = nn.Sequential(
             nn.Linear(head_hidden_dim, head_hidden_dim),
             nn.GELU(),
@@ -218,17 +265,21 @@ class MultiTaskLoss(nn.Module):
     Combined loss for all three tasks with learnable task weights
     Uses uncertainty based weighting (Kendall et al., 2018) so that the model 
     learns how much to weight each task automatically
+
+    Supports inverse-frequency class weights for classification to be able to handle
+    imbalanced categories (e.g. , 75% earnings_surprise)
     """
 
-    def __init__(self):
+    def __init__(self, cls_class_weights: Optional[torch.Tensor] = None):
         super().__init__()
-
         #Learnable log-variance parameters for uncertainty weighting
-        self.log_var_cls = nn.Parameter(torch.zeros(1))
-        self.log_var_sent = nn.Parameter(torch.zeros(1))
-        self.log_var_rel = nn.Parameter(torch.zeros(1))
+        self.log_var_cls = nn.Parameter(torch.tensor(0.0))
+        self.log_var_sent = nn.Parameter(torch.tensor(0.0))
+        self.log_var_rel = nn.Parameter(torch.tensor(0.0))
 
-        self.cls_loss = nn.CrossEntropyLoss()
+        #Classification loss with optional class weights
+        #Inverse-frequency weighting makes rare-class errors more expensive
+        self.cls_loss = nn.CrossEntropyLoss(weight = cls_class_weights, label_smoothing = 0.1)
         self.sent_loss = nn.MSELoss()
         self.rel_loss = nn.BCELoss()
 
@@ -251,20 +302,21 @@ class MultiTaskLoss(nn.Module):
         if cls_targets is not None and "classification_logits" in outputs:
             cls_l = self.cls_loss(outputs["classification_logits"], cls_targets)
             precision_cls = torch.exp(-self.log_var_cls)
-            total_loss += precision_cls * cls_l + self.log_var_cls 
-            loss_dict["classification"] = cls_l.item() 
+            total_loss += precision_cls * cls_l + self.log_var_cls
+            loss_dict["classification"] = cls_l.item()
 
         if sent_targets is not None and "sentiment" in outputs:
             sent_l = self.sent_loss(outputs["sentiment"], sent_targets)
             precision_sent = torch.exp(-self.log_var_sent)
-            total_loss += precision_sent * sent_l + self.log_var_sent
-            loss_dict["sentiment"] = sent_l.item() 
+            total_loss += precision_sent * sent_l + self.log_var_sent 
+            loss_dict["sentiment"] = sent_l.item()
 
         if rel_targets is not None and "relevance" in outputs:
             rel_l = self.rel_loss(outputs["relevance"], rel_targets)
             precision_rel = torch.exp(-self.log_var_rel)
             total_loss += precision_rel * rel_l + self.log_var_rel 
-            loss_dict["relevance"] = rel_l.item()
+            loss_dict["relevance"] = rel_l.item() 
+
 
         loss_dict["total"] = total_loss.item()
         loss_dict["task_weights"] = {
@@ -330,24 +382,24 @@ class SLMInference:
         )
 
         #Classification
-        logits = outputs["classification_logits"].select(0, 0)
+        logits = outputs["classification_logits"][0]
         probs = torch.softmax(logits, dim = -1)
-        probs_list = [float(p) for p in probs.detach().cpu().tolist()]
+        top_idx = int(probs.argmax().item())
+        confidence = float(probs[top_idx].item())
 
         category_probs = {
-            label: prob
-            for label, prob in zip(CLASSIFICATION_LABELS, probs_list)
+            CLASSIFICATION_LABELS[i]: probs[i].item()
+            for i in range(NUM_CLASSES)
         }
-        predicted_category, confidence = _best_label_score(category_probs)
 
         #Sentiment
-        sentiment = float(outputs["sentiment"].select(0, 0).item())
+        sentiment = outputs["sentiment"][0].item()
 
         #Relevance
-        relevance = float(outputs["relevance"].select(0, 0).item()) 
+        relevance = outputs["relevance"][0].item()
 
         return SLMOutput(
-            predicted_category = predicted_category,
+            predicted_category = IDX_TO_LABEL[top_idx],
             category_probabilities=category_probs,
             classification_confidence=confidence,
             sentiment_score=round(sentiment, 4),
@@ -369,31 +421,27 @@ class SLMInference:
         )
 
         results = []
+        batch_size = len(texts)
 
-        for logits, sent_val, rel_val in zip(
-            outputs["classification_logits"],
-            outputs["sentiment"],
-            outputs["relevance"],
-        ):
+        for i in range(batch_size):
+            logits = outputs["classification_logits"][i]
             probs = torch.softmax(logits, dim = -1)
-            probs_list = [float(p) for p in probs.detach().cpu().tolist()]
+            top_idx = int(probs.argmax().item()) 
 
             category_probs = {
-                label: prob
-                for label, prob in zip(CLASSIFICATION_LABELS, probs_list)
+                CLASSIFICATION_LABELS[j]: probs[j].item()
+                for j in range(NUM_CLASSES)
             }
-            predicted_category, confidence = _best_label_score(category_probs)
 
             results.append(SLMOutput(
-                predicted_category = predicted_category,
-                category_probabilities= category_probs,
-                classification_confidence = confidence,
-                sentiment_score = round(float(sent_val.item()), 4),
-                relevance_score=round(float(rel_val.item()), 4),
-                is_relevant = float(rel_val.item()) >= self.relevance_threshold,
+                predicted_category=IDX_TO_LABEL[top_idx],
+                category_probabilities=category_probs,
+                classification_confidence=probs[top_idx].item(),
+                sentiment_score = round(outputs["sentiment"][i].item(), 4),
+                relevance_score=round(outputs["relevance"][i].item(), 4),
+                is_relevant = outputs["relevance"][i].item() >= self.relevance_threshold,
             ))
-
-        return results 
+        return results
     
     @torch.no_grad()
     def classify(self, text: str) -> Tuple[str, float]:
@@ -409,14 +457,9 @@ class SLMInference:
             task = "classification",
         )
 
-        probs = torch.softmax(outputs["classification_logits"].select(0, 0), dim = -1)
-        probs_list = [float(p) for p in probs.detach().cpu().tolist()]
-        category_probs = {
-            label: prob
-            for label, prob in zip(CLASSIFICATION_LABELS, probs_list)
-        }
-        predicted_category, confidence = _best_label_score(category_probs)
-        return predicted_category, confidence
+        probs = torch.softmax(outputs["classification_logits"][0], dim = -1)
+        top_idx = int(probs.argmax().item())
+        return IDX_TO_LABEL[top_idx], float(probs[top_idx].item())
     
     @torch.no_grad()
     def score_sentiment(self, text: str) -> float:
@@ -431,7 +474,7 @@ class SLMInference:
             attention_mask = inputs["attention_mask"],
             task = "sentiment",
         )
-        return float(outputs["sentiment"].select(0, 0).item()) 
+        return outputs["sentiment"][0].item()
     
     @torch.no_grad()
     def score_relevance(self, text: str) -> float:
@@ -446,4 +489,4 @@ class SLMInference:
             attention_mask = inputs["attention_mask"],
             task = "relevance",
         )
-        return float(outputs["relevance"].select(0, 0).item())
+        return outputs["relevance"][0].item()

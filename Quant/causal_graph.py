@@ -43,6 +43,40 @@ from Quant.factor_decomposition import DecomposedMove
 
 logger = logging.getLogger(__name__)
 
+def _extract_close_series(
+    data: pd.DataFrame, ticker: str, all_tickers: List[str]
+) -> Optional[pd.Series]:
+    """Extract close price series across yfinance column layouts."""
+    try:
+        if isinstance(data.columns, pd.MultiIndex):
+            if len(all_tickers) == 1:
+                flat = (
+                    data.droplevel("Ticker", axis=1)
+                    if "Ticker" in data.columns.names
+                    else data.droplevel(0, axis=1)
+                )
+                result = flat["Close"].dropna()
+            else:
+                try:
+                    result = data[ticker]["Close"].dropna()
+                except KeyError:
+                    result = data["Close"][ticker].dropna()
+        else:
+            result = data["Close"].dropna()
+
+        if isinstance(result, pd.DataFrame):
+            result = result.iloc[:, 0]
+
+        return result if len(result) > 0 else None
+    except (KeyError, TypeError, ValueError):
+        return None
+
+def self_extract_close_series(
+    data: pd.DataFrame, ticker: str, all_tickers: List[str]
+) -> Optional[pd.Series]:
+    """Backward-compatible wrapper for older/local callsites."""
+    return _extract_close_series(data, ticker, all_tickers)
+
 #-- Data Structure --#
 
 @dataclass 
@@ -140,9 +174,8 @@ class CausalGraphBuilder:
         decomposed_moves: List[DecomposedMove],
     ) -> CausalGraph:
         """ Building the full causal graph from decomposed moves"""
-
         if len(decomposed_moves) <= 1:
-            #Single move 
+            #Single move - trivial graph
             cluster = MoveCluster(
                 cluster_id = 0,
                 tickers = [decomposed_moves[0].ticker] if decomposed_moves else [],
@@ -150,16 +183,13 @@ class CausalGraphBuilder:
                 epicenter_idio_return= decomposed_moves[0].idiosyncratic_return if decomposed_moves else 0.0,
                 moves = decomposed_moves,
             )
-            singleton_count = 1 if decomposed_moves else 0
-
             return CausalGraph(
                 clusters = [cluster],
                 edges = [],
                 tickers = [m.ticker for m in decomposed_moves],
                 num_clusters = 1,
-                num_singletons = singleton_count,
+                num_singletons = 1,
             )
-        
         tickers = [m.ticker for m in decomposed_moves]
         move_lookup = {m.ticker: m for m in decomposed_moves}
 
@@ -170,13 +200,28 @@ class CausalGraphBuilder:
         if returns_df is None or returns_df.shape[1] < 2:
             return self._fallback_graph(decomposed_moves)
         
-        #Step 2: Correlation matrix 
+        #Step 2: Correlation matrix
         corr_matrix = returns_df.corr().values
         valid_tickers = list(returns_df.columns)
         n = len(valid_tickers)
 
         #Step 3: Partial correlation matrix (residualize against SPY)
         partial_corr_matrix = self._compute_partial_correlations(returns_df)
+
+        #Defensive alignment for matrix shapes in case of upstream data quirks.
+        if partial_corr_matrix.shape != (n, n):
+            min_n = min(n, partial_corr_matrix.shape[0], partial_corr_matrix.shape[1], corr_matrix.shape[0], corr_matrix.shape[1])
+            logger.warning(
+                "Matrix shape mismatch in causal graph builder (corr=%s, partial=%s, tickers=%s). "
+                "Truncating to %s.",
+                corr_matrix.shape, partial_corr_matrix.shape, n, min_n,
+            )
+            valid_tickers = valid_tickers[:min_n]
+            corr_matrix = corr_matrix[:min_n, :min_n]
+            partial_corr_matrix = partial_corr_matrix[:min_n, :min_n]
+            n = min_n
+            if n < 2:
+                return self._fallback_graph(decomposed_moves)
 
         #Step 4: Building edges from significant partial correlations
         edges = []
@@ -251,24 +296,23 @@ class CausalGraphBuilder:
 
     def _fetch_returns(self, tickers: List[str]) -> Optional[pd.DataFrame]:
         """ Fetching daily returns for all tickers + SPY"""
-        all_tickers = list(set(tickers + ["SPY"]))
+        all_tickers = list(dict.fromkeys(tickers + ["SPY"]))
         tickers_str = " ".join(all_tickers)
 
         try:
-            data = yf.download(
+            data: Optional[pd.DataFrame] = yf.download(
                 tickers_str, period = f"{self.lookback_days + 10}d",
                 group_by = "tickers", progress = False, threads = True,
             )
-            if data is None:
+            if data is None or data.empty:
                 return None
 
             returns = pd.DataFrame()
             for t in all_tickers:
                 try:
-                    if len(all_tickers) == 1:
-                        close = data["Close"].dropna()
-                    else:
-                        close = data[t]["Close"].dropna()
+                    close = _extract_close_series(data, t, all_tickers)
+                    if close is None:
+                        continue
                     returns[t] = close.pct_change().dropna()
                 except (KeyError, TypeError):
                     continue 

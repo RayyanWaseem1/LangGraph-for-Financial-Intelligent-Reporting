@@ -60,7 +60,7 @@ class MarketMonitor:
             self.portfolio = portfolio 
         else:
             #Default S&P 500 
-            self.portfolio = Portfolio(name = "S&P500", use_sp500 = True)
+            self.portfolio = Portfolio(name = "S&P 500", use_sp500 = True)
 
         self._resolve_tickers() 
 
@@ -101,13 +101,15 @@ class MarketMonitor:
 
             try:
                 lookback = self.threshold.volatility_lookback_days + 10 #padding
-                data = yf.download(
+                data: Optional[pd.DataFrame] = yf.download(
                     batch_str, 
                     period = f"{lookback}d",
                     group_by = "ticker",
                     progress = False,
                     threads = True,
                 )
+                if data is None or data.empty:
+                    continue
 
                 for ticker in batch:
                     try: 
@@ -151,6 +153,12 @@ class MarketMonitor:
         
         close = ticker_data["Close"].dropna()
         volume = ticker_data["Volume"].dropna() 
+
+        #Ensure Series (not DataFrame) for newer yfinance versions
+        if isinstance(close, pd.DataFrame):
+            close = close.iloc[:, 0]
+        if isinstance(volume, pd.DataFrame):
+            volume = volume.iloc[:, 0]
 
         if len(close) < self.threshold.volatility_lookback_days // 2:
             return [] #not enough history 
@@ -246,26 +254,39 @@ class MarketMonitor:
         """ Pulling current market index data for context"""
         snapshot = MarketSnapshot() 
         try:
-            idx_data = yf.download(
-                "SPY QQQ ^VIX ^TNX", period = "5d", progress = False, threads = True
+            idx_data: Optional[pd.DataFrame] = yf.download(
+                "SPY QQQ ^VIX ^TNX", period = "5d", progress = False, group_by = "ticker", threads = True,
             )
+            if idx_data is None or idx_data.empty:
+                return snapshot
 
-            if "SPY" in idx_data.columns.get_level_values(0):
-                spy_close = idx_data["SPY"]["Close"].dropna()
-                if len(spy_close) >= 2:
-                    snapshot.spy_daily_return = round(
-                        float((spy_close.iloc[-1] - spy_close.iloc[-2]) / spy_close.iloc[-2] * 100), 2
-                    )
+            def _get_close(ticker: str) -> Optional[pd.Series]:
+                """ Extract close prices handling various yfinance formats"""
+                try:
+                    if ticker in idx_data.columns.get_level_values(0):
+                        return idx_data[ticker]["Close"].dropna()
+                except (KeyError, TypeError):
+                    pass 
+                try:
+                    return idx_data[(ticker, "Close")].dropna()
+                except (KeyError, TypeError):
+                    pass 
+                return None 
 
-            if "QQQ" in idx_data.columns.get_level_values(0):
-                qqq_close = idx_data["QQQ"]["Close"].dropna()
-                if len(qqq_close) >= 2:
-                    snapshot.qqq_daily_return = round(
-                        float((qqq_close.iloc[-1] - qqq_close.iloc[-2]) / qqq_close.iloc[-2] * 100), 2
-                    )
+            spy_close = _get_close("SPY")
+            if spy_close is not None and len(spy_close) >= 2:
+                snapshot.spy_daily_return = round(
+                    float((spy_close.iloc[-1] - spy_close.iloc[-2]) / spy_close.iloc[-2] * 100), 2
+                ) 
 
-            if "^VIX" in idx_data.columns.get_level_values(0):
-                vix_close = idx_data["^VIX"]["Close"].dropna()
+            qqq_close = _get_close("QQQ")
+            if qqq_close is not None and len(qqq_close) >= 2:
+                snapshot.qqq_daily_return = round(
+                    float((qqq_close.iloc[-1] - qqq_close.iloc[-2]) / qqq_close.iloc[-2] * 100), 2
+                )
+
+            vix_close = _get_close("^VIX")
+            if vix_close is not None:
                 if len(vix_close) >= 1:
                     snapshot.vix_level = round(float(vix_close.iloc[-1]), 2)
                 if len(vix_close) >= 2:
@@ -273,10 +294,9 @@ class MarketMonitor:
                         float(vix_close.iloc[-1] - vix_close.iloc[-2]), 2
                     )
 
-            if "^TNX" in idx_data.columns.get_level_values(0):
-                tnx_close = idx_data["^TNX"]["Close"].dropna()
-                if len(tnx_close) >= 1:
-                    snapshot.treasury_10y = round(float(tnx_close.iloc[-1]), 3)
+            tnx_close = _get_close("^TNX")
+            if tnx_close is not None and len(tnx_close) >= 1:
+                snapshot.treasury_10y = round(float(tnx_close.iloc[-1]), 3)
 
         except Exception as e:
             logger.warning(f"Market snapshot incomplete: {e}")

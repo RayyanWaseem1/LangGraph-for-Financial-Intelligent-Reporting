@@ -16,7 +16,7 @@ import logging
 import random 
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Optional, Tuple, cast
 from dataclasses import dataclass, asdict 
 
 import pandas as pd 
@@ -94,19 +94,37 @@ def find_historical_moves(
             if data is None or data.empty or len(data) < 60:
                 continue 
 
+            #Handling multi-level columns from potential newer yfinance versions
+            #yfinance can return columns like (Close, AAPL) instead of just Close
+            if isinstance(data.columns, pd.MultiIndex):
+                #Flatten: take the first level or extrac ticker-specific data
+                data = data.droplevel("Ticker", axis = 1) if "Ticker" in data.columns.names else data[ticker] if ticker in data.columns.get_level_values(0) else data.droplevel(0, axis = 1)
+
             close = data["Close"].dropna()
             returns = close.pct_change().dropna()
+
+            #Ensure we have a scalar series rather than a dataframe
+            if isinstance(returns, pd.DataFrame):
+                returns = returns.iloc[:, 0]
+            if isinstance(close, pd.DataFrame):
+                close = close.iloc[:, 0]
 
             #Rolling 60-day volatility
             rolling_sigma = returns.rolling(60).std()
 
+            #Getting volume series
+            vol_series = data["Volume"] if "Volume" in data.columns else None
+            if vol_series is not None and isinstance(vol_series, pd.DataFrame):
+                vol_series = vol_series.iloc[:, 0]
+
             moves = []
             for i in range(60, len(returns)):
-                ret = returns.iloc[i]
-                sigma = rolling_sigma.iloc[i]
+                ret = float(returns.iloc[i])
+                sigma = float(rolling_sigma.iloc[i])
 
                 if sigma > 0 and abs(ret) / sigma >= sigma_threshold:
                     date = returns.index[i]
+                    vol = int(vol_series.iloc[i]) if vol_series is not None and i < len(vol_series) else 0
                     moves.append({
                         "ticker": ticker,
                         "company_name": TICKER_COMPANY_NAMES.get(ticker, ticker),
@@ -115,7 +133,7 @@ def find_historical_moves(
                         "move_in_sigma": round(float(abs(ret) / sigma), 2),
                         "direction": "up" if ret > 0 else "down",
                         "price": round(float(close.iloc[i]), 2),
-                        "volume": int(data["Volume"].iloc[i]) if "Volume" in data.columns else 0,
+                        "volume": vol,
                     })
 
             #Sample to avoid overrepresenting one ticker
@@ -123,6 +141,8 @@ def find_historical_moves(
                 moves = random.sample(moves, max_moves_per_ticker)
 
             all_moves.extend(moves)
+            logger.info(f" {ticker}: {len(moves)} significant moves found")
+
         except Exception as e:
             logger.warning(f"Skipping {ticker}: {e}")
             continue 
@@ -141,9 +161,10 @@ async def retrieve_historical_news(
     """
     import httpx
 
-    GDELT_DOC_API = "https://api.gdeltproject.org/api/v2/doc/doc"
+    articles = []
 
-    #Searching window: day before to the day after the move 
+    #Attempt 1: GDELT with retry + backoff
+    GDELT_DOC_API = "https://api.gdeltproject.org/api/v2/doc/doc"
     move_date = datetime.strptime(date, "%Y-%m-%d")
     start = (move_date - timedelta(days = 1)).strftime("%Y%m%d%H%M%S")
     end = (move_date + timedelta(days = 1)).strftime("%Y%m%d%H%M%S")
@@ -160,27 +181,68 @@ async def retrieve_historical_news(
         "sort": "DateDesc",
     }
 
-    try:
-        async with httpx.AsyncClient(timeout = 15.0) as client:
-            resp = await client.get(GDELT_DOC_API, params = params)
-            resp.raise_for_status()
-            data = resp.json() 
+    for attempt in range(3):
+        try: 
+            async with httpx.AsyncClient(timeout = 15.0) as client:
+                resp = await client.get(GDELT_DOC_API, params = params)
+                if resp.status_code == 429:
+                    wait = 10.0 * (attempt + 1)
+                    logger.debug(f"GDELT 429 for {ticker}/{date}, retrying in {wait}s (attempt {attempt + 1}/3)")
+                    await asyncio.sleep(wait)
+                    continue 
+                resp.raise_for_status()
+                data = resp.json()
+                for item in data.get("articles", []):
+                    title = item.get("title", "")
+                    if title:
+                        articles.append({
+                            "title": title,
+                            "source": item.get("domain", "unknown"),
+                            "url": item.get("url", ""),
+                            "tone": item.get("tone", 0),
+                        })
+                break
+        except Exception as e:
+            if attempt < 2:
+                await asyncio.sleep(2.0 * (attempt + 1))
+            else:
+                logger.debug(f"GDELT failed for {ticker}/{date} after 3 attempts: {e}")
 
-            articles = []
-            for item in data.get("articles", []):
-                title = item.get("title", "")
-                if title:
-                    articles.append({
-                        "title": title,
-                        "source": item.get("domain", "unknown"),
-                        "url": item.get("url", ""),
-                        "tone": item.get("tone", 0),
-                    })
+    #Attempt 2: NewsAPI (only works for last ~30 days)
+    if not articles:
+        try:
+            days_ago = (datetime.now() - move_date).days
+            if days_ago <= 30 and settings.NEWSAPI_KEY:
+                from_date = (move_date - timedelta(days = 1)).strftime("%Y-%m-%dT%H:%M:%S")
+                to_date = (move_date + timedelta(days = 1)).strftime("%Y-%m-%dT%H:%M:%S")
+                async with httpx.AsyncClient(timeout = 15.0) as client:
+                    resp = await client.get(
+                        "https://newsapi.org/v2/everything",
+                        params = {
+                            "q": f'"{company_name}" OR "{ticker}"',
+                            "from": from_date,
+                            "to": to_date,
+                            "sortBy": "relevancy",
+                            "pageSize": str(max_articles),
+                            "language": "en",
+                            "apiKey": settings.NEWSAPI_KEY,
+                        }
+                    )
+                    if resp.status_code == 200:
+                        for item in resp.json().get("articles", []):
+                            title = item.get("title", "")
+                            desc = item.get("description", "")
+                            if title:
+                                articles.append({
+                                    "title": title,
+                                    "source": item.get("source", {}).get("name", "unknown"),
+                                    "url": item.get("url", ""),
+                                    "description": desc or "",
+                                })
+        except Exception as e:
+            logger.debug(f"NewsAPI failed for {ticker}/{date}: {e}")
 
-            return articles[:max_articles]
-    except Exception as e:
-        logger.debug(f" No GDELT results for {ticker} on {date}: {e}")
-        return []
+    return articles[:max_articles]
     
 #-- Claude Labeling --#
 
@@ -191,6 +253,10 @@ async def label_move_with_claude(
     """
     Using Claude to label the historical move and its associated articles.
     This is the "teacher" that generates training data for the SLM
+
+    When articles are available: label based on article content
+    When articles are missing: Claude uses its training knowledge about 
+    earnings dates, Fed meetings, geopolitical events, etc. to classify
     """
 
     llm = ChatAnthropic(
@@ -204,9 +270,20 @@ async def label_move_with_claude(
     labeler = llm.with_structured_output(MoveLabelBatch)
 
     articles_text = "\n".join(
-        f"[{i}] ({a['source']}) {a['title']}"
+        f"[{i}] ({a['source']}) {a['title']}" + (f" - {a['description'][:200]}" if a.get('descripton') else "")
         for i, a in enumerate(articles)
-    ) if articles else "No articles found"
+    ) if articles else "No articles retrieved (API rate limited)."
+
+    #When no articles, ask Claude to use its knowledge
+    knowledge_hint = ""
+    if not articles:
+        knowledge_hint = """
+IMPORTANT: No news articles were retrieved due to API rate limits. However, you likely
+know from your training data what happened to this stock on or around this date.
+Use your knowledge of earnings dates, Fed meetings, geopolitical events, trade policy
+announcements, sector rotations, and other market-moving events to make your best
+classification. Set confidence based on how certain you are of the cause.
+If you genuinely have no idea, use 'unknown' with confidence 0.2."""
 
     prompt = f"""Label this historical stock move and its associated news articles.
 
@@ -215,30 +292,43 @@ MOVE:
 - Date: {move['date']}
 - Change: {move['pct_change']}% ({move['direction']})
 - Magnitude: {move['move_in_sigma']}σ
+{knowledge_hint}
 
 ARTICLES:
 {articles_text}
 
 For the overall move, classify the root cause category.
-For each article, provide relevance, causality, and sentiment scores.
-If no articles are found, still classify the move based on the ticker, date, and magnitude."""
+For each article (if any), provide relevance, causality, and sentiment scores.
+Be specific with the category - avoid 'unknonw' if you can identify a likely cause."""
 
     try:
-        raw_result = await labeler.ainvoke([
+        raw_result: Any = await labeler.ainvoke([
             SystemMessage(content=(
                 "You are a financial data labeler creating training data for an ML model. "
                 "Be precise and consistent. For classification, choose the single best category. "
                 "For sentiment, consider financial implications (layoffs = bearish, "
                 "strong earnings = bullish). For relevance, consider whether the article "
-                "plausibly explains the specific price move."
+                "plausibly explains the specific price move. "
+                "Use your knowledge of financial markets to make informed classifications "
+                "even when article data is limited."
             )),
             HumanMessage(content=prompt),
         ])
-        return (
-            raw_result
-            if isinstance(raw_result, MoveLabelBatch)
-            else MoveLabelBatch.model_validate(raw_result)
+
+        if isinstance(raw_result, MoveLabelBatch):
+            return raw_result
+        if isinstance(raw_result, BaseModel):
+            return cast(MoveLabelBatch, MoveLabelBatch.model_validate(raw_result.model_dump()))
+        if isinstance(raw_result, dict):
+            return cast(MoveLabelBatch, MoveLabelBatch.model_validate(raw_result))
+
+        logger.warning(
+            "Claude labeling returned unexpected type for %s %s: %s",
+            move["ticker"],
+            move["date"],
+            type(raw_result).__name__,
         )
+        return None
     except Exception as e:
         logger.warning(f"Claude labeling failed for {move['ticker']} {move['date']}: {e}")
         return None 
@@ -289,32 +379,52 @@ async def generate_training_dataset(
     rel_examples: List[Dict] = []
 
     #Step 2 and Step 3: Retrieve the news + Label with Claude
+    news_success = 0
+    news_failed = 0
+
     for i, move in enumerate(moves):
         if (i + 1) % 20 == 0:
-            logger.info(f"Progress: {i+1} / {len(moves)} moves processed")
+            logger.info(
+                f"Progress: {i+1}/{len(moves)} moves processed "
+                f"({len(cls_examples)} cls, {len(sent_examples)} sent, {len(rel_examples)} rel)"
+            )
 
         #Retrieve historical news
         articles = await retrieve_historical_news(
             move["ticker"], move["company_name"], move["date"],
         )
+        if articles:
+            news_success += 1
+        else:
+            news_failed += 1
 
         #Label with Claude
         labels = await label_move_with_claude(move, articles)
         if not labels:
             continue 
 
+        #Skip "unknown" labels with very low confidence - they add noise
+        if labels.move_category == "unknown" and labels.move_confidence < 0.3:
+            continue 
+
         # -- Extract classificaiton examples -- %
         #Use the move description as a classification example
-        move_text = (
-            f"{move['company_name']} ({move['ticker']}) stock moved "
-            f"{move['pct_change']}% {move['direction']}. "
-            f"Magnitude: {move['move_in_sigma']} standard deviations."
-        )
-
-        #Add article titles for richer context
         if articles:
+            #use article titles as the training text (this is what the SLM sees at inference)
             article_titles = " | ".join(a["title"] for a in articles[:5])
-            move_text += f" Related news: {article_titles}"
+            move_text = (
+                f"{move['company_name']} ({move['ticker']}) {move['pct_change']}% "
+                f"{move['direction']} ({move['move_in_sigma']} sigma). "
+                f"News: {article_titles}"
+            )
+        else:
+            #Generate context-rich text for Claude labeled moves without articles
+            #Include ticker, date, direction, magnitude - the SLM learns from the pattern
+            move_text = (
+                f"{move['company_name']} ({move['ticker']}) stock moved"
+                f"{move['pct_change']}% {move['direction']} on {move['date']}. "
+                f"Magnitude: {move['move_in_sigma']} standard deviations"
+            )
 
         if labels.move_category in CLASSIFICATION_LABELS:
             cls_examples.append(asdict(ClassificationExample(
@@ -333,6 +443,9 @@ async def generate_training_dataset(
                 break 
 
             article_text = articles[j]["title"]
+            desc = articles[j].get("description", "")
+            if desc:
+                article_text = f"{article_text}. {desc[:200]}"
 
             #Sentiment example
             sent_examples.append(asdict(SentimentExample(
@@ -354,8 +467,12 @@ async def generate_training_dataset(
                 move_pct = move["pct_change"]
             )))
 
-        #Rate limit 
-        await asyncio.sleep(0.5)
+        #Rate limit: longer delay if GDELT is struggling
+        await asyncio.sleep(2.0 if news_failed > news_success else 0.5)
+    logger.info(
+        f"News retrieval: {news_success} successful, {news_failed} failed "
+        f"({news_success/(news_success + news_failed) * 100:.0f}% hit rate)"
+    )
 
     #Step 4: Saving datasets
     for name, examples in [
