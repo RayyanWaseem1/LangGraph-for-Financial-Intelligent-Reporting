@@ -678,3 +678,245 @@ For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/St
 2026-03-06 14:57:21,465 - Pipeline.intelligence_workflow - INFO - Pipeline complete: 7 alerts, 2 critical, 100.5s | SLM → LLM (2-agent architecture)
 2026-03-06 14:57:21,467 - __main__ - INFO -  Brief saved to: market_breif_20260306_195721.json
 2026-03-06 14:57:21,467 - __main__ - INFO - Pipeline Completed!
+2026-03-10 13:47:49,719 - Data.market_monitor - WARNING - Failed to fetch S&p500 list: HTTP Error 403: Forbidden. Using cached list.
+2026-03-10 13:47:49,721 - Data.market_monitor - INFO - Monitoring 50 tickers (S&P 500)
+2026-03-10 13:47:49,748 - __main__ - INFO - ======================================================================
+2026-03-10 13:47:49,748 - __main__ - INFO - Financial Intelligence Pipeline
+2026-03-10 13:47:49,748 - __main__ - INFO - ======================================================================
+2026-03-10 13:47:49,748 - __main__ - INFO - 
+ [1/6] Scanning the portfolio for significant moves ...
+2026-03-10 13:47:49,748 - Data.market_monitor - INFO - Scanning 50 tickers for significant moves 
+2026-03-10 13:48:00,546 - Data.market_monitor - INFO - Scan complete: 2 signficant moves detectedout of 50 tickers
+2026-03-10 13:48:00,547 - __main__ - INFO -  2 raw significant moves detected
+2026-03-10 13:48:00,548 - __main__ - INFO - 
+ [2/6] Decomposing moves into market/sector/idiosyncratic components...
+2026-03-10 13:48:00,548 - Quant.factor_decomposition - INFO - Decomposing 2 moves into factor components
+2026-03-10 13:48:00,964 - Quant.factor_decomposition - INFO - Decomposition complete: 2 significant idiosyncratic moves, 0 mostly systematic (filtered out)
+2026-03-10 13:48:00,964 - __main__ - INFO - Factor decomposition: 2 genuine idiosyncratic moves, 0 filtered (explained by market/sector beta)
+2026-03-10 13:48:00,964 - __main__ - INFO - [3/6] Computing prediction residuals (what can't the model explain?) ...
+2026-03-10 13:48:01,830 - __main__ - INFO - Prediction model fitted: 0 tickers | Average residual sigma: 0.0
+2026-03-10 13:48:01,831 - __main__ - INFO - 
+[4/6] Retrieving news for 2 idiosyncratic moves
+2026-03-10 13:48:01,831 - Data.news_retriever - INFO - Retrieving news for 2 unique tickers (lookback = 72h)
+2026-03-10 13:48:02,346 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22+OR+%22%24UPS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 13:48:02,359 - Data.news_retriever - WARNING - GDELT parse error for UPS: Expecting value: line 1 column 1 (char 0)
+2026-03-10 13:48:02,652 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22&from=2026-03-07T17%3A48%3A02&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 13:48:04,510 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Broadcom%22+OR+%22AVGO%22+OR+%22%24AVGO%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 13:48:04,513 - Data.news_retriever - WARNING - GDELT search failed for AVGO: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Broadcom%22+OR+%22AVGO%22+OR+%22%24AVGO%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 13:48:04,622 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Broadcom%22+OR+%22AVGO%22&from=2026-03-07T17%3A48%3A04&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 13:48:04,629 - Data.news_retriever - INFO - Retrieved 36 total articles for 2 tickers
+2026-03-10 13:48:04,629 - __main__ - INFO - Retrieved 36 articles for 2 tickers
+2026-03-10 13:48:04,629 - __main__ - INFO - 
+ [5/6] Building causal grpah (clustering related moves) ...
+2026-03-10 13:48:04,629 - Quant.causal_graph - INFO - Building causal graph for 2 flagged tickers
+2026-03-10 13:48:04,902 - Quant.causal_graph - WARNING - Matrix shape mismatch in causal graph builder (corr=(3, 3), partial=(2, 2), tickers=3). Truncating to 2.
+2026-03-10 13:48:04,903 - Quant.causal_graph - INFO - Causal graph: 1 clusters (1 multi-move, 0 singletons), 1 edges
+2026-03-10 13:48:04,903 - __main__ - INFO - 
+ [6/6] Running SLM -> LLM intelligence pipeline on 1 clusters...
+2026-03-10 13:48:04,917 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-10 13:48:04,917 - Pipeline.intelligence_workflow - INFO - [Agent 1: SLM] Classification + Sentiment + Relevance
+2026-03-10 13:48:04,917 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-10 13:48:05,170 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-10 13:48:05,221 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-10 13:48:05,306 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-10 13:48:05,307 - huggingface_hub.utils._http - WARNING - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-03-10 13:48:05,356 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-10 13:48:05,433 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-03-10 13:48:05,508 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-03-10 13:48:05,604 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-10 13:48:05,658 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-10 13:48:06,334 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-03-10 13:48:06,435 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-03-10 13:48:06,605 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/main "HTTP/1.1 200 OK"
+2026-03-10 13:48:06,773 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/discussions?p=0 "HTTP/1.1 200 OK"
+2026-03-10 13:48:06,877 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/refs%2Fpr%2F29 "HTTP/1.1 200 OK"
+2026-03-10 13:48:06,920 - Pipeline.intelligence_workflow - INFO - SLM loaded - using local model for classification/sentiment/relevance
+2026-03-10 13:48:06,920 - Pipeline.intelligence_workflow - INFO - [SLM] Running local inference ... 
+2026-03-10 13:48:06,953 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+2026-03-10 13:48:07,045 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors "HTTP/1.1 302 Found"
+2026-03-10 13:48:07,685 - Pipeline.intelligence_workflow - INFO - [SLM] Processed 2 moves locally
+2026-03-10 13:48:07,685 - Pipeline.intelligence_workflow - INFO - [Agent 1] Enriched 2 moves
+2026-03-10 13:48:07,686 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-10 13:48:07,686 - Pipeline.intelligence_workflow - INFO - [Agent 2: LLM] Impact Assessment + Synthesis + Brief
+2026-03-10 13:48:07,686 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-10 13:48:56,432 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-10 13:48:56,459 - Pipeline.intelligence_workflow - INFO - [Agent 2] Generated 2 alerts, 0 critical (1 LLM call)
+2026-03-10 13:48:56,460 - Pipeline.intelligence_workflow - WARNING - Alert construction failed for UPS: 'company_event' is not a valid MarketImpactCategory
+2026-03-10 13:48:56,460 - Pipeline.intelligence_workflow - WARNING - Alert construction failed for AVGO: 'company_event' is not a valid MarketImpactCategory
+2026-03-10 13:48:56,460 - Pipeline.intelligence_workflow - INFO - Pipeline complete: 0 alerts, 0 critical, 51.6s | SLM → LLM (2-agent architecture)
+2026-03-10 13:48:56,461 - __main__ - INFO -  Brief saved to: market_breif_20260310_174856.json
+2026-03-10 13:48:56,461 - __main__ - INFO - Pipeline Completed!
+2026-03-10 14:25:21,763 - Data.market_monitor - INFO - Fetched 503 S&P500 tickers from Wikipedia
+2026-03-10 14:25:21,764 - Data.market_monitor - INFO - Monitoring 503 tickers (S&P 500)
+2026-03-10 14:25:21,778 - __main__ - INFO - ======================================================================
+2026-03-10 14:25:21,778 - __main__ - INFO - Financial Intelligence Pipeline
+2026-03-10 14:25:21,778 - __main__ - INFO - ======================================================================
+2026-03-10 14:25:21,778 - __main__ - INFO - 
+ [1/6] Scanning the portfolio for significant moves ...
+2026-03-10 14:25:21,778 - Data.market_monitor - INFO - Scanning 503 tickers for significant moves 
+2026-03-10 14:28:18,893 - Data.market_monitor - INFO - Scan complete: 38 signficant moves detectedout of 503 tickers
+2026-03-10 14:28:18,894 - __main__ - INFO -  38 raw significant moves detected
+2026-03-10 14:28:18,894 - __main__ - INFO - 
+ [2/6] Decomposing moves into market/sector/idiosyncratic components...
+2026-03-10 14:28:18,894 - Quant.factor_decomposition - INFO - Decomposing 38 moves into factor components
+2026-03-10 14:28:20,200 - Quant.factor_decomposition - INFO - Decomposition complete: 34 significant idiosyncratic moves, 4 mostly systematic (filtered out)
+2026-03-10 14:28:20,200 - __main__ - INFO - Factor decomposition: 34 genuine idiosyncratic moves, 4 filtered (explained by market/sector beta)
+2026-03-10 14:28:20,200 - __main__ - INFO - [3/6] Computing prediction residuals (what can't the model explain?) ...
+2026-03-10 14:28:30,259 - __main__ - INFO - Prediction model fitted: 0 tickers | Average residual sigma: 0.0
+2026-03-10 14:28:30,260 - __main__ - INFO - 
+[4/6] Retrieving news for 34 idiosyncratic moves
+2026-03-10 14:28:30,260 - Data.news_retriever - INFO - Retrieving news for 32 unique tickers (lookback = 72h)
+2026-03-10 14:28:30,576 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Centene+Corporation%22+OR+%22CNC%22+OR+%22%24CNC%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:28:30,579 - Data.news_retriever - WARNING - GDELT parse error for CNC: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:28:30,860 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Centene+Corporation%22+OR+%22CNC%22&from=2026-03-07T18%3A28%3A30&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:28:32,715 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Vertex+Pharmaceuticals+Incorporated%22+OR+%22VRTX%22+OR+%22%24VRTX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:28:32,717 - Data.news_retriever - WARNING - GDELT parse error for VRTX: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:28:32,800 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Vertex+Pharmaceuticals+Incorporated%22+OR+%22VRTX%22&from=2026-03-07T18%3A28%3A32&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:28:34,648 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Waste+Management%2C+Inc.%22+OR+%22WM%22+OR+%22%24WM%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:28:34,658 - Data.news_retriever - WARNING - GDELT parse error for WM: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:28:34,771 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Waste+Management%2C+Inc.%22+OR+%22WM%22&from=2026-03-07T18%3A28%3A34&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:28:36,612 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22The+Cooper+Companies%2C+Inc.%22+OR+%22COO%22+OR+%22%24COO%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:28:36,616 - Data.news_retriever - WARNING - GDELT search failed for COO: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22The+Cooper+Companies%2C+Inc.%22+OR+%22COO%22+OR+%22%24COO%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:28:36,714 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22The+Cooper+Companies%2C+Inc.%22+OR+%22COO%22&from=2026-03-07T18%3A28%3A36&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:28:38,641 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22+OR+%22%24UPS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:28:38,651 - Data.news_retriever - WARNING - GDELT parse error for UPS: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:28:38,757 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22United+Parcel+Service%2C+Inc.%22+OR+%22UPS%22&from=2026-03-07T18%3A28%3A38&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:28:40,603 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Republic+Services%2C+Inc.%22+OR+%22RSG%22+OR+%22%24RSG%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:28:40,606 - Data.news_retriever - WARNING - GDELT search failed for RSG: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Republic+Services%2C+Inc.%22+OR+%22RSG%22+OR+%22%24RSG%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:28:40,682 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Republic+Services%2C+Inc.%22+OR+%22RSG%22&from=2026-03-07T18%3A28%3A40&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:28:42,529 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Avery+Dennison+Corporation%22+OR+%22AVY%22+OR+%22%24AVY%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:28:42,535 - Data.news_retriever - WARNING - GDELT parse error for AVY: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:28:42,621 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Avery+Dennison+Corporation%22+OR+%22AVY%22&from=2026-03-07T18%3A28%3A42&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:28:44,552 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22West+Pharmaceutical+Services%2C+Inc.%22+OR+%22WST%22+OR+%22%24WST%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:28:44,554 - Data.news_retriever - WARNING - GDELT search failed for WST: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22West+Pharmaceutical+Services%2C+Inc.%22+OR+%22WST%22+OR+%22%24WST%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:28:44,646 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22West+Pharmaceutical+Services%2C+Inc.%22+OR+%22WST%22&from=2026-03-07T18%3A28%3A44&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:28:46,474 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ross+Stores%2C+Inc.%22+OR+%22ROST%22+OR+%22%24ROST%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:28:46,476 - Data.news_retriever - WARNING - GDELT parse error for ROST: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:28:46,575 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Ross+Stores%2C+Inc.%22+OR+%22ROST%22&from=2026-03-07T18%3A28%3A46&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:28:48,418 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22CME+Group+Inc.%22+OR+%22CME%22+OR+%22%24CME%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:28:48,422 - Data.news_retriever - WARNING - GDELT search failed for CME: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22CME+Group+Inc.%22+OR+%22CME%22+OR+%22%24CME%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:28:48,516 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22CME+Group+Inc.%22+OR+%22CME%22&from=2026-03-07T18%3A28%3A48&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:28:50,374 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Cboe+Global+Markets%2C+Inc.%22+OR+%22CBOE%22+OR+%22%24CBOE%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:28:50,377 - Data.news_retriever - WARNING - GDELT search failed for CBOE: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Cboe+Global+Markets%2C+Inc.%22+OR+%22CBOE%22+OR+%22%24CBOE%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:28:50,480 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Cboe+Global+Markets%2C+Inc.%22+OR+%22CBOE%22&from=2026-03-07T18%3A28%3A50&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:28:52,325 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Medtronic+plc%22+OR+%22MDT%22+OR+%22%24MDT%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:28:52,328 - Data.news_retriever - WARNING - GDELT parse error for MDT: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:28:52,416 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Medtronic+plc%22+OR+%22MDT%22&from=2026-03-07T18%3A28%3A52&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:28:54,248 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22PPG+Industries%2C+Inc.%22+OR+%22PPG%22+OR+%22%24PPG%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:28:54,250 - Data.news_retriever - WARNING - GDELT parse error for PPG: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:28:54,354 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22PPG+Industries%2C+Inc.%22+OR+%22PPG%22&from=2026-03-07T18%3A28%3A54&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:28:57,348 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Amcor+plc%22+OR+%22AMCR%22+OR+%22%24AMCR%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:28:57,354 - Data.news_retriever - WARNING - GDELT parse error for AMCR: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:28:57,445 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Amcor+plc%22+OR+%22AMCR%22&from=2026-03-07T18%3A28%3A57&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:01,650 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22W.+R.+Berkley+Corporation%22+OR+%22WRB%22+OR+%22%24WRB%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:29:01,657 - Data.news_retriever - WARNING - GDELT parse error for WRB: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:29:01,762 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22W.+R.+Berkley+Corporation%22+OR+%22WRB%22&from=2026-03-07T18%3A29%3A01&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:03,719 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22The+TJX+Companies%2C+Inc.%22+OR+%22TJX%22+OR+%22%24TJX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:29:03,723 - Data.news_retriever - WARNING - GDELT search failed for TJX: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22The+TJX+Companies%2C+Inc.%22+OR+%22TJX%22+OR+%22%24TJX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:29:03,810 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22The+TJX+Companies%2C+Inc.%22+OR+%22TJX%22&from=2026-03-07T18%3A29%3A03&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:05,676 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Otis+Worldwide+Corporation%22+OR+%22OTIS%22+OR+%22%24OTIS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:29:05,681 - Data.news_retriever - WARNING - GDELT search failed for OTIS: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Otis+Worldwide+Corporation%22+OR+%22OTIS%22+OR+%22%24OTIS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:29:05,778 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Otis+Worldwide+Corporation%22+OR+%22OTIS%22&from=2026-03-07T18%3A29%3A05&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:07,588 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22STERIS+plc%22+OR+%22STE%22+OR+%22%24STE%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:29:07,590 - Data.news_retriever - WARNING - GDELT search failed for STE: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22STERIS+plc%22+OR+%22STE%22+OR+%22%24STE%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:29:07,676 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22STERIS+plc%22+OR+%22STE%22&from=2026-03-07T18%3A29%3A07&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:09,515 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22A.+O.+Smith+Corporation%22+OR+%22AOS%22+OR+%22%24AOS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:29:09,525 - Data.news_retriever - WARNING - GDELT parse error for AOS: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:29:09,649 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22A.+O.+Smith+Corporation%22+OR+%22AOS%22&from=2026-03-07T18%3A29%3A09&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:12,496 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Stryker+Corporation%22+OR+%22SYK%22+OR+%22%24SYK%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:29:12,498 - Data.news_retriever - WARNING - GDELT search failed for SYK: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Stryker+Corporation%22+OR+%22SYK%22+OR+%22%24SYK%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:29:12,583 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Stryker+Corporation%22+OR+%22SYK%22&from=2026-03-07T18%3A29%3A12&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:14,430 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22LyondellBasell+Industries+N.V.%22+OR+%22LYB%22+OR+%22%24LYB%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:29:14,440 - Data.news_retriever - WARNING - GDELT search failed for LYB: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22LyondellBasell+Industries+N.V.%22+OR+%22LYB%22+OR+%22%24LYB%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:29:14,533 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22LyondellBasell+Industries+N.V.%22+OR+%22LYB%22&from=2026-03-07T18%3A29%3A14&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:16,382 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Paycom+Software%2C+Inc.%22+OR+%22PAYC%22+OR+%22%24PAYC%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:29:16,392 - Data.news_retriever - WARNING - GDELT search failed for PAYC: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Paycom+Software%2C+Inc.%22+OR+%22PAYC%22+OR+%22%24PAYC%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:29:16,478 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Paycom+Software%2C+Inc.%22+OR+%22PAYC%22&from=2026-03-07T18%3A29%3A16&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:18,462 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Paramount+Skydance+Corporation%22+OR+%22PSKY%22+OR+%22%24PSKY%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:29:18,464 - Data.news_retriever - WARNING - GDELT parse error for PSKY: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:29:18,569 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Paramount+Skydance+Corporation%22+OR+%22PSKY%22&from=2026-03-07T18%3A29%3A18&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:20,410 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Dow+Inc.%22+OR+%22DOW%22+OR+%22%24DOW%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:29:20,412 - Data.news_retriever - WARNING - GDELT search failed for DOW: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Dow+Inc.%22+OR+%22DOW%22+OR+%22%24DOW%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:29:20,537 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Dow+Inc.%22+OR+%22DOW%22&from=2026-03-07T18%3A29%3A20&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:22,372 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Rentals%2C+Inc.%22+OR+%22URI%22+OR+%22%24URI%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:29:22,375 - Data.news_retriever - WARNING - GDELT search failed for URI: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Rentals%2C+Inc.%22+OR+%22URI%22+OR+%22%24URI%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:29:22,490 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22United+Rentals%2C+Inc.%22+OR+%22URI%22&from=2026-03-07T18%3A29%3A22&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:24,343 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Arista+Networks%2C+Inc.%22+OR+%22ANET%22+OR+%22%24ANET%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:29:24,353 - Data.news_retriever - WARNING - GDELT parse error for ANET: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:29:24,448 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Arista+Networks%2C+Inc.%22+OR+%22ANET%22&from=2026-03-07T18%3A29%3A24&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:26,300 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Corning+Incorporated%22+OR+%22GLW%22+OR+%22%24GLW%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:29:26,303 - Data.news_retriever - WARNING - GDELT search failed for GLW: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Corning+Incorporated%22+OR+%22GLW%22+OR+%22%24GLW%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:29:26,378 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Corning+Incorporated%22+OR+%22GLW%22&from=2026-03-07T18%3A29%3A26&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:28,206 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Airlines+Holdings%2C+Inc.%22+OR+%22UAL%22+OR+%22%24UAL%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:29:28,216 - Data.news_retriever - WARNING - GDELT search failed for UAL: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22United+Airlines+Holdings%2C+Inc.%22+OR+%22UAL%22+OR+%22%24UAL%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:29:28,305 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22United+Airlines+Holdings%2C+Inc.%22+OR+%22UAL%22&from=2026-03-07T18%3A29%3A28&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:30,158 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22CrowdStrike+Holdings%2C+Inc.%22+OR+%22CRWD%22+OR+%22%24CRWD%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:29:30,167 - Data.news_retriever - WARNING - GDELT parse error for CRWD: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:29:30,297 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22CrowdStrike+Holdings%2C+Inc.%22+OR+%22CRWD%22&from=2026-03-07T18%3A29%3A30&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:32,197 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22AppLovin+Corporation%22+OR+%22APP%22+OR+%22%24APP%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-10 14:29:32,200 - Data.news_retriever - WARNING - GDELT parse error for APP: Expecting value: line 1 column 1 (char 0)
+2026-03-10 14:29:32,339 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22AppLovin+Corporation%22+OR+%22APP%22&from=2026-03-07T18%3A29%3A32&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:34,165 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22EPAM+Systems%2C+Inc.%22+OR+%22EPAM%22+OR+%22%24EPAM%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:29:34,175 - Data.news_retriever - WARNING - GDELT search failed for EPAM: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22EPAM+Systems%2C+Inc.%22+OR+%22EPAM%22+OR+%22%24EPAM%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:29:34,253 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22EPAM+Systems%2C+Inc.%22+OR+%22EPAM%22&from=2026-03-07T18%3A29%3A34&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:36,129 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Moderna%2C+Inc.%22+OR+%22MRNA%22+OR+%22%24MRNA%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-10 14:29:36,135 - Data.news_retriever - WARNING - GDELT search failed for MRNA: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Moderna%2C+Inc.%22+OR+%22MRNA%22+OR+%22%24MRNA%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-10 14:29:36,313 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Moderna%2C+Inc.%22+OR+%22MRNA%22&from=2026-03-07T18%3A29%3A36&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-10 14:29:36,314 - Data.news_retriever - INFO - Retrieved 220 total articles for 32 tickers
+2026-03-10 14:29:36,314 - __main__ - INFO - Retrieved 220 articles for 32 tickers
+2026-03-10 14:29:36,315 - __main__ - INFO - 
+ [5/6] Building causal grpah (clustering related moves) ...
+2026-03-10 14:29:36,315 - Quant.causal_graph - INFO - Building causal graph for 34 flagged tickers
+2026-03-10 14:29:37,270 - Quant.causal_graph - WARNING - Matrix shape mismatch in causal graph builder (corr=(33, 33), partial=(32, 32), tickers=33). Truncating to 32.
+2026-03-10 14:29:37,287 - Quant.causal_graph - INFO - Causal graph: 3 clusters (3 multi-move, 0 singletons), 69 edges
+2026-03-10 14:29:37,287 - __main__ - INFO - 
+ [6/6] Running SLM -> LLM intelligence pipeline on 3 clusters...
+2026-03-10 14:29:37,298 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-10 14:29:37,298 - Pipeline.intelligence_workflow - INFO - [Agent 1: SLM] Classification + Sentiment + Relevance
+2026-03-10 14:29:37,298 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-10 14:29:37,609 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-10 14:29:37,610 - huggingface_hub.utils._http - WARNING - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-03-10 14:29:37,665 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-10 14:29:37,752 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-10 14:29:37,805 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-10 14:29:37,876 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-03-10 14:29:37,956 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-03-10 14:29:38,063 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-10 14:29:38,110 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-10 14:29:38,662 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-03-10 14:29:38,778 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-03-10 14:29:38,917 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/main "HTTP/1.1 200 OK"
+2026-03-10 14:29:39,029 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/discussions?p=0 "HTTP/1.1 200 OK"
+2026-03-10 14:29:39,166 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/refs%2Fpr%2F29 "HTTP/1.1 200 OK"
+2026-03-10 14:29:39,233 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+2026-03-10 14:29:39,241 - Pipeline.intelligence_workflow - INFO - SLM loaded - using local model for classification/sentiment/relevance
+2026-03-10 14:29:39,242 - Pipeline.intelligence_workflow - INFO - [SLM] Running local inference ... 
+2026-03-10 14:29:39,320 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors "HTTP/1.1 302 Found"
+2026-03-10 14:29:45,539 - Pipeline.intelligence_workflow - INFO - [SLM] Processed 34 moves locally
+2026-03-10 14:29:45,540 - Pipeline.intelligence_workflow - INFO - [Agent 1] Enriched 34 moves
+2026-03-10 14:29:45,541 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-10 14:29:45,541 - Pipeline.intelligence_workflow - INFO - [Agent 2: LLM] Impact Assessment + Synthesis + Brief
+2026-03-10 14:29:45,541 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-10 14:31:49,241 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-10 14:31:49,269 - Pipeline.intelligence_workflow - INFO - [Agent 2] Generated 25 alerts, 5 critical (1 LLM call)
+2026-03-10 14:31:49,271 - Pipeline.intelligence_workflow - INFO - Pipeline complete: 25 alerts, 5 critical, 132.0s | SLM → LLM (2-agent architecture)
+2026-03-10 14:31:49,274 - __main__ - INFO -  Brief saved to: market_breif_20260310_183149.json
+2026-03-10 14:31:49,275 - __main__ - INFO - Pipeline Completed!

@@ -1,0 +1,74 @@
+(.venv) (base) rayyanwaseem@Rayyans-MacBook-Pro LangGraph-for-Financial-Intelligent-Reporting % python -m Evaluation.run_eval
+2026-03-10 14:40:07,984 - INFO - ================================================================================
+2026-03-10 14:40:07,984 - INFO - Financial Intelligence - Evaluation Suite
+2026-03-10 14:40:07,984 - INFO - ================================================================================
+2026-03-10 14:40:07,984 - INFO - 
+ [1/5] Evaluating Factor Decomposition Model
+2026-03-10 14:40:08,607 - INFO - Evaluating factor model on 25 tickers, 60d test period
+2026-03-10 14:40:17,586 - INFO -  R-squared: 0.4106 | Calibration error: 0.02411 | Normal residuals: 52.0%
+2026-03-10 14:40:17,586 - INFO - 
+ [2/5] Evaluating SLM (FinBERT multi-fask model)
+2026-03-10 14:40:19,656 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-10 14:40:19,705 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-10 14:40:19,776 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-10 14:40:19,835 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-10 14:40:19,925 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-03-10 14:40:20,008 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-03-10 14:40:20,106 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-10 14:40:20,149 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-10 14:40:20,288 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-03-10 14:40:20,392 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-03-10 14:40:20,557 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/main "HTTP/1.1 200 OK"
+Loading weights: 100%|███████████████████████████████████████████████████████████| 199/199 [00:00<00:00, 10427.47it/s, Materializing param=pooler.dense.weight]
+BertModel LOAD REPORT from: ProsusAI/finbert
+Key                          | Status     |  | 
+-----------------------------+------------+--+-
+bert.embeddings.position_ids | UNEXPECTED |  | 
+classifier.weight            | UNEXPECTED |  | 
+classifier.bias              | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED    :can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+2026-03-10 14:40:20,680 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/discussions?p=0 "HTTP/1.1 200 OK"
+2026-03-10 14:40:20,782 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/refs%2Fpr%2F29 "HTTP/1.1 200 OK"
+2026-03-10 14:40:20,903 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+ Loaded fine-tuned SLM from models/financial_slm
+2026-03-10 14:40:20,988 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors "HTTP/1.1 302 Found"
+2026-03-10 14:40:42,239 - INFO - Classification: accuracy = 0.9267, macro F1 = 0.3643, top 3 = 0.9553
+2026-03-10 14:40:48,110 - INFO - Sentiment: MAE = 0.092, Spearman = 0.8565, directional = 0.9266
+2026-03-10 14:40:56,279 - INFO - Relevance: P = 0.8279, R = 0.9806, F1 = 0.8978, AUC = 0.8737
+2026-03-10 14:41:32,790 - INFO - Latency: single = 26.43 ms, Batch100 = 862.28 ms, Speedup = 58.0 x vs API
+2026-03-10 14:41:32,805 - INFO -  Cls F1: 0.3643 |  Sent MAE: 0.092 |  Rel AUC: 0.8737 |  Speedup: 58.0x
+2026-03-10 14:41:32,805 - INFO - 
+ [3/5] Evaluating Causal Graph Clustering
+2026-03-10 14:41:32,897 - INFO - Monitoring 25 tickers (Eval)
+2026-03-10 14:41:32,897 - INFO - Scanning 25 tickers for significant moves 
+2026-03-10 14:41:36,729 - INFO - Scan complete: 0 signficant moves detectedout of 25 tickers
+2026-03-10 14:41:36,730 - INFO - 
+ [4/5] Running LLM-as-Judge evaluation
+2026-03-10 14:41:37,403 - INFO -  No saved briefs found - running pipeline to generate one...
+2026-03-10 14:41:37,404 - INFO - Monitoring 20 tickers (Eval)
+2026-03-10 14:41:37,404 - INFO - Scanning 20 tickers for significant moves 
+2026-03-10 14:41:39,310 - INFO - Scan complete: 0 signficant moves detectedout of 20 tickers
+2026-03-10 14:41:39,310 - INFO - 
+ [5/5] Evaluating Counterfactual Filtering Rate
+2026-03-10 14:41:39,313 - INFO - Monitoring 25 tickers (Eval)
+2026-03-10 14:41:39,313 - INFO - Scanning 25 tickers for significant moves 
+2026-03-10 14:41:41,762 - INFO - Scan complete: 0 signficant moves detectedout of 25 tickers
+2026-03-10 14:41:41,762 - INFO - JSON report: evaluation_results/evaluation_report.json
+2026-03-10 14:41:41,763 - INFO - Markdown report: evaluation_results/evaluation_report.md
+2026-03-10 14:41:41,763 - INFO - 
+ Evlauation complete. Reports saved to evaluation_results/
+
+============================================================
+ EVALUATION SUMMARY
+============================================================
+
+  factor_model:
+    R² = 0.4106 | Calibration err = 0.02411
+
+  slm:
+    Cls F1 = 0.3643 | Rel AUC = 0.8737
+
+  Reports saved to: evaluation_results/
+(.venv) (base) rayyanwaseem@Rayyans-MacBook-Pro LangGraph-for-Financial-Intelligent-Reporting % 

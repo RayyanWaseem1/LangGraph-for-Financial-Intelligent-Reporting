@@ -17,32 +17,43 @@ def _uid() -> str:
 # ── Enums ────────────────────────────────────────────────────────────────────
 
 class MarketImpactCategory(str, Enum):
-    """Root cause categories for significant price moves."""
-    FED_ANNOUNCEMENT = "fed_announcement"
-    RATE_DECISION = "rate_decision"
-    TRADE_WAR = "trade_war"
-    SANCTIONS = "sanctions"
-    MILITARY_CONFLICT = "military_conflict"
-    ELECTION = "election"
-    BILL_SIGNING = "bill_signing"
-    COMMODITY_DISRUPTION = "commodity_disruption"
-    REGULATORY_CHANGE = "regulatory_change"
-    EARNINGS_SURPRISE = "earnings_surprise"
-    MERGER_ACQUISITION = "merger_acquisition"
-    CURRENCY_CRISIS = "currency_crisis"
-    SOVEREIGN_DEBT = "sovereign_debt"
-    CENTRAL_BANK_POLICY = "central_bank_policy"
-    PANDEMIC_HEALTH = "pandemic_health"
-    TECH_DISRUPTION = "tech_disruption"
-    CLIMATE_EVENT = "climate_event"
-    LABOR_MARKET = "labor_market"
-    INFRASTRUCTURE = "infrastructure"
-    GEOPOLITICAL_TENSION = "geopolitical_tension"
-    ECONOMIC_DATA = "economic_data"
-    SECTOR_ROTATION = "sector_rotation"
-    ANALYST_RATING = "analyst_rating"
-    INSIDER_ACTIVITY = "insider_activity"
+    """Root cause categories for significant price moves.
+    Consolidated from 25 -> 6 categories to match SLM output"""
+    EARNINGS = "earnings"
+    MACRO_ECONOMIC = "macro_economic"
+    COMPANY_EVENT = "company_event"
+    GEOPOLITICAL = "geopolitical"
+    SECTOR_MARKET = "sector_market"
     UNKNOWN = "unknown"
+
+    @classmethod
+    def from_label(cls, label: str) -> "MarketImpactCategory":
+        """ Safely convers any label string to a MarketImpactCategory.
+        Handles both the old fine-grained labels and the new consolidated labels"""
+        #Direct match
+        for member in cls:
+            if member.value == label:
+                return member
+        #Map the old fine-grained labels to consolidated
+        OLD_TO_NEW = {
+            "earnings_surprise": "earnings",
+            "fed_announcement": "macro_economic", "rate_decision": "macro_economic",
+            "economic_data": "macro_economic", "central_bank_policy": "macro_economic",
+            "currency_crisis": "macro_economic", "sovereign_debt": "macro_economic",
+            "merger_acquisition": "company_event", "analyst_rating": "company_event",
+            "regulatory_change": "company_event", "insider_activity": "company_event",
+            "tech_disruption": "company_event",
+            "geopolitical_tension": "geopolitical", "trade_war": "geopolitical",
+            "sanctions": "geopolitical", "military_conflict": "geopolitical",
+            "election": "geopolitical", "bill_signing": "geopolitical",
+            "sector_rotation": "sector_market", "commodity_disruption": "sector_market",
+            "labor_market": "sector_market", "infrastructure": "sector_market",
+            "climate_event": "sector_market", "pandemic_health": "sector_market",
+        }
+        mapped = OLD_TO_NEW.get(label)
+        if mapped:
+            return cls(mapped)
+        return cls.UNKNOWN
 
 
 class MoveDirection(str, Enum):
@@ -56,10 +67,10 @@ class MovePeriod(str, Enum):
 
 
 class AlertLevel(str, Enum):
-    CRITICAL = "critical"     # > 3σ move
-    HIGH = "high"             # > 2.5σ move
-    MEDIUM = "medium"         # > 2σ move
-    LOW = "low"               # > 1.5σ move
+    CRITICAL = "critical" # > 3σ move
+    HIGH = "high" # > 2.5σ move
+    MEDIUM = "medium" # > 2σ move
+    LOW = "low" # > 1.5σ move
 
 
 class Sector(str, Enum):
@@ -122,18 +133,18 @@ class PriceMove(BaseModel):
     # Price data
     price_start: float
     price_end: float
-    pct_change: float                    # Raw percentage change
+    pct_change: float # Raw percentage change
     # Volatility context
-    historical_volatility: float         # Annualized σ
-    daily_sigma: float                   # σ of daily returns
-    move_in_sigma: float                 # How many σ this move represents
+    historical_volatility: float # Annualized σ
+    daily_sigma: float # σ of daily returns
+    move_in_sigma: float # How many σ this move represents
     # Threshold info
-    threshold_sigma: float               # What threshold was breached
+    threshold_sigma: float # What threshold was breached
     alert_level: AlertLevel
     # Volume context
     volume: Optional[int] = None
     avg_volume: Optional[int] = None
-    volume_ratio: Optional[float] = None  # volume / avg_volume
+    volume_ratio: Optional[float] = None # volume / avg_volume
     # Metadata
     period_start: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     period_end: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -161,8 +172,8 @@ class NewsArticle(BaseModel):
     source_name: str = ""
     source: EventSource = EventSource.GDELT
     published_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    sentiment_score: float = 0.0         # -1 to 1
-    relevance_score: float = 0.0         # 0 to 1
+    sentiment_score: float = 0.0 # -1 to 1
+    relevance_score: float = 0.0 # 0 to 1
     matched_ticker: str = ""
 
 
@@ -195,16 +206,16 @@ class SectorImpact(BaseModel):
     impact_summary: str = ""
     affected_tickers: List[str] = Field(default_factory=list)
     direction: MoveDirection = MoveDirection.DOWN
-    magnitude: str = "moderate"          # mild, moderate, severe
+    magnitude: str = "moderate" # mild, moderate, severe
 
 
 class ActionRecommendation(BaseModel):
     """Recommended action based on move analysis."""
-    action_type: str = ""                # monitor, hedge, reduce_exposure, opportunistic_buy
+    action_type: str = "" # monitor, hedge, reduce_exposure, opportunistic_buy
     target: str = ""
     urgency: str = "medium"
     rationale: str = ""
-    time_horizon: str = ""               # intraday, this_week, this_month
+    time_horizon: str = "" # intraday, this_week, this_month
 
 
 # ── Alert & Briefing Models ──────────────────────────────────────────────────

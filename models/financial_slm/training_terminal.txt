@@ -1,0 +1,53 @@
+(.venv) (base) rayyanwaseem@Rayyans-MacBook-Pro LangGraph-for-Financial-Intelligent-Reporting % python -m SLM.train \
+    --data-dir training_data \
+    --output-dir models/financial_slm \
+    --backbone ProsusAI/finbert \
+    --epochs 5 \
+    --batch-size 16 \
+    --lr 2e-5 \
+    --freeze-layers 4 \
+    --val-split 0.15
+2026-03-09 20:59:41,919 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-09 20:59:42,004 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-09 20:59:42,065 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-09 20:59:42,092 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-09 20:59:42,151 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-03-09 20:59:42,202 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-03-09 20:59:42,313 - INFO - Loaded 13399 total training examples
+2026-03-09 20:59:42,313 - INFO - Classification distribution (8041 total): earnings = 5944, macro_economic = 1650, company_event = 336, geopolitical = 26, sector_market = 59, unknown = 26
+2026-03-09 20:59:42,331 - INFO - Classification class weights: earnings = 0.13, macro_economic = 0.24, company_event = 0.54, geopolitical = 1.91, sector_market = 1.28, unknown = 1.91 (max ratio: 15.0:1)
+2026-03-09 20:59:42,333 - INFO - Train: 11390 examples, Val: 2009 examples
+2026-03-09 20:59:42,392 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-09 20:59:42,421 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-09 20:59:42,947 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-03-09 20:59:43,020 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-03-09 20:59:43,169 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/main "HTTP/1.1 200 OK"
+Loading weights: 100%|█| 199/199 [00:00<00:00, 10698.93it/s, Materializing param=pooler.dens
+BertModel LOAD REPORT from: ProsusAI/finbert
+Key                          | Status     |  | 
+-----------------------------+------------+--+-
+bert.embeddings.position_ids | UNEXPECTED |  | 
+classifier.weight            | UNEXPECTED |  | 
+classifier.bias              | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED    :can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+2026-03-09 20:59:43,240 - INFO - Model parameters: 109,813,000 total, 81,461,512 trainable
+2026-03-09 20:59:43,240 - INFO - Training on cpu for 5 epochs
+2026-03-09 20:59:43,240 - INFO - Task weights (learnable): classification, sentiment, relevance
+2026-03-09 20:59:43,258 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/discussions?p=0 "HTTP/1.1 200 OK"
+2026-03-09 20:59:43,335 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/refs%2Fpr%2F29 "HTTP/1.1 200 OK"
+2026-03-09 20:59:43,390 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+2026-03-09 20:59:43,437 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors "HTTP/1.1 302 Found"
+2026-03-09 22:58:21,512 - INFO - Epoch 1 / 5 | Train loss: 3.1410 | Val loss: 2.8232 | Weights: cls = 0.99 Sent = 1.01 Rel = 1.01
+2026-03-09 22:58:22,243 - INFO -  New best model saved (loss: 2.8232)
+2026-03-10 00:55:43,786 - INFO - Epoch 2 / 5 | Train loss: 2.7909 | Val loss: 2.6119 | Weights: cls = 0.99 Sent = 1.01 Rel = 1.01
+2026-03-10 00:55:44,512 - INFO -  New best model saved (loss: 2.6119)
+2026-03-10 02:50:28,808 - INFO - Epoch 3 / 5 | Train loss: 2.6286 | Val loss: 2.5270 | Weights: cls = 0.99 Sent = 1.02 Rel = 1.02
+2026-03-10 02:50:29,522 - INFO -  New best model saved (loss: 2.5270)
+2026-03-10 04:43:42,205 - INFO - Epoch 4 / 5 | Train loss: 2.5578 | Val loss: 2.5200 | Weights: cls = 0.98 Sent = 1.02 Rel = 1.02
+2026-03-10 04:43:42,895 - INFO -  New best model saved (loss: 2.5200)
+2026-03-10 06:37:03,286 - INFO - Epoch 5 / 5 | Train loss: 2.5481 | Val loss: 2.5102 | Weights: cls = 0.98 Sent = 1.02 Rel = 1.02
+2026-03-10 06:37:04,018 - INFO -  New best model saved (loss: 2.5102)
+2026-03-10 06:37:04,374 - INFO - Training complete. Models saved to models/financial_slm
+(.venv) (base) rayyanwaseem@Rayyans-MacBook-Pro LangGraph-for-Financial-Intelligent-Reporting % 

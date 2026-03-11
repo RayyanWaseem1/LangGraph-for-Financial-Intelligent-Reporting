@@ -38,12 +38,14 @@ class EvaluationRunner:
         test_data_dir: str = "training_data",
         slm_model_path: str = "models/financial_slm",
         output_dir: str = "evaluation_results",
+        sigma_threshold: float = 2.0,
     ):
         self.tickers = tickers or self._default_tickers()
         self.test_data_dir = test_data_dir
         self.slm_model_path = slm_model_path
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents = True, exist_ok=True)
+        self.sigma_threshold = sigma_threshold
         self.results: Dict = {}
 
     async def run_all(
@@ -155,7 +157,7 @@ class EvaluationRunner:
 
         #Run a live scan to get the actual data
         portfolio = Portfolio(name = "Eval", tickers = self.tickers, use_sp500 = False,
-                              threshold_config=ThresholdConfig())
+                              threshold_config=ThresholdConfig(daily_sigma_threshold=self.sigma_threshold, weekly_sigma_threshold=self.sigma_threshold))
         monitor = MarketMonitor(portfolio)
         moves, _ = monitor.detect_significant_moves()
 
@@ -252,7 +254,7 @@ class EvaluationRunner:
             from Quant.factor_decomposition import FactorDecomposer
 
             portfolio = Portfolio(name = "Eval", tickers = self.tickers[:20],
-                                  use_sp500 = False, threshold_config=ThresholdConfig())
+                                  use_sp500 = False, threshold_config=ThresholdConfig(daily_sigma_threshold=self.sigma_threshold, weekly_sigma_threshold=self.sigma_threshold))
             monitor = MarketMonitor(portfolio)
             moves, snapshot = monitor.detect_significant_moves()
 
@@ -298,7 +300,7 @@ class EvaluationRunner:
 
         #Run live scan 
         portfolio = Portfolio(name = "Eval", tickers = self.tickers,
-                              use_sp500=False, threshold_config=ThresholdConfig())
+                              use_sp500=False, threshold_config=ThresholdConfig(daily_sigma_threshold=self.sigma_threshold, weekly_sigma_threshold=self.sigma_threshold))
         monitor = MarketMonitor(portfolio)
         moves, _ = monitor.detect_significant_moves()
 
@@ -362,20 +364,32 @@ class EvaluationRunner:
             #Calibration table
             cal = fm.get("calibration_curve", {})
             if cal:
+                # Extract distribution fit info
+                dist_fit = cal.get("_distribution_fit", {})
+                if dist_fit:
+                    lines.extend([
+                        f"**Distribution Fit**: Student's t with df={dist_fit.get('student_t_df', 'N/A')} "
+                        f"(Normal calibration error: {dist_fit.get('avg_calibration_error_normal', 'N/A')}, "
+                        f"t-distribution error: {dist_fit.get('avg_calibration_error_t', 'N/A')}, "
+                        f"improvement: {dist_fit.get('improvement_pct', 'N/A')}%)",
+                        "",
+                    ])
+
                 lines.extend([
-                    "**Calibration Curve**:",
+                    "**Calibration Curve (Normal vs Student's t)**:",
                     "",
-                    "| Sigma Threshold | Expected Freq | Empirical Freq | Ratio | Error |",
-                    "|-------------|---------------|----------------|-------|-------|",
+                    "| σ Threshold | Expected (Normal) | Expected (t) | Empirical | Ratio (Normal) | Ratio (t) |",
+                    "|-------------|-------------------|--------------|-----------|----------------|-----------|",
                 ])
-                for key in sorted(cal.keys()):
+                for key in sorted(k for k in cal.keys() if not k.startswith("_")):
                     c = cal[key]
                     lines.append(
-                        f"| {c.get('threshold_sigma', key)} sigma | "
-                        f"{c.get('expected_frequency', 'N/A')} | "
+                        f"| {c.get('threshold_sigma', key)}σ | "
+                        f"{c.get('expected_frequency_normal', c.get('expected_frequency', 'N/A'))} | "
+                        f"{c.get('expected_frequency_t', 'N/A')} | "
                         f"{c.get('empirical_frequency', 'N/A')} | "
-                        f"{c.get('ratio', 'N/A')}x | "
-                        f"{c.get('absolute_error', 'N/A')} |"
+                        f"{c.get('ratio_vs_normal', c.get('ratio', 'N/A'))}x | "
+                        f"{c.get('ratio_vs_t', 'N/A')}x |"
                     )
                 lines.append("")
 
@@ -441,7 +455,7 @@ class EvaluationRunner:
                 f"| Avg Cluster Coherence | {cg.get('avg_cluster_coherence', 'N/A')} |",
                 f"| Clusters | {cg.get('num_clusters', 'N/A')} ({cg.get('num_multi_move', 0)} multi, {cg.get('num_singletons', 0)} singletons) |",
                 f"| Sector-Pure Clusters | {cg.get('pct_sector_pure_clusters', 'N/A')}% |",
-                f"| Epicenter = Max sigma | {cg.get('epicenter_is_max_sigma', 'N/A')}% |",
+                f"| Epicenter = Max σ | {cg.get('epicenter_is_max_sigma', 'N/A')}% |",
                 f"| Edges Same-Sector | {cg.get('pct_edges_same_sector', 'N/A')}% |",
                 "",
             ])
@@ -532,6 +546,8 @@ async def main():
     parser.add_argument("--skip-causal", action="store_true")
     parser.add_argument("--skip-judge", action="store_true")
     parser.add_argument("--skip-counterfactual", action="store_true")
+    parser.add_argument("--sigma", type=float, default = 2.0,
+                        help = "σ threshold for move detection in eval (lower = more moves detected, default: 2.0)")
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -539,6 +555,7 @@ async def main():
     runner = EvaluationRunner(
         tickers=args.tickers,
         output_dir=args.output,
+        sigma_threshold=args.sigma,
     )
 
     results = await runner.run_all(

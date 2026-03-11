@@ -362,7 +362,7 @@ Classify the root cause, provide sentiment scores (-1 to 1) and relevance scores
                 "relevant_articles": relevant[:10],
                 "all_scored_articles": scored_articles,
                 "sector_move_count": sector_moves.get(move.get("sector", ""), 0),
-                "is_broad_market_move": abs(snapshot.get("spy_daily_return", 0) or 0),
+                "is_broad_market_move": abs(snapshot.get("spy_daily_return", 0) or 0) > 1.5,
                 "processed_by": "haiku_fallback",
             })
 
@@ -809,7 +809,7 @@ async def run_intelligence_pipeline(
 
             root_cause = RootCauseAnalysis(
                 ticker=rc_dict.get("ticker", ""),
-                primary_cause=MarketImpactCategory(rc_dict.get("primary_cause", "unknown")),
+                primary_cause=MarketImpactCategory.from_label(rc_dict.get("primary_cause", "unknown")),
                 explanation=rc_dict.get("explanation", ""),
                 confidence=rc_dict.get("confidence", 0),
                 is_company_specific=rc_dict.get("is_company_specific", True),

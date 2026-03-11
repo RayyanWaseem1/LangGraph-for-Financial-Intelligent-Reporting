@@ -2,91 +2,91 @@
   {
     "epoch": 1,
     "train": {
-      "classification": 8.416386349315054,
-      "sentiment": 0.15559299536124754,
-      "relevance": 0.6454936829343271,
-      "total": 9.190589799639884,
+      "classification": 2.3859289511201087,
+      "sentiment": 0.1280631036936059,
+      "relevance": 0.6357008842437455,
+      "total": 3.1409701708327518,
       "task_weights": {
-        "classification": 0.993956983089447,
-        "sentiment": 1.007054090499878,
-        "relevance": 1.006852626800537
+        "classification": 0.9935413002967834,
+        "sentiment": 1.0068109035491943,
+        "relevance": 1.0068187713623047
       }
     },
     "val": {
-      "total": 8.7191,
-      "classification_accuracy": 0.0765
+      "total": 2.8232,
+      "classification_accuracy": 0.8673
     }
   },
   {
     "epoch": 2,
     "train": {
-      "classification": 8.189622971783862,
-      "sentiment": 0.07107933266621863,
-      "relevance": 0.6047623067508253,
-      "total": 8.791267470864767,
+      "classification": 2.1835247477453747,
+      "relevance": 0.5602362999127487,
+      "sentiment": 0.07044113719998008,
+      "total": 2.7909024153532607,
       "task_weights": {
-        "classification": 0.9890427589416504,
-        "sentiment": 1.0124813318252563,
-        "relevance": 1.0122307538986206
+        "classification": 0.9885403513908386,
+        "sentiment": 1.0122219324111938,
+        "relevance": 1.0124094486236572
       }
     },
     "val": {
-      "total": 8.5124,
-      "classification_accuracy": 0.0436
+      "total": 2.6119,
+      "classification_accuracy": 0.8887
     }
   },
   {
     "epoch": 3,
     "train": {
-      "classification": 8.081478036521526,
-      "sentiment": 0.05682551191924206,
-      "relevance": 0.5773785714520497,
-      "total": 8.607658024751737,
+      "classification": 2.1310887189393632,
+      "sentiment": 0.046082620936832436,
+      "relevance": 0.485897234902623,
+      "total": 2.628636992881807,
       "task_weights": {
-        "classification": 0.9859395027160645,
-        "sentiment": 1.0159283876419067,
-        "relevance": 1.0156569480895996
+        "classification": 0.9853121042251587,
+        "sentiment": 1.015627145767212,
+        "relevance": 1.0160328149795532
       }
     },
     "val": {
-      "total": 8.4009,
-      "classification_accuracy": 0.0667
+      "total": 2.527,
+      "classification_accuracy": 0.9011
     }
   },
   {
     "epoch": 4,
     "train": {
-      "classification": 8.054568721169836,
-      "sentiment": 0.048451615655963405,
-      "relevance": 0.5390060186553537,
-      "total": 8.515141934491275,
+      "classification": 2.1090859646877544,
+      "sentiment": 0.04258790519885209,
+      "relevance": 0.44710397325832857,
+      "total": 2.55780113932122,
       "task_weights": {
-        "classification": 0.9846275448799133,
-        "sentiment": 1.017380952835083,
-        "relevance": 1.0171359777450562
+        "classification": 0.9839284420013428,
+        "sentiment": 1.0170888900756836,
+        "relevance": 1.0175100564956665
       }
     },
     "val": {
-      "total": 8.3557,
-      "classification_accuracy": 0.0379
+      "total": 2.52,
+      "classification_accuracy": 0.9044
     }
   },
   {
     "epoch": 5,
     "train": {
-      "classification": 8.081208483724112,
-      "sentiment": 0.05128825413863125,
-      "relevance": 0.5290631443010957,
-      "total": 8.528336831860328,
+      "classification": 2.1042003775580547,
+      "sentiment": 0.045387179880054786,
+      "relevance": 0.4410423679654016,
+      "total": 2.5480695765339925,
       "task_weights": {
-        "classification": 0.9844266176223755,
-        "sentiment": 1.0176018476486206,
-        "relevance": 1.0173581838607788
+        "classification": 0.983709454536438,
+        "sentiment": 1.0173107385635376,
+        "relevance": 1.017722725868225
       }
     },
     "val": {
-      "total": 8.3477,
-      "classification_accuracy": 0.0527
+      "total": 2.5102,
+      "classification_accuracy": 0.9093
     }
   }
 ]

@@ -182,13 +182,14 @@ class FactorModelEvaluator:
             ))
             sec_on_mkt = cov_sec_mkt / (float(np.var(X_train)) + 1e-10)
             X_sec_resid_train = X_sec_train - sec_on_mkt * X_train
-            X_mat_train = np.column_stack((
-                np.ones(Y_train.shape[0], dtype = float), X_train, X_sec_resid_train
-            ))
+            X_mat_train = np.empty((Y_train.shape[0], 3), dtype = float)
+            X_mat_train[:, 0] = 1.0
+            X_mat_train[:, 1] = X_train
+            X_mat_train[:, 2] = X_sec_resid_train
         else:
-            X_mat_train = np.column_stack((
-                np.ones(Y_train.shape[0], dtype = float), X_train
-            ))
+            X_mat_train = np.empty((Y_train.shape[0], 2), dtype = float)
+            X_mat_train[:, 0] = 1.0
+            X_mat_train[:, 1] = X_train
 
         try:
             betas, _, _, _ = np.linalg.lstsq(X_mat_train, Y_train, rcond = None)
@@ -202,13 +203,14 @@ class FactorModelEvaluator:
         if has_sector:
             X_sec_test = test["sector"].to_numpy(dtype = float)
             X_sec_resid_test = X_sec_test - sec_on_mkt * X_test 
-            X_mat_test = np.column_stack((
-                np.ones(Y_test.shape[0], dtype = float), X_test, X_sec_resid_test
-            ))
+            X_mat_test = np.empty((Y_test.shape[0], 3), dtype = float)
+            X_mat_test[:, 0] = 1.0
+            X_mat_test[:, 1] = X_test
+            X_mat_test[:, 2] = X_sec_resid_test
         else:
-            X_mat_test = np.column_stack((
-                np.ones(Y_test.shape[0], dtype = float), X_test
-            ))
+            X_mat_test = np.empty((Y_test.shape[0], 2), dtype = float)
+            X_mat_test[:, 0] = 1.0
+            X_mat_test[:, 1] = X_test
 
         Y_pred = X_mat_test @ betas 
         residuals = Y_test - Y_pred 
@@ -289,9 +291,9 @@ class FactorModelEvaluator:
 
             Y_train = train["ticker"].to_numpy(dtype = float)
             market_train = train["market"].to_numpy(dtype = float)
-            X_train = np.column_stack((
-                np.ones(Y_train.shape[0], dtype = float), market_train
-            ))
+            X_train = np.empty((Y_train.shape[0], 2), dtype = float)
+            X_train[:, 0] = 1.0
+            X_train[:, 1] = market_train
 
             try:
                 betas, _, _, _ = np.linalg.lstsq(X_train, Y_train, rcond = None)
@@ -305,9 +307,9 @@ class FactorModelEvaluator:
 
             Y_test = test["ticker"].to_numpy(dtype = float)
             market_test = test["market"].to_numpy(dtype = float)
-            X_test = np.column_stack((
-                np.ones(Y_test.shape[0], dtype = float), market_test
-            ))
+            X_test = np.empty((Y_test.shape[0], 2), dtype = float)
+            X_test[:, 0] = 1.0
+            X_test[:, 1] = market_test
             test_resid = Y_test - X_test @ betas 
             test_sigma_vals = np.abs(test_resid) / sigma
             all_residual_sigmas.extend(test_sigma_vals.tolist())

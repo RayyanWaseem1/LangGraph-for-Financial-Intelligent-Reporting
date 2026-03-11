@@ -1,0 +1,278 @@
+{
+  "evaluation_timestamp": "2026-03-10T18:40:07.984682+00:00",
+  "tickers_evaluated": [
+    "AAPL",
+    "MSFT",
+    "NVDA",
+    "GOOGL",
+    "AMZN",
+    "META",
+    "TSLA",
+    "JPM",
+    "GS",
+    "MS",
+    "BAC",
+    "XOM",
+    "CVX",
+    "SLB",
+    "JNJ",
+    "UNH",
+    "PFE",
+    "BA",
+    "CAT",
+    "GE",
+    "WMT",
+    "COST",
+    "HD",
+    "NEE",
+    "DUK"
+  ],
+  "components": {
+    "factor_model": {
+      "avg_r_squared": 0.4106,
+      "median_r_squared": 0.3876,
+      "r_squared_by_sector": {
+        "technology": 0.2378,
+        "communications": 0.3818,
+        "consumer_discretionary": 0.3185,
+        "financials": 0.6322,
+        "energy": 0.717,
+        "healthcare": 0.1867,
+        "industrial": 0.3285,
+        "consumer_staples": 0.3375,
+        "utilities": 0.4654
+      },
+      "r_squared_distribution": [
+        0.0,
+        0.1438,
+        0.178,
+        0.1805,
+        0.2055,
+        0.2359,
+        0.2448,
+        0.2544,
+        0.2741,
+        0.2763,
+        0.3299,
+        0.3653,
+        0.3876,
+        0.3988,
+        0.4365,
+        0.5093,
+        0.5377,
+        0.5656,
+        0.5683,
+        0.5909,
+        0.5981,
+        0.6612,
+        0.739,
+        0.7507,
+        0.832
+      ],
+      "avg_jarque_bera_stat": 64.77,
+      "pct_normal_residuals": 52.0,
+      "avg_excess_kurtosis": 2.614,
+      "avg_skewness": -0.129,
+      "avg_beta_std": 0.3399,
+      "max_beta_range": 0.819,
+      "beta_stability_by_sector": {
+        "technology": 0.4208,
+        "communications": 0.3096,
+        "consumer_discretionary": 0.345,
+        "financials": 0.2396,
+        "energy": 0.3938,
+        "healthcare": 0.3896,
+        "industrial": 0.3173,
+        "consumer_staples": 0.3299,
+        "utilities": 0.3305
+      },
+      "calibration_curve": {
+        "1.5": {
+          "threshold_sigma": 1.5,
+          "expected_frequency": 0.13361,
+          "empirical_frequency": 0.15,
+          "absolute_error": 0.01639,
+          "ratio": 1.12,
+          "n_exceedances": 225,
+          "n_total": 1500
+        },
+        "2.0": {
+          "threshold_sigma": 2.0,
+          "expected_frequency": 0.0455,
+          "empirical_frequency": 0.08267,
+          "absolute_error": 0.03717,
+          "ratio": 1.82,
+          "n_exceedances": 124,
+          "n_total": 1500
+        },
+        "2.5": {
+          "threshold_sigma": 2.5,
+          "expected_frequency": 0.01242,
+          "empirical_frequency": 0.038,
+          "absolute_error": 0.02558,
+          "ratio": 3.06,
+          "n_exceedances": 57,
+          "n_total": 1500
+        },
+        "3.0": {
+          "threshold_sigma": 3.0,
+          "expected_frequency": 0.0027,
+          "empirical_frequency": 0.02,
+          "absolute_error": 0.0173,
+          "ratio": 7.41,
+          "n_exceedances": 30,
+          "n_total": 1500
+        }
+      },
+      "calibration_error": 0.02411,
+      "tickers_evaluated": 25,
+      "evaluation_period_days": 60
+    },
+    "slm": {
+      "classification": {
+        "accuracy": 0.9267,
+        "macro_f1": 0.3643,
+        "weighted_f1": 0.9119,
+        "top_3_accuracy": 0.9553,
+        "per_class_f1": {
+          "company_event": 0.3077,
+          "unknown": 0.0,
+          "sector_market": 0.0,
+          "geopolitical": 0.0,
+          "earnings": 0.9587,
+          "macro_economic": 0.9191
+        },
+        "confusion_matrix": {
+          "earnings": {
+            "earnings": 581,
+            "geopolitical": 1,
+            "macro_economic": 5
+          },
+          "macro_economic": {
+            "macro_economic": 159,
+            "earnings": 16,
+            "geopolitical": 1
+          },
+          "company_event": {
+            "macro_economic": 2,
+            "company_event": 6,
+            "earnings": 23
+          },
+          "unknown": {
+            "earnings": 1
+          },
+          "geopolitical": {
+            "macro_economic": 2,
+            "earnings": 1,
+            "company_event": 1
+          },
+          "sector_market": {
+            "company_event": 1,
+            "macro_economic": 2,
+            "earnings": 3
+          }
+        },
+        "most_confused_pairs": [
+          [
+            "company_event",
+            "earnings",
+            23
+          ],
+          [
+            "macro_economic",
+            "earnings",
+            16
+          ],
+          [
+            "earnings",
+            "macro_economic",
+            5
+          ],
+          [
+            "sector_market",
+            "earnings",
+            3
+          ],
+          [
+            "company_event",
+            "macro_economic",
+            2
+          ],
+          [
+            "geopolitical",
+            "macro_economic",
+            2
+          ],
+          [
+            "sector_market",
+            "macro_economic",
+            2
+          ],
+          [
+            "earnings",
+            "geopolitical",
+            1
+          ],
+          [
+            "macro_economic",
+            "geopolitical",
+            1
+          ],
+          [
+            "unknown",
+            "earnings",
+            1
+          ]
+        ],
+        "n_examples": 805
+      },
+      "sentiment": {
+        "mae": 0.092,
+        "rmse": 0.1796,
+        "spearman_correlation": 0.8565,
+        "pearson_correlation": 0.9763,
+        "directional_accuracy": 0.9266,
+        "improvement_over_baseline": 0.0,
+        "n_examples": 218
+      },
+      "relevance": {
+        "precision": 0.8279,
+        "recall": 0.9806,
+        "f1": 0.8978,
+        "auc_roc": 0.8737,
+        "avg_precision": 0.0,
+        "threshold": 0.5,
+        "optimal_threshold": 0.4,
+        "n_examples": 318,
+        "n_positive": 206,
+        "n_negative": 112
+      },
+      "teacher_agreement": {
+        "classification_agreement": 0.9267,
+        "classification_top3_agreement": 0.9553,
+        "sentiment_rank_agreement": 0.8565,
+        "relevance_agreement": 0.8553,
+        "n_compared": 1341
+      },
+      "latency": {
+        "slm_single_ms": 26.43,
+        "slm_batch_100_ms": 862.28,
+        "slm_batch_500_ms": 0.0,
+        "api_single_ms": 0.0,
+        "api_estimated_100": 50000,
+        "speedup_factor": 58.0,
+        "cost_per_1000_slm": 0.0,
+        "cost_per_1000_api": 0.025
+      }
+    },
+    "causal_graph": {
+      "note": "No signifiant moves detecetd for evaluation"
+    },
+    "llm_judge": {
+      "note": "Could not generate test brief"
+    },
+    "counterfactual": {
+      "note": "No moves detected for counterfactual analysis"
+    }
+  }
+}

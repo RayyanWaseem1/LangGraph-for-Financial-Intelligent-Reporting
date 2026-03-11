@@ -30,7 +30,15 @@ def fetch_sp500_tickers() -> List[str]:
     """
 
     try: 
-        table = pd.read_html("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies")[0]
+        import requests
+        #Wikipedia tends to block requests without the User-Agent header
+        resp = requests.get(
+            "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
+            headers = {"User-Agent": "Financial Intelligence/1.0 (Financial Research Tool)"},
+            timeout = 15,
+        )
+        resp.raise_for_status()
+        table = pd.read_html(resp.text)[0]
         tickers = table["Symbol"].str.replace(".", "-", regex = False).tolist()
         logger.info(f"Fetched {len(tickers)} S&P500 tickers from Wikipedia")
         return tickers 
