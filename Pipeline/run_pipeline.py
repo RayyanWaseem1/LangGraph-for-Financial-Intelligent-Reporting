@@ -241,7 +241,7 @@ class FinPipeline:
 
     def _save_brief(self, brief: MarketBrief):
         import json
-        filename = f"market_breif_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
+        filename = f"market_brief_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         with open(filename, "w") as f:
             json.dump(brief.model_dump(), f, indent = 2, default = str)
         logger.info(f" Brief saved to: {filename}")

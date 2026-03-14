@@ -149,6 +149,12 @@ class PriceMove(BaseModel):
     period_start: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     period_end: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     detected_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    # Factor decomposition (populated after decomposition step)
+    market_component: Optional[float] = Field(default=None, description="Return explained by market beta")
+    sector_component: Optional[float] = Field(default=None, description="Return explained by sector beta")
+    idiosyncratic_return: Optional[float] = Field(default=None, description="Unexplained residual return")
+    idiosyncratic_sigma: Optional[float] = Field(default=None, description="Residual in σ units")
+    r_squared: Optional[float] = Field(default=None, description="Factor model R²")
 
 
 class MarketSnapshot(BaseModel):
@@ -250,5 +256,6 @@ class MarketBrief(BaseModel):
     critical_alerts: List[MoveAlert] = Field(default_factory=list)
     sector_summary: Dict[str, str] = Field(default_factory=dict)
     top_recommendations: List[ActionRecommendation] = Field(default_factory=list)
+    causal_clusters: List[Dict[str, Any]] = Field(default_factory=list, description="Causal graph cluster data for evaluation")
     total_articles_analyzed: int = 0
     generation_time_seconds: float = 0.0

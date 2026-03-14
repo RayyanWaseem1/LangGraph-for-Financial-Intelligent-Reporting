@@ -555,6 +555,14 @@ For each cluster:
 3. For multi-move clusters: what shared event links these tickers?
 4. Strategic recommendations considering the causal structure
 
+CRITICAL GROUNDING RULES:
+- ONLY reference tickers that appear in the flagged moves above. Do NOT mention other tickers.
+- Use the EXACT sigma values and return percentages from the input data. Do NOT round or adjust them.
+- If cluster data shows singletons, do NOT invent multi-stock clusters or causal linkages.
+- Do NOT fabricate correlation coefficients, causal probabilities, or coherence scores not provided above.
+- If evidence for a causal explanation is limited, say so explicitly rather than inventing a narrative.
+- Base causal narratives ONLY on the news articles provided in the SLM enrichment, not on general knowledge.
+
 Generate impact assessments per cluster and a synthesized brief."""
 
     assessor = primary_llm.with_structured_output(ImpactAndBrief)
@@ -568,7 +576,11 @@ Generate impact assessments per cluster and a synthesized brief."""
                 "Your job is to explain ONLY the idiosyncratic residuals — the part the quant model "
                 "can't explain. Do NOT attribute moves to broad market conditions (that's already handled). "
                 "For multi-move clusters, identify the shared causal event. "
-                "Be specific about actions, tickers, and time horizons."
+                "Be specific about actions, tickers, and time horizons. "
+                "CRITICAL: Only reference tickers, sigma values, and percentages that appear in the input data. "
+                "Do NOT invent cluster structures, correlation coefficients, or causal probabilities. "
+                "Do NOT reference tickers that are not in the flagged moves list. "
+                "If the data is insufficient to support a causal claim, acknowledge the uncertainty."
             )),
             HumanMessage(content=prompt),
         ])
@@ -797,15 +809,37 @@ async def run_intelligence_pipeline(
         tickers_flagged=brief_data.get("tickers_flagged", 0),
         market_snapshot=market_snapshot,
         sector_summary=brief_data.get("sector_summaries", {}),
+        causal_clusters=clusters_data,  # Persist cluster data for evaluation
         total_articles_analyzed=brief_data.get("total_articles_analyzed", 0),
         generation_time_seconds=round(elapsed, 1),
     )
+
+    # Build lookup from original decomposed moves for decomposition fields
+    # (LLM output may not preserve these, so we inject from the source data)
+    decomp_lookup = {}
+    for md in moves_data:
+        ticker = md.get("ticker", "")
+        if ticker:
+            decomp_lookup[ticker] = {
+                "market_component": md.get("market_component"),
+                "sector_component": md.get("sector_component"),
+                "idiosyncratic_return": md.get("idiosyncratic_return"),
+                "idiosyncratic_sigma": md.get("idiosyncratic_sigma"),
+                "r_squared": md.get("r_squared"),
+            }
 
     # Convert alerts to MoveAlert models
     for alert_data in brief_data.get("alerts", []):
         try:
             move_dict = alert_data.get("move", {})
             rc_dict = alert_data.get("root_cause", {})
+
+            # Inject decomposition fields from original data if missing
+            ticker = alert_data.get("ticker", move_dict.get("ticker", ""))
+            if ticker in decomp_lookup:
+                for field, value in decomp_lookup[ticker].items():
+                    if value is not None and move_dict.get(field) is None:
+                        move_dict[field] = value
 
             root_cause = RootCauseAnalysis(
                 ticker=rc_dict.get("ticker", ""),
@@ -845,6 +879,12 @@ async def run_intelligence_pipeline(
                 move_in_sigma=move_dict.get("move_in_sigma", 0),
                 threshold_sigma=move_dict.get("threshold_sigma", 2.0),
                 alert_level=AlertLevel(move_dict.get("alert_level", "medium")),
+                # Factor decomposition fields (persisted for evaluation)
+                market_component=move_dict.get("market_component"),
+                sector_component=move_dict.get("sector_component"),
+                idiosyncratic_return=move_dict.get("idiosyncratic_return"),
+                idiosyncratic_sigma=move_dict.get("idiosyncratic_sigma"),
+                r_squared=move_dict.get("r_squared"),
             )
 
             alert = MoveAlert(

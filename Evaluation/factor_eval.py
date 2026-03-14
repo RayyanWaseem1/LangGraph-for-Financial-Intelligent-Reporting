@@ -54,9 +54,15 @@ class FactorModelEvaluator:
     """
     Evaluates the factor decomposition model on historical data
     """
-    def __init__(self, lookback_days: int = 252):
+    def __init__(self, lookback_days: int = 252, distribution: str = "normal"):
+        """
+        Params:
+            - lookback_days: Historical data window
+            - distribution: Ability to choose distribution. "Normal" = Gaussian, "student_t" = fitted Student's t, "both" = use t as primary
+        """
         self.lookback_days = lookback_days
         self.decomposer = FactorDecomposer(lookback_days = 120)
+        self.distribution = distribution
 
     def evaluate(
         self,
@@ -257,24 +263,19 @@ class FactorModelEvaluator:
         test_period_days: int,
     ) -> Tuple[Dict, float]:
         """
-        Calibration: do sigma-based thresholds match the empirical frequencies?
-        For each sigma bucket (1.5, 2.0, 2.5, 3.0), we compute:
-            - the expected frequency (under normal distribution)
-            - the empirical frequency (how often residuals actually exceed that sigma)
+        Calibration: do the sigma based thresholds match empirical frequencies?
+        Compares both the normal and fitted student T-distribution predictions.
+
+        Financial returns have fat tails - Normal distribution underestimates tail events 
+        (my prior evaluation showed 3-sigma events at 7.4x expected). Student t should capture
+        this via its degree-of-freedome parameter
         """
         from scipy import stats as scipy_stats
 
         sigma_thresholds = [1.5, 2.0, 2.5, 3.0]
-        #Two-tailed probabilities under normal
-        expected_freq = {
-            "1.5": 2 * (1 - scipy_stats.norm.cdf(1.5)),
-            "2.0": 2 * (1 - scipy_stats.norm.cdf(2.0)),
-            "2.5": 2 * (1 - scipy_stats.norm.cdf(2.5)),
-            "3.0": 2 * (1 - scipy_stats.norm.cdf(3.0)),
-        }
 
-        #Collect all residuals across the tickers 
         all_residual_sigmas = []
+        all_raw_residuals = []
 
         for ticker in tickers:
             if ticker not in data.columns or "SPY" not in data.columns:
@@ -293,7 +294,7 @@ class FactorModelEvaluator:
             market_train = train["market"].to_numpy(dtype = float)
             X_train = np.empty((Y_train.shape[0], 2), dtype = float)
             X_train[:, 0] = 1.0
-            X_train[:, 1] = market_train
+            X_train[:, 1] = market_train 
 
             try:
                 betas, _, _, _ = np.linalg.lstsq(X_train, Y_train, rcond = None)
@@ -305,44 +306,97 @@ class FactorModelEvaluator:
             if sigma < 1e-10:
                 continue 
 
+            #Collecting standardized training residuals for t-distribution fitting
+            standardized_train = train_resid / sigma 
+            all_raw_residuals.extend(standardized_train.tolist())
+
             Y_test = test["ticker"].to_numpy(dtype = float)
             market_test = test["market"].to_numpy(dtype = float)
             X_test = np.empty((Y_test.shape[0], 2), dtype = float)
             X_test[:, 0] = 1.0
-            X_test[:, 1] = market_test
+            X_test[:, 1] = market_test 
             test_resid = Y_test - X_test @ betas 
-            test_sigma_vals = np.abs(test_resid) / sigma
+            test_sigma_vals = np.abs(test_resid) / sigma 
             all_residual_sigmas.extend(test_sigma_vals.tolist())
 
         if not all_residual_sigmas:
             return {}, 0.0
         
+        #Fitting Student t - distribution to pooled standardized residuals
+        raw_arr = np.array(all_raw_residuals, dtype = float)
+        try:
+            df_fitted, loc_fitted, scale_fitted = scipy_stats.t.fit(raw_arr)
+            df_fitted = max(2.1, min(df_fitted, 100.0))
+        except Exception:
+            df_fitted = 5.0
+            loc_fitted, scale_fitted = 0.0, 1.0
+
+        #Expected frequencies under both distributions
+        expected_normal = {}
+        expected_t = {}
+        for threshold in sigma_thresholds:
+            key = str(threshold)
+            expected_normal[key] = 2 * (1 - scipy_stats.norm.cdf(threshold))
+            expected_t[key] = 2 * (1 - scipy_stats.t.cdf(
+                threshold * scale_fitted + loc_fitted, df = df_fitted,
+                loc = loc_fitted, scale = scale_fitted
+            ))
+
         residual_arr = np.array(all_residual_sigmas, dtype = float)
         n_total = len(residual_arr)
 
         calibration = {}
-        total_error = 0.0
+        total_error_normal = 0.0
+        total_error_t = 0.0
 
         for threshold in sigma_thresholds:
             key = str(threshold)
             empirical = float(np.mean(residual_arr >= threshold))
-            expected = float(expected_freq[key])
-            error = float(abs(empirical - expected))
-            total_error += error 
+            exp_normal = expected_normal[key]
+            exp_t = expected_t[key]
+            error_normal = abs(empirical - exp_normal)
+            error_t = abs(empirical - exp_t)
+            total_error_normal += error_normal
+            total_error_t += error_t 
 
             calibration[key] = {
                 "threshold_sigma": threshold,
-                "expected_frequency": round(expected, 5),
+                "expected_frequency_normal": round(exp_normal, 5),
+                "expected_frequency_t": round(exp_t, 5),
                 "empirical_frequency": round(empirical, 5),
-                "absolute_error": round(error, 5),
-                "ratio": round(empirical / (expected + 1e-10), 2),
+                "error_vs_normal": round(error_normal, 5),
+                "error_vs_t": round(error_t, 5),
+                "ratio_vs_normal": round(empirical / (exp_normal + 1e-10), 2),
+                "ratio_vs_t": round(empirical / (exp_t + 1e-10), 2),
                 "n_exceedances": int(np.sum(residual_arr >= threshold)),
                 "n_total": n_total,
             }
 
-        avg_error = total_error / len(sigma_thresholds)
+        avg_error_normal = total_error_normal / len(sigma_thresholds)
+        avg_error_t = total_error_t / len(sigma_thresholds)
 
-        return calibration, round(avg_error, 5)
+        calibration["_distribution_fit"] = {
+            "student_t_df": round(df_fitted, 2),
+            "student_t_loc": round(loc_fitted, 4),
+            "student_t_scale": round(scale_fitted, 4),
+            "avg_calibration_error_normal": round(avg_error_normal, 5),
+            "avg_calibration_error_t": round(avg_error_t, 5),
+            "improvement_pct": round(
+                (1 - avg_error_t / (avg_error_normal + 1e-10)) * 100, 1
+            ),
+        }
+
+        #Return the calibration error based on the chosen distribution
+        if self.distribution == "student_t":
+            primary_error = avg_error_t
+        elif self.distribution == "normal":
+            primary_error = avg_error_normal
+        else: # "both" - defaults to t
+            primary_error = avg_error_t
+
+        return calibration, round(avg_error_t, 5)
+
+        
     
     def _fetch_data(
         self, tickers: List[str] , days: int,
@@ -374,4 +428,4 @@ class FactorModelEvaluator:
             return returns.dropna() if not returns.empty else None 
         except Exception as e:
             logger.error(f"Data fetch failed: {e}")
-            return None 
+            return None

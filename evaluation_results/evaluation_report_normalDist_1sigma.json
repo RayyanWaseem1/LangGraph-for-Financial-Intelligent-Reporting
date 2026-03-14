@@ -1,0 +1,395 @@
+{
+  "evaluation_timestamp": "2026-03-14T00:31:12.248277+00:00",
+  "tickers_evaluated": [
+    "AAPL",
+    "MSFT",
+    "NVDA",
+    "GOOGL",
+    "AMZN",
+    "META",
+    "TSLA",
+    "JPM",
+    "GS",
+    "MS",
+    "BAC",
+    "XOM",
+    "CVX",
+    "SLB",
+    "JNJ",
+    "UNH",
+    "PFE",
+    "BA",
+    "CAT",
+    "GE",
+    "WMT",
+    "COST",
+    "HD",
+    "NEE",
+    "DUK"
+  ],
+  "components": {
+    "factor_model": {
+      "avg_r_squared": 0.4153,
+      "median_r_squared": 0.415,
+      "r_squared_by_sector": {
+        "technology": 0.2795,
+        "communications": 0.4023,
+        "consumer_discretionary": 0.331,
+        "financials": 0.6337,
+        "energy": 0.6685,
+        "healthcare": 0.1425,
+        "industrial": 0.3702,
+        "consumer_staples": 0.3383,
+        "utilities": 0.496
+      },
+      "r_squared_distribution": [
+        0.0416,
+        0.0981,
+        0.1431,
+        0.1864,
+        0.1963,
+        0.2499,
+        0.2614,
+        0.2694,
+        0.2782,
+        0.2814,
+        0.3924,
+        0.3953,
+        0.415,
+        0.4191,
+        0.4621,
+        0.4805,
+        0.5263,
+        0.5438,
+        0.5729,
+        0.5885,
+        0.6026,
+        0.6444,
+        0.744,
+        0.759,
+        0.8315
+      ],
+      "avg_jarque_bera_stat": 71.28,
+      "pct_normal_residuals": 52.0,
+      "avg_excess_kurtosis": 2.79,
+      "avg_skewness": -0.197,
+      "avg_beta_std": 0.3395,
+      "max_beta_range": 0.8134,
+      "beta_stability_by_sector": {
+        "technology": 0.4213,
+        "communications": 0.3114,
+        "consumer_discretionary": 0.345,
+        "financials": 0.2397,
+        "energy": 0.3935,
+        "healthcare": 0.3849,
+        "industrial": 0.3147,
+        "consumer_staples": 0.3355,
+        "utilities": 0.3285
+      },
+      "calibration_curve": {
+        "1.5": {
+          "threshold_sigma": 1.5,
+          "expected_frequency_normal": 0.13361,
+          "expected_frequency_t": 0.19994,
+          "empirical_frequency": 0.148,
+          "error_vs_normal": 0.01439,
+          "error_vs_t": 0.05194,
+          "ratio_vs_normal": 1.11,
+          "ratio_vs_t": 0.74,
+          "n_exceedances": 222,
+          "n_total": 1500
+        },
+        "2.0": {
+          "threshold_sigma": 2.0,
+          "expected_frequency_normal": 0.0455,
+          "expected_frequency_t": 0.10798,
+          "empirical_frequency": 0.07933,
+          "error_vs_normal": 0.03383,
+          "error_vs_t": 0.02865,
+          "ratio_vs_normal": 1.74,
+          "ratio_vs_t": 0.73,
+          "n_exceedances": 119,
+          "n_total": 1500
+        },
+        "2.5": {
+          "threshold_sigma": 2.5,
+          "expected_frequency_normal": 0.01242,
+          "expected_frequency_t": 0.05967,
+          "empirical_frequency": 0.036,
+          "error_vs_normal": 0.02358,
+          "error_vs_t": 0.02367,
+          "ratio_vs_normal": 2.9,
+          "ratio_vs_t": 0.6,
+          "n_exceedances": 54,
+          "n_total": 1500
+        },
+        "3.0": {
+          "threshold_sigma": 3.0,
+          "expected_frequency_normal": 0.0027,
+          "expected_frequency_t": 0.03419,
+          "empirical_frequency": 0.01933,
+          "error_vs_normal": 0.01663,
+          "error_vs_t": 0.01486,
+          "ratio_vs_normal": 7.16,
+          "ratio_vs_t": 0.57,
+          "n_exceedances": 29,
+          "n_total": 1500
+        },
+        "_distribution_fit": {
+          "student_t_df": 4.52,
+          "student_t_loc": 0.0019,
+          "student_t_scale": 0.7481,
+          "avg_calibration_error_normal": 0.02211,
+          "avg_calibration_error_t": 0.02978,
+          "improvement_pct": -34.7
+        }
+      },
+      "calibration_error": 0.02978,
+      "tickers_evaluated": 25,
+      "evaluation_period_days": 60
+    },
+    "slm": {
+      "classification": {
+        "accuracy": 0.9267,
+        "macro_f1": 0.3643,
+        "weighted_f1": 0.9119,
+        "top_3_accuracy": 0.9553,
+        "per_class_f1": {
+          "earnings": 0.9587,
+          "company_event": 0.3077,
+          "unknown": 0.0,
+          "sector_market": 0.0,
+          "geopolitical": 0.0,
+          "macro_economic": 0.9191
+        },
+        "confusion_matrix": {
+          "earnings": {
+            "earnings": 581,
+            "geopolitical": 1,
+            "macro_economic": 5
+          },
+          "macro_economic": {
+            "macro_economic": 159,
+            "earnings": 16,
+            "geopolitical": 1
+          },
+          "company_event": {
+            "macro_economic": 2,
+            "company_event": 6,
+            "earnings": 23
+          },
+          "unknown": {
+            "earnings": 1
+          },
+          "geopolitical": {
+            "macro_economic": 2,
+            "earnings": 1,
+            "company_event": 1
+          },
+          "sector_market": {
+            "company_event": 1,
+            "macro_economic": 2,
+            "earnings": 3
+          }
+        },
+        "most_confused_pairs": [
+          [
+            "company_event",
+            "earnings",
+            23
+          ],
+          [
+            "macro_economic",
+            "earnings",
+            16
+          ],
+          [
+            "earnings",
+            "macro_economic",
+            5
+          ],
+          [
+            "sector_market",
+            "earnings",
+            3
+          ],
+          [
+            "company_event",
+            "macro_economic",
+            2
+          ],
+          [
+            "geopolitical",
+            "macro_economic",
+            2
+          ],
+          [
+            "sector_market",
+            "macro_economic",
+            2
+          ],
+          [
+            "earnings",
+            "geopolitical",
+            1
+          ],
+          [
+            "macro_economic",
+            "geopolitical",
+            1
+          ],
+          [
+            "unknown",
+            "earnings",
+            1
+          ]
+        ],
+        "n_examples": 805
+      },
+      "sentiment": {
+        "mae": 0.092,
+        "rmse": 0.1796,
+        "spearman_correlation": 0.8565,
+        "pearson_correlation": 0.9763,
+        "directional_accuracy": 0.9266,
+        "improvement_over_baseline": 0.0,
+        "n_examples": 218
+      },
+      "relevance": {
+        "precision": 0.8279,
+        "recall": 0.9806,
+        "f1": 0.8978,
+        "auc_roc": 0.8737,
+        "avg_precision": 0.0,
+        "threshold": 0.5,
+        "optimal_threshold": 0.4,
+        "n_examples": 318,
+        "n_positive": 206,
+        "n_negative": 112
+      },
+      "teacher_agreement": {
+        "classification_agreement": 0.9267,
+        "classification_top3_agreement": 0.9553,
+        "sentiment_rank_agreement": 0.8565,
+        "relevance_agreement": 0.8553,
+        "n_compared": 1341
+      },
+      "latency": {
+        "slm_single_ms": 26.3,
+        "slm_batch_100_ms": 899.03,
+        "slm_batch_500_ms": 0.0,
+        "api_single_ms": 0.0,
+        "api_estimated_100": 50000,
+        "speedup_factor": 55.6,
+        "cost_per_1000_slm": 0.0,
+        "cost_per_1000_api": 0.025
+      }
+    },
+    "causal_graph": {
+      "adjusted_rand_index": 1.0,
+      "silhouette_score": 0.5278,
+      "avg_cluster_coherence": 0.414,
+      "num_clusters": 4,
+      "num_singletons": 2,
+      "num_multi_move": 2,
+      "avg_cluster_size": 1.5,
+      "pct_sector_pure_clusters": 100.0,
+      "temporal_stability_score": 0.0,
+      "cluster_persistence_rate": 0.0,
+      "epicenter_is_max_sigma": 50.0,
+      "epicenter_is_earliest": 0.0,
+      "avg_edge_partial_corr": 0.414,
+      "pct_edges_same_sector": 100.0,
+      "n_evaluations": 1
+    },
+    "llm_judge": {
+      "avg_factual_accuracy": 3.0,
+      "avg_causal_reasoning": 4.0,
+      "avg_decomposition_awareness": 5.0,
+      "avg_actionability": 4.0,
+      "avg_information_density": 4.0,
+      "avg_overall_score": 4.0,
+      "std_factual_accuracy": 0.0,
+      "std_causal_reasoning": 0.0,
+      "std_overall_score": 0.0,
+      "pct_briefs_with_hallucinations": 100.0,
+      "pct_briefs_with_attribution_errors": 0.0,
+      "avg_vague_recommendations_per_brief": 2.0,
+      "score_distribution": {
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 3,
+        "5": 1
+      },
+      "n_briefs_evaluated": 1,
+      "individual_judgements": [
+        {
+          "factual_accuracy": 3,
+          "causal_reasoning": 4,
+          "decomposition_awareness": 5,
+          "actionability": 4,
+          "information_density": 4,
+          "overall": 4.0,
+          "hallucinations": [
+            "SNDK +26.2% epicenter - SNDK does not appear in the flagged moves data at all",
+            "MOS +12.7% in header - input only shows MOS at -6.2%, no conflicting positive figure exists",
+            "Specific p-values (0.69, 0.75, 0.40, 0.36, 0.44, 0.46, 0.52, 0.66, 0.53) - these numerical values do not appear in the input data",
+            "MU and WDC as cluster members - these tickers appear in cluster list but not in flagged moves, their actual moves are unknown"
+          ],
+          "attribution_errors": [],
+          "vague_recs": [
+            "Recommendation 2 'investigate catalyst identification' requires additional research before actionable position can be taken",
+            "Recommendation 5 'monitor SNDK' lacks specific entry/exit criteria beyond watching for 'positive catalyst propagation'"
+          ],
+          "overall_assessment": "This is a strong analytical brief that demonstrates excellent understanding of the factor decomposition methodology and appropriately uses cluster coherence to distinguish genuine causation from spurious correlation. The analysis is sophisticated, appropriately skeptical, and actionable. However, it is significantly undermined by the fabrication of SNDK data (+26.2% appears nowhere in input) and the incomplete alerts section. The core analytical framework is sound, but factual errors prevent this from achieving top marks."
+        }
+      ]
+    },
+    "counterfactual": {
+      "filtering_rate": {
+        "total_raw_moves": 11,
+        "passed_idiosyncratic": 7,
+        "filtered_systematic": 4,
+        "filtering_rate_pct": 36.4,
+        "filtered_by_level": {
+          "low": 4
+        },
+        "passed_by_level": {
+          "critical": 6,
+          "low": 1
+        },
+        "filtering_rate_by_sector": {
+          "industrial": 25.0,
+          "consumer_discretionary": 0.0,
+          "financials": 0.0,
+          "energy": 0.0,
+          "communications": 100.0,
+          "technology": 100.0,
+          "utilities": 100.0
+        },
+        "avg_filtered_idio_sigma": 1.07,
+        "max_filtered_idio_sigma": 1.49
+      },
+      "next_day_reversion": {
+        "systematic_reversion_rate": 0.0,
+        "systematic_avg_nextday_corr_with_spy": 0.75,
+        "idiosyncratic_reversion_rate": 57.1,
+        "idiosyncratic_avg_nextday_corr_with_spy": 0.571,
+        "reversion_separation": -57.1,
+        "n_systematic_evaluated": 4,
+        "n_idiosyncratic_evaluated": 7
+      },
+      "event_contamination": {
+        "n_known_events_tested": 2,
+        "correctly_passed": 1,
+        "incorrectly_filtered": 1,
+        "false_negative_rate": 50.0,
+        "false_negative_tickers": [
+          "META (2024-02-02: earnings_beat)"
+        ]
+      },
+      "filter_quality_score": 0.5
+    }
+  }
+}

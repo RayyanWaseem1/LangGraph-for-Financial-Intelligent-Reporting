@@ -1,0 +1,2702 @@
+{
+  "id": "5a8aa44d2327",
+  "date": "2026-03-13 21:25:12.815959+00:00",
+  "executive_summary": "Today's idiosyncratic moves reveal three distinct causal clusters with varying coherence. Cluster 1 (consumer staples/healthcare, coherence 0.50) shows the most severe systematic repricing: CNC collapsed -20.9% (6.5\u03c3) while packaged foods CPB, CAG, and GIS suffered -15.7% to -11.8% moves at extreme 7.4-9.3 sigma levels with tight causal links (p=0.69-0.75). Cluster 0 (technology, coherence 0.24) is bifurcated with SNDK +26.2% epicenter versus ULTA -16.8% (7.3\u03c3), PSKY -18.2% (5.0\u03c3), and ADBE -11.3% (5.7\u03c3) weakness, suggesting diffuse rather than unified causation. Cluster 2 (materials, coherence 0.56) shows the tightest structure with MOS anchoring fertilizer weakness propagating to CF and DOW. The packaged food collapse and CNC managed care crisis demand immediate investigation, while the technology cluster's low coherence suggests multiple independent catalysts rather than a single shared driver.",
+  "portfolio_name": "S&P 500",
+  "tickers_monitored": 503,
+  "tickers_flagged": 40,
+  "market_snapshot": {
+    "spy_daily_return": -0.57,
+    "qqq_daily_return": -0.59,
+    "vix_level": 27.19,
+    "vix_change": -0.1,
+    "treasury_10y": 4.285,
+    "snapshot_time": "2026-03-13 21:19:28.819128+00:00"
+  },
+  "alerts": [
+    {
+      "id": "b62d25ec01a7",
+      "ticker": "ULTA",
+      "company_name": "Ulta Beauty, Inc.",
+      "alert_level": "critical",
+      "title": "ULTA -16.8% Idiosyncratic Drop Anchors 22-Stock Technology/Consumer Discretionary Cluster",
+      "summary": "ULTA experienced a -16.8% idiosyncratic move (7.3 sigma) that shows causal linkage to ADBE (-11.3%, 5.7 sigma) and COO (-8.2%, 5.3 sigma) with p-values of 0.36 and 0.44 respectively. This cluster of 22 stocks spans technology and consumer discretionary sectors with coherence 0.24, suggesting a shared but diffuse driver. The epicenter is actually SNDK (+26.2% idio), creating a bifurcated cluster with extreme positive and negative residuals. Without specific news catalysts provided, the causal mechanism linking beauty retail (ULTA) to enterprise software (ADBE, WDAY, FISV), healthcare tech (RMD, TMO), and memory (MU, WDC, SNDK) remains unclear, though the SNDK surge may indicate sector-specific storage/memory news affecting tech spending expectations.",
+      "move": {
+        "ticker": "ULTA",
+        "company_name": "Ulta Beauty, Inc.",
+        "sector": null,
+        "period": "daily",
+        "direction": "down",
+        "price_start": 624.7,
+        "price_end": 535.72,
+        "pct_change": -14.24,
+        "historical_volatility": 0.393,
+        "daily_sigma": 0.024756,
+        "move_in_sigma": 5.75,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816086+00:00",
+        "period_end": "2026-03-13 21:25:12.816088+00:00",
+        "detected_at": "2026-03-13 21:25:12.816089+00:00",
+        "market_component": -0.39,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -13.9,
+        "idiosyncratic_sigma": 6.09,
+        "r_squared": 0.049
+      },
+      "root_cause": {
+        "ticker": "ULTA",
+        "primary_cause": "earnings",
+        "secondary_causes": [],
+        "explanation": "ULTA experienced a -16.8% idiosyncratic move (7.3 sigma) that shows causal linkage to ADBE (-11.3%, 5.7 sigma) and COO (-8.2%, 5.3 sigma) with p-values of 0.36 and 0.44 respectively. This cluster of 22 stocks spans technology and consumer discretionary sectors with coherence 0.24, suggesting a shared but diffuse driver. The epicenter is actually SNDK (+26.2% idio), creating a bifurcated cluster with extreme positive and negative residuals. Without specific news catalysts provided, the causal mechanism linking beauty retail (ULTA) to enterprise software (ADBE, WDAY, FISV), healthcare tech (RMD, TMO), and memory (MU, WDC, SNDK) remains unclear, though the SNDK surge may indicate sector-specific storage/memory news affecting tech spending expectations.",
+        "confidence": 0.37020623683929443,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "ADBE",
+          "COO",
+          "DG",
+          "CPRT",
+          "RMD",
+          "OTIS",
+          "PSKY",
+          "BR",
+          "ADP",
+          "TMO",
+          "GDDY",
+          "SNDK",
+          "MU",
+          "WDC"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "ULTA, ADBE, PSKY, GDDY",
+          "urgency": "immediate",
+          "rationale": "Extreme sigma events (5.0-7.3\u03c3) with unclear causal driver require news verification",
+          "time_horizon": "intraday"
+        },
+        {
+          "action_type": "hedge",
+          "target": "Consumer discretionary retail exposure (ULTA, DG, BR)",
+          "urgency": "high",
+          "rationale": "Cluster shows -16.8% to -9.2% idiosyncratic moves suggesting unpriced retail-specific risk",
+          "time_horizon": "1-3 days"
+        },
+        {
+          "action_type": "monitor",
+          "target": "SNDK and memory sector (MU, WDC)",
+          "urgency": "medium",
+          "rationale": "SNDK +26.2% epicenter may signal storage/memory catalyst affecting broader tech capex",
+          "time_horizon": "1-5 days"
+        }
+      ],
+      "related_moves": [
+        "ADBE",
+        "COO",
+        "DG",
+        "CPRT",
+        "RMD",
+        "OTIS",
+        "PSKY",
+        "BR",
+        "ADP",
+        "TMO",
+        "GDDY",
+        "SNDK",
+        "MU",
+        "WDC"
+      ],
+      "news_count": 6,
+      "created_at": "2026-03-13 21:25:12.816110+00:00"
+    },
+    {
+      "id": "f1fb2de1d8a0",
+      "ticker": "PODD",
+      "company_name": "Insulet Corporation",
+      "alert_level": "critical",
+      "title": "PODD -6.88%",
+      "summary": "",
+      "move": {
+        "ticker": "PODD",
+        "company_name": "Insulet Corporation",
+        "sector": null,
+        "period": "daily",
+        "direction": "down",
+        "price_start": 236.07,
+        "price_end": 219.84,
+        "pct_change": -6.88,
+        "historical_volatility": 0.3144,
+        "daily_sigma": 0.019808,
+        "move_in_sigma": 3.47,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816133+00:00",
+        "period_end": "2026-03-13 21:25:12.816134+00:00",
+        "detected_at": "2026-03-13 21:25:12.816135+00:00",
+        "market_component": -0.44,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -6.12,
+        "idiosyncratic_sigma": 3.02,
+        "r_squared": 0.077
+      },
+      "root_cause": {
+        "ticker": "PODD",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.27686360478401184,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 1,
+      "created_at": "2026-03-13 21:25:12.816147+00:00"
+    },
+    {
+      "id": "890f633f8f60",
+      "ticker": "ADBE",
+      "company_name": "Adobe Inc.",
+      "alert_level": "critical",
+      "title": "ADBE -11.3% Idiosyncratic Move Shows Causal Links to ULTA, COO, BR, ADP",
+      "summary": "Adobe's -11.3% idiosyncratic residual (5.7 sigma) demonstrates causal relationships with COO (p=0.40), BR (p=0.46), and ADP (p=0.52), suggesting a shared driver beyond sector factors. The connection to ULTA (-16.8%) with p=0.36 is unusual given sector divergence. This may indicate concerns about enterprise software spending, AI monetization challenges, or subscription model pressures affecting multiple business services companies. The move is particularly significant given ADBE's role as a bellwether for creative software and digital experience platforms.",
+      "move": {
+        "ticker": "ADBE",
+        "company_name": "Adobe Inc.",
+        "sector": null,
+        "period": "daily",
+        "direction": "down",
+        "price_start": 269.78,
+        "price_end": 249.32,
+        "pct_change": -7.58,
+        "historical_volatility": 0.3628,
+        "daily_sigma": 0.022851,
+        "move_in_sigma": 3.32,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816169+00:00",
+        "period_end": "2026-03-13 21:25:12.816170+00:00",
+        "detected_at": "2026-03-13 21:25:12.816170+00:00",
+        "market_component": -0.38,
+        "sector_component": -0.07,
+        "idiosyncratic_return": -6.83,
+        "idiosyncratic_sigma": 3.44,
+        "r_squared": 0.075
+      },
+      "root_cause": {
+        "ticker": "ADBE",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "Adobe's -11.3% idiosyncratic residual (5.7 sigma) demonstrates causal relationships with COO (p=0.40), BR (p=0.46), and ADP (p=0.52), suggesting a shared driver beyond sector factors. The connection to ULTA (-16.8%) with p=0.36 is unusual given sector divergence. This may indicate concerns about enterprise software spending, AI monetization challenges, or subscription model pressures affecting multiple business services companies. The move is particularly significant given ADBE's role as a bellwether for creative software and digital experience platforms.",
+        "confidence": 0.2850663661956787,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "ULTA",
+          "COO",
+          "BR",
+          "ADP",
+          "WDAY",
+          "FISV",
+          "GDDY"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "reduce",
+          "target": "ADBE, WDAY, FISV enterprise software exposure",
+          "urgency": "high",
+          "rationale": "5.7\u03c3 move with multiple causal links (p=0.40-0.52) suggests systematic repricing",
+          "time_horizon": "1-5 days"
+        },
+        {
+          "action_type": "investigate",
+          "target": "ADBE AI monetization and subscription metrics",
+          "urgency": "immediate",
+          "rationale": "Idiosyncratic move of this magnitude typically precedes material news",
+          "time_horizon": "intraday"
+        }
+      ],
+      "related_moves": [
+        "ULTA",
+        "COO",
+        "BR",
+        "ADP",
+        "WDAY",
+        "FISV",
+        "GDDY"
+      ],
+      "news_count": 1,
+      "created_at": "2026-03-13 21:25:12.816182+00:00"
+    },
+    {
+      "id": "e083d4a4c291",
+      "ticker": "CPB",
+      "company_name": "The Campbell's Company",
+      "alert_level": "critical",
+      "title": "CPB -15.7% Idiosyncratic Drop (8.1 Sigma) Shows Strong Causal Links to CAG, GIS",
+      "summary": "Campbell Soup (CPB) declined -15.7% on an idiosyncratic basis at 8.1 sigma, demonstrating strong causal relationships with CAG (p=0.69) and GIS (p=0.75). This represents one of the highest-sigma events in the dataset and suggests a packaged food sector-specific catalyst beyond general consumer staples factors. The tight causal linkage indicates potential concerns about pricing power, volume trends, private label competition, or input costs specific to shelf-stable packaged foods. CPB also shows weaker links to SYK (p=0.31) and BA (p=0.36), though the mechanism is unclear.",
+      "move": {
+        "ticker": "CPB",
+        "company_name": "The Campbell's Company",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 25.8,
+        "price_end": 21.71,
+        "pct_change": -15.85,
+        "historical_volatility": 0.353,
+        "daily_sigma": 0.022235,
+        "move_in_sigma": 3.19,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816200+00:00",
+        "period_end": "2026-03-13 21:25:12.816201+00:00",
+        "detected_at": "2026-03-13 21:25:12.816201+00:00",
+        "market_component": 0.19,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -15.73,
+        "idiosyncratic_sigma": 8.06,
+        "r_squared": 0.017
+      },
+      "root_cause": {
+        "ticker": "CPB",
+        "primary_cause": "macro_economic",
+        "secondary_causes": [],
+        "explanation": "Campbell Soup (CPB) declined -15.7% on an idiosyncratic basis at 8.1 sigma, demonstrating strong causal relationships with CAG (p=0.69) and GIS (p=0.75). This represents one of the highest-sigma events in the dataset and suggests a packaged food sector-specific catalyst beyond general consumer staples factors. The tight causal linkage indicates potential concerns about pricing power, volume trends, private label competition, or input costs specific to shelf-stable packaged foods. CPB also shows weaker links to SYK (p=0.31) and BA (p=0.36), though the mechanism is unclear.",
+        "confidence": 0.39927130937576294,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "CAG",
+          "GIS",
+          "MKC",
+          "KHC",
+          "CNC"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "exit",
+          "target": "CPB, CAG, GIS packaged food longs",
+          "urgency": "immediate",
+          "rationale": "8.1\u03c3 event with p=0.69-0.75 causal links indicates systematic packaged food repricing",
+          "time_horizon": "immediate"
+        },
+        {
+          "action_type": "investigate",
+          "target": "Packaged food sector pricing, volume, and margin trends",
+          "urgency": "immediate",
+          "rationale": "Extreme sigma events across multiple names demand catalyst identification",
+          "time_horizon": "intraday"
+        },
+        {
+          "action_type": "short",
+          "target": "Other packaged food names not yet moved",
+          "urgency": "medium",
+          "rationale": "Strong causal structure suggests contagion risk to related names",
+          "time_horizon": "1-3 days"
+        }
+      ],
+      "related_moves": [
+        "CAG",
+        "GIS",
+        "MKC",
+        "KHC",
+        "CNC"
+      ],
+      "news_count": 1,
+      "created_at": "2026-03-13 21:25:12.816210+00:00"
+    },
+    {
+      "id": "faba02e99f26",
+      "ticker": "ULTA",
+      "company_name": "Ulta Beauty, Inc.",
+      "alert_level": "critical",
+      "title": "ULTA -16.8% Idiosyncratic Drop Anchors 22-Stock Technology/Consumer Discretionary Cluster",
+      "summary": "ULTA experienced a -16.8% idiosyncratic move (7.3 sigma) that shows causal linkage to ADBE (-11.3%, 5.7 sigma) and COO (-8.2%, 5.3 sigma) with p-values of 0.36 and 0.44 respectively. This cluster of 22 stocks spans technology and consumer discretionary sectors with coherence 0.24, suggesting a shared but diffuse driver. The epicenter is actually SNDK (+26.2% idio), creating a bifurcated cluster with extreme positive and negative residuals. Without specific news catalysts provided, the causal mechanism linking beauty retail (ULTA) to enterprise software (ADBE, WDAY, FISV), healthcare tech (RMD, TMO), and memory (MU, WDC, SNDK) remains unclear, though the SNDK surge may indicate sector-specific storage/memory news affecting tech spending expectations.",
+      "move": {
+        "ticker": "ULTA",
+        "company_name": "Ulta Beauty, Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 646.34,
+        "price_end": 535.72,
+        "pct_change": -17.11,
+        "historical_volatility": 0.393,
+        "daily_sigma": 0.024756,
+        "move_in_sigma": 3.09,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816235+00:00",
+        "period_end": "2026-03-13 21:25:12.816236+00:00",
+        "detected_at": "2026-03-13 21:25:12.816236+00:00",
+        "market_component": -0.39,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -16.77,
+        "idiosyncratic_sigma": 7.34,
+        "r_squared": 0.049
+      },
+      "root_cause": {
+        "ticker": "ULTA",
+        "primary_cause": "earnings",
+        "secondary_causes": [],
+        "explanation": "ULTA experienced a -16.8% idiosyncratic move (7.3 sigma) that shows causal linkage to ADBE (-11.3%, 5.7 sigma) and COO (-8.2%, 5.3 sigma) with p-values of 0.36 and 0.44 respectively. This cluster of 22 stocks spans technology and consumer discretionary sectors with coherence 0.24, suggesting a shared but diffuse driver. The epicenter is actually SNDK (+26.2% idio), creating a bifurcated cluster with extreme positive and negative residuals. Without specific news catalysts provided, the causal mechanism linking beauty retail (ULTA) to enterprise software (ADBE, WDAY, FISV), healthcare tech (RMD, TMO), and memory (MU, WDC, SNDK) remains unclear, though the SNDK surge may indicate sector-specific storage/memory news affecting tech spending expectations.",
+        "confidence": 0.3714115023612976,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "ADBE",
+          "COO",
+          "DG",
+          "CPRT",
+          "RMD",
+          "OTIS",
+          "PSKY",
+          "BR",
+          "ADP",
+          "TMO",
+          "GDDY",
+          "SNDK",
+          "MU",
+          "WDC"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "ULTA, ADBE, PSKY, GDDY",
+          "urgency": "immediate",
+          "rationale": "Extreme sigma events (5.0-7.3\u03c3) with unclear causal driver require news verification",
+          "time_horizon": "intraday"
+        },
+        {
+          "action_type": "hedge",
+          "target": "Consumer discretionary retail exposure (ULTA, DG, BR)",
+          "urgency": "high",
+          "rationale": "Cluster shows -16.8% to -9.2% idiosyncratic moves suggesting unpriced retail-specific risk",
+          "time_horizon": "1-3 days"
+        },
+        {
+          "action_type": "monitor",
+          "target": "SNDK and memory sector (MU, WDC)",
+          "urgency": "medium",
+          "rationale": "SNDK +26.2% epicenter may signal storage/memory catalyst affecting broader tech capex",
+          "time_horizon": "1-5 days"
+        }
+      ],
+      "related_moves": [
+        "ADBE",
+        "COO",
+        "DG",
+        "CPRT",
+        "RMD",
+        "OTIS",
+        "PSKY",
+        "BR",
+        "ADP",
+        "TMO",
+        "GDDY",
+        "SNDK",
+        "MU",
+        "WDC"
+      ],
+      "news_count": 6,
+      "created_at": "2026-03-13 21:25:12.816245+00:00"
+    },
+    {
+      "id": "f1576d005a54",
+      "ticker": "CNC",
+      "company_name": "Centene Corporation",
+      "alert_level": "high",
+      "title": "CNC -20.9% Idiosyncratic Collapse Anchors Consumer Staples/Healthcare Cluster",
+      "summary": "Centene (CNC) experienced a -20.9% idiosyncratic move (6.5 sigma) serving as the epicenter of Cluster 1, which shows much higher coherence (0.50) than Cluster 0. The cluster links healthcare (CNC, PODD, SYK) with packaged food companies (CPB, CAG, GIS, MKC, KHC) in an unusual combination. CPB shows strong causal links to CAG (p=0.69) and GIS (p=0.75), suggesting a shared food sector catalyst. The CNC-healthcare connection to staples is unclear without specific news, but may reflect concerns about consumer health spending, Medicaid enrollment, or government reimbursement affecting both sectors.",
+      "move": {
+        "ticker": "CNC",
+        "company_name": "Centene Corporation",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 43.65,
+        "price_end": 34.45,
+        "pct_change": -21.08,
+        "historical_volatility": 0.531,
+        "daily_sigma": 0.033451,
+        "move_in_sigma": 2.82,
+        "threshold_sigma": 2.0,
+        "alert_level": "high",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816266+00:00",
+        "period_end": "2026-03-13 21:25:12.816266+00:00",
+        "detected_at": "2026-03-13 21:25:12.816267+00:00",
+        "market_component": -0.29,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -20.91,
+        "idiosyncratic_sigma": 6.45,
+        "r_squared": 0.014
+      },
+      "root_cause": {
+        "ticker": "CNC",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "Centene (CNC) experienced a -20.9% idiosyncratic move (6.5 sigma) serving as the epicenter of Cluster 1, which shows much higher coherence (0.50) than Cluster 0. The cluster links healthcare (CNC, PODD, SYK) with packaged food companies (CPB, CAG, GIS, MKC, KHC) in an unusual combination. CPB shows strong causal links to CAG (p=0.69) and GIS (p=0.75), suggesting a shared food sector catalyst. The CNC-healthcare connection to staples is unclear without specific news, but may reflect concerns about consumer health spending, Medicaid enrollment, or government reimbursement affecting both sectors.",
+        "confidence": 0.32881250977516174,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "CPB",
+          "CAG",
+          "GIS",
+          "SYK",
+          "PODD",
+          "MKC",
+          "KHC",
+          "BA",
+          "WEC"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "CNC, CPB, CAG, GIS",
+          "urgency": "immediate",
+          "rationale": "Cluster epicenter at -20.9% (6.5\u03c3) with high coherence (0.50) demands immediate catalyst identification",
+          "time_horizon": "intraday"
+        },
+        {
+          "action_type": "exit",
+          "target": "CNC long positions",
+          "urgency": "immediate",
+          "rationale": "-20.9% idiosyncratic at 6.5\u03c3 suggests material adverse development",
+          "time_horizon": "immediate"
+        },
+        {
+          "action_type": "reduce",
+          "target": "Packaged food exposure (CPB, CAG, GIS, MKC, KHC)",
+          "urgency": "high",
+          "rationale": "Strong causal links (p=0.69-0.75) and extreme sigmas (7.4-9.3\u03c3) indicate sector-wide repricing",
+          "time_horizon": "1-3 days"
+        },
+        {
+          "action_type": "hedge",
+          "target": "Healthcare services and medical device exposure",
+          "urgency": "high",
+          "rationale": "CNC weakness may signal broader managed care or reimbursement concerns affecting SYK, PODD",
+          "time_horizon": "1-5 days"
+        }
+      ],
+      "related_moves": [
+        "CPB",
+        "CAG",
+        "GIS",
+        "SYK",
+        "PODD",
+        "MKC",
+        "KHC",
+        "BA",
+        "WEC"
+      ],
+      "news_count": 15,
+      "created_at": "2026-03-13 21:25:12.816275+00:00"
+    },
+    {
+      "id": "ad11ffe7b09c",
+      "ticker": "CAG",
+      "company_name": "Conagra Brands, Inc.",
+      "alert_level": "high",
+      "title": "CAG -13.8% Idiosyncratic Move (7.4 Sigma) Linked to CPB Packaged Food Weakness",
+      "summary": "Conagra (CAG) experienced a -13.8% idiosyncratic residual at 7.4 sigma, with strong causal linkage from CPB (p=0.69). This represents the second-worst packaged food performer after CPB in a cluster showing exceptional coherence (0.50). The magnitude and causal structure suggest a shared fundamental driver affecting shelf-stable food companies, potentially related to retailer inventory destocking, promotional intensity, or consumer trade-down to private label.",
+      "move": {
+        "ticker": "CAG",
+        "company_name": "Conagra Brands, Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 19.02,
+        "price_end": 16.41,
+        "pct_change": -13.72,
+        "historical_volatility": 0.3453,
+        "daily_sigma": 0.021753,
+        "move_in_sigma": 2.82,
+        "threshold_sigma": 2.0,
+        "alert_level": "high",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816291+00:00",
+        "period_end": "2026-03-13 21:25:12.816292+00:00",
+        "detected_at": "2026-03-13 21:25:12.816292+00:00",
+        "market_component": 0.12,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -13.79,
+        "idiosyncratic_sigma": 7.37,
+        "r_squared": 0.008
+      },
+      "root_cause": {
+        "ticker": "CAG",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "Conagra (CAG) experienced a -13.8% idiosyncratic residual at 7.4 sigma, with strong causal linkage from CPB (p=0.69). This represents the second-worst packaged food performer after CPB in a cluster showing exceptional coherence (0.50). The magnitude and causal structure suggest a shared fundamental driver affecting shelf-stable food companies, potentially related to retailer inventory destocking, promotional intensity, or consumer trade-down to private label.",
+        "confidence": 0.30377334356307983,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "CPB",
+          "GIS",
+          "MKC",
+          "KHC"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "exit",
+          "target": "CAG long positions",
+          "urgency": "immediate",
+          "rationale": "7.4\u03c3 move with p=0.69 causal link from CPB indicates systematic repricing",
+          "time_horizon": "immediate"
+        }
+      ],
+      "related_moves": [
+        "CPB",
+        "GIS",
+        "MKC",
+        "KHC"
+      ],
+      "news_count": 5,
+      "created_at": "2026-03-13 21:25:12.816300+00:00"
+    },
+    {
+      "id": "7276ce5602ef",
+      "ticker": "COO",
+      "company_name": "The Cooper Companies, Inc.",
+      "alert_level": "high",
+      "title": "COO -8.66%",
+      "summary": "",
+      "move": {
+        "ticker": "COO",
+        "company_name": "The Cooper Companies, Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 76.55,
+        "price_end": 69.92,
+        "pct_change": -8.66,
+        "historical_volatility": 0.2202,
+        "daily_sigma": 0.013871,
+        "move_in_sigma": 2.79,
+        "threshold_sigma": 2.0,
+        "alert_level": "high",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816310+00:00",
+        "period_end": "2026-03-13 21:25:12.816310+00:00",
+        "detected_at": "2026-03-13 21:25:12.816310+00:00",
+        "market_component": -0.5,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -8.19,
+        "idiosyncratic_sigma": 5.28,
+        "r_squared": 0.157
+      },
+      "root_cause": {
+        "ticker": "COO",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.3355897068977356,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 20,
+      "created_at": "2026-03-13 21:25:12.816318+00:00"
+    },
+    {
+      "id": "b1ae1e18ee1a",
+      "ticker": "GIS",
+      "company_name": "General Mills, Inc.",
+      "alert_level": "high",
+      "title": "GIS -11.8% Idiosyncratic Drop at 9.3 Sigma - Highest Sigma Event in Dataset",
+      "summary": "General Mills (GIS) declined -11.8% on an idiosyncratic basis at 9.3 sigma, representing the highest sigma event across all flagged moves. The strong causal link from CPB (p=0.75) is the tightest relationship in the entire dataset, indicating GIS is highly responsive to the same driver affecting CPB. Despite a smaller percentage move than CPB or CAG, the 9.3 sigma reading suggests this move is extraordinarily unusual relative to GIS's historical volatility profile, potentially indicating a liquidity event or options-related activity amplifying the fundamental driver.",
+      "move": {
+        "ticker": "GIS",
+        "company_name": "General Mills, Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 44.29,
+        "price_end": 39.38,
+        "pct_change": -11.09,
+        "historical_volatility": 0.3086,
+        "daily_sigma": 0.019442,
+        "move_in_sigma": 2.55,
+        "threshold_sigma": 2.0,
+        "alert_level": "high",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816332+00:00",
+        "period_end": "2026-03-13 21:25:12.816333+00:00",
+        "detected_at": "2026-03-13 21:25:12.816333+00:00",
+        "market_component": 0.29,
+        "sector_component": 0.65,
+        "idiosyncratic_return": -11.78,
+        "idiosyncratic_sigma": 9.33,
+        "r_squared": 0.411
+      },
+      "root_cause": {
+        "ticker": "GIS",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "General Mills (GIS) declined -11.8% on an idiosyncratic basis at 9.3 sigma, representing the highest sigma event across all flagged moves. The strong causal link from CPB (p=0.75) is the tightest relationship in the entire dataset, indicating GIS is highly responsive to the same driver affecting CPB. Despite a smaller percentage move than CPB or CAG, the 9.3 sigma reading suggests this move is extraordinarily unusual relative to GIS's historical volatility profile, potentially indicating a liquidity event or options-related activity amplifying the fundamental driver.",
+        "confidence": 0.30919620394706726,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "CPB",
+          "CAG",
+          "MKC",
+          "KHC"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "GIS order flow and options activity",
+          "urgency": "immediate",
+          "rationale": "9.3\u03c3 is the highest sigma in dataset; verify for technical/liquidity factors",
+          "time_horizon": "intraday"
+        },
+        {
+          "action_type": "exit",
+          "target": "GIS long positions",
+          "urgency": "immediate",
+          "rationale": "Extreme sigma with p=0.75 causal link indicates high conviction repricing",
+          "time_horizon": "immediate"
+        }
+      ],
+      "related_moves": [
+        "CPB",
+        "CAG",
+        "MKC",
+        "KHC"
+      ],
+      "news_count": 14,
+      "created_at": "2026-03-13 21:25:12.816341+00:00"
+    },
+    {
+      "id": "ab7a50e21f5f",
+      "ticker": "SYK",
+      "company_name": "Stryker Corporation",
+      "alert_level": "medium",
+      "title": "SYK -7.62%",
+      "summary": "",
+      "move": {
+        "ticker": "SYK",
+        "company_name": "Stryker Corporation",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 364.56,
+        "price_end": 336.77,
+        "pct_change": -7.62,
+        "historical_volatility": 0.2266,
+        "daily_sigma": 0.014274,
+        "move_in_sigma": 2.39,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816350+00:00",
+        "period_end": "2026-03-13 21:25:12.816350+00:00",
+        "detected_at": "2026-03-13 21:25:12.816350+00:00",
+        "market_component": -0.18,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -7.36,
+        "idiosyncratic_sigma": 5.56,
+        "r_squared": 0.032
+      },
+      "root_cause": {
+        "ticker": "SYK",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.30942919850349426,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 13,
+      "created_at": "2026-03-13 21:25:12.816357+00:00"
+    },
+    {
+      "id": "eb3c4f997f90",
+      "ticker": "ADBE",
+      "company_name": "Adobe Inc.",
+      "alert_level": "medium",
+      "title": "ADBE -11.3% Idiosyncratic Move Shows Causal Links to ULTA, COO, BR, ADP",
+      "summary": "Adobe's -11.3% idiosyncratic residual (5.7 sigma) demonstrates causal relationships with COO (p=0.40), BR (p=0.46), and ADP (p=0.52), suggesting a shared driver beyond sector factors. The connection to ULTA (-16.8%) with p=0.36 is unusual given sector divergence. This may indicate concerns about enterprise software spending, AI monetization challenges, or subscription model pressures affecting multiple business services companies. The move is particularly significant given ADBE's role as a bellwether for creative software and digital experience platforms.",
+      "move": {
+        "ticker": "ADBE",
+        "company_name": "Adobe Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 283.62,
+        "price_end": 249.32,
+        "pct_change": -12.09,
+        "historical_volatility": 0.3628,
+        "daily_sigma": 0.022851,
+        "move_in_sigma": 2.37,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816375+00:00",
+        "period_end": "2026-03-13 21:25:12.816375+00:00",
+        "detected_at": "2026-03-13 21:25:12.816376+00:00",
+        "market_component": -0.38,
+        "sector_component": -0.07,
+        "idiosyncratic_return": -11.34,
+        "idiosyncratic_sigma": 5.71,
+        "r_squared": 0.075
+      },
+      "root_cause": {
+        "ticker": "ADBE",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "Adobe's -11.3% idiosyncratic residual (5.7 sigma) demonstrates causal relationships with COO (p=0.40), BR (p=0.46), and ADP (p=0.52), suggesting a shared driver beyond sector factors. The connection to ULTA (-16.8%) with p=0.36 is unusual given sector divergence. This may indicate concerns about enterprise software spending, AI monetization challenges, or subscription model pressures affecting multiple business services companies. The move is particularly significant given ADBE's role as a bellwether for creative software and digital experience platforms.",
+        "confidence": 0.29555651545524597,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "ULTA",
+          "COO",
+          "BR",
+          "ADP",
+          "WDAY",
+          "FISV",
+          "GDDY"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "reduce",
+          "target": "ADBE, WDAY, FISV enterprise software exposure",
+          "urgency": "high",
+          "rationale": "5.7\u03c3 move with multiple causal links (p=0.40-0.52) suggests systematic repricing",
+          "time_horizon": "1-5 days"
+        },
+        {
+          "action_type": "investigate",
+          "target": "ADBE AI monetization and subscription metrics",
+          "urgency": "immediate",
+          "rationale": "Idiosyncratic move of this magnitude typically precedes material news",
+          "time_horizon": "intraday"
+        }
+      ],
+      "related_moves": [
+        "ULTA",
+        "COO",
+        "BR",
+        "ADP",
+        "WDAY",
+        "FISV",
+        "GDDY"
+      ],
+      "news_count": 1,
+      "created_at": "2026-03-13 21:25:12.816384+00:00"
+    },
+    {
+      "id": "c90a6129166e",
+      "ticker": "WEC",
+      "company_name": "WEC Energy Group, Inc.",
+      "alert_level": "medium",
+      "title": "WEC 2.0%",
+      "summary": "",
+      "move": {
+        "ticker": "WEC",
+        "company_name": "WEC Energy Group, Inc.",
+        "sector": null,
+        "period": "daily",
+        "direction": "up",
+        "price_start": 115.05,
+        "price_end": 117.35,
+        "pct_change": 2.0,
+        "historical_volatility": 0.1359,
+        "daily_sigma": 0.008561,
+        "move_in_sigma": 2.34,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816393+00:00",
+        "period_end": "2026-03-13 21:25:12.816394+00:00",
+        "detected_at": "2026-03-13 21:25:12.816394+00:00",
+        "market_component": 0.09,
+        "sector_component": 0.85,
+        "idiosyncratic_return": 1.07,
+        "idiosyncratic_sigma": 1.75,
+        "r_squared": 0.528
+      },
+      "root_cause": {
+        "ticker": "WEC",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.33930400013923645,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 9,
+      "created_at": "2026-03-13 21:25:12.816401+00:00"
+    },
+    {
+      "id": "3211bd8d2328",
+      "ticker": "BA",
+      "company_name": "Boeing",
+      "alert_level": "medium",
+      "title": "BA -9.18%",
+      "summary": "",
+      "move": {
+        "ticker": "BA",
+        "company_name": "Boeing",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 231.11,
+        "price_end": 209.89,
+        "pct_change": -9.18,
+        "historical_volatility": 0.2846,
+        "daily_sigma": 0.017926,
+        "move_in_sigma": 2.29,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816410+00:00",
+        "period_end": "2026-03-13 21:25:12.816411+00:00",
+        "detected_at": "2026-03-13 21:25:12.816411+00:00",
+        "market_component": -0.44,
+        "sector_component": 0.13,
+        "idiosyncratic_return": -8.81,
+        "idiosyncratic_sigma": 4.76,
+        "r_squared": 0.156
+      },
+      "root_cause": {
+        "ticker": "BA",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.3356812298297882,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 18,
+      "created_at": "2026-03-13 21:25:12.816419+00:00"
+    },
+    {
+      "id": "4b761e53b1d1",
+      "ticker": "DG",
+      "company_name": "Dollar General Corporation",
+      "alert_level": "medium",
+      "title": "DG -9.89%",
+      "summary": "",
+      "move": {
+        "ticker": "DG",
+        "company_name": "Dollar General Corporation",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 146.31,
+        "price_end": 131.84,
+        "pct_change": -9.89,
+        "historical_volatility": 0.3085,
+        "daily_sigma": 0.019436,
+        "move_in_sigma": 2.28,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816428+00:00",
+        "period_end": "2026-03-13 21:25:12.816428+00:00",
+        "detected_at": "2026-03-13 21:25:12.816428+00:00",
+        "market_component": -0.36,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -9.77,
+        "idiosyncratic_sigma": 4.21,
+        "r_squared": 0.042
+      },
+      "root_cause": {
+        "ticker": "DG",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.24309124052524567,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 19,
+      "created_at": "2026-03-13 21:25:12.816438+00:00"
+    },
+    {
+      "id": "edf61e3c63a9",
+      "ticker": "CPRT",
+      "company_name": "Copart, Inc.",
+      "alert_level": "medium",
+      "title": "CPRT -9.67%",
+      "summary": "",
+      "move": {
+        "ticker": "CPRT",
+        "company_name": "Copart, Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 37.74,
+        "price_end": 34.09,
+        "pct_change": -9.67,
+        "historical_volatility": 0.3029,
+        "daily_sigma": 0.019082,
+        "move_in_sigma": 2.27,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816446+00:00",
+        "period_end": "2026-03-13 21:25:12.816447+00:00",
+        "detected_at": "2026-03-13 21:25:12.816447+00:00",
+        "market_component": -0.26,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -9.18,
+        "idiosyncratic_sigma": 5.75,
+        "r_squared": 0.044
+      },
+      "root_cause": {
+        "ticker": "CPRT",
+        "primary_cause": "earnings",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.3234412968158722,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 0,
+      "created_at": "2026-03-13 21:25:12.816455+00:00"
+    },
+    {
+      "id": "622d03f29d3e",
+      "ticker": "RMD",
+      "company_name": "ResMed Inc.",
+      "alert_level": "medium",
+      "title": "RMD -8.71%",
+      "summary": "",
+      "move": {
+        "ticker": "RMD",
+        "company_name": "ResMed Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 252.87,
+        "price_end": 230.84,
+        "pct_change": -8.71,
+        "historical_volatility": 0.2781,
+        "daily_sigma": 0.01752,
+        "move_in_sigma": 2.22,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816463+00:00",
+        "period_end": "2026-03-13 21:25:12.816464+00:00",
+        "detected_at": "2026-03-13 21:25:12.816464+00:00",
+        "market_component": -0.34,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -8.25,
+        "idiosyncratic_sigma": 5.68,
+        "r_squared": 0.087
+      },
+      "root_cause": {
+        "ticker": "RMD",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.3242500424385071,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 4,
+      "created_at": "2026-03-13 21:25:12.816471+00:00"
+    },
+    {
+      "id": "760685754d41",
+      "ticker": "OTIS",
+      "company_name": "Otis Worldwide Corporation",
+      "alert_level": "medium",
+      "title": "OTIS -6.76%",
+      "summary": "",
+      "move": {
+        "ticker": "OTIS",
+        "company_name": "Otis Worldwide Corporation",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 89.22,
+        "price_end": 83.19,
+        "pct_change": -6.76,
+        "historical_volatility": 0.219,
+        "daily_sigma": 0.013795,
+        "move_in_sigma": 2.19,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816480+00:00",
+        "period_end": "2026-03-13 21:25:12.816480+00:00",
+        "detected_at": "2026-03-13 21:25:12.816480+00:00",
+        "market_component": -0.05,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -6.66,
+        "idiosyncratic_sigma": 5.65,
+        "r_squared": 0.004
+      },
+      "root_cause": {
+        "ticker": "OTIS",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.3245987594127655,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 7,
+      "created_at": "2026-03-13 21:25:12.816488+00:00"
+    },
+    {
+      "id": "714b20f6c061",
+      "ticker": "MOS",
+      "company_name": "The Mosaic Company",
+      "alert_level": "medium",
+      "title": "MOS -6.2% Idiosyncratic Move Anchors Fertilizer/Chemicals Cluster",
+      "summary": "Mosaic (MOS) declined -6.2% on an idiosyncratic basis at 2.2 sigma, serving as the epicenter of Cluster 2 with the highest coherence (0.56) in the dataset. The cluster includes CF and DOW with strong causal links (MOS->CF p=0.66, MOS->DOW p=0.53), indicating a shared agricultural chemicals or fertilizer catalyst. The data shows MOS as epicenter with +12.7% idio in the header but -6.2% in the member list, suggesting potential data inconsistency. The high coherence and tight causal structure indicate a genuine materials sector event, potentially related to fertilizer pricing, crop planting expectations, or agricultural commodity trends.",
+      "move": {
+        "ticker": "MOS",
+        "company_name": "The Mosaic Company",
+        "sector": null,
+        "period": "daily",
+        "direction": "down",
+        "price_start": 31.36,
+        "price_end": 29.31,
+        "pct_change": -6.54,
+        "historical_volatility": 0.4802,
+        "daily_sigma": 0.030251,
+        "move_in_sigma": 2.16,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816509+00:00",
+        "period_end": "2026-03-13 21:25:12.816510+00:00",
+        "detected_at": "2026-03-13 21:25:12.816510+00:00",
+        "market_component": -0.32,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -6.15,
+        "idiosyncratic_sigma": 2.2,
+        "r_squared": 0.023
+      },
+      "root_cause": {
+        "ticker": "MOS",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "Mosaic (MOS) declined -6.2% on an idiosyncratic basis at 2.2 sigma, serving as the epicenter of Cluster 2 with the highest coherence (0.56) in the dataset. The cluster includes CF and DOW with strong causal links (MOS->CF p=0.66, MOS->DOW p=0.53), indicating a shared agricultural chemicals or fertilizer catalyst. The data shows MOS as epicenter with +12.7% idio in the header but -6.2% in the member list, suggesting potential data inconsistency. The high coherence and tight causal structure indicate a genuine materials sector event, potentially related to fertilizer pricing, crop planting expectations, or agricultural commodity trends.",
+        "confidence": 0.3398316502571106,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "CF",
+          "DOW"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "MOS, CF fertilizer pricing and demand trends",
+          "urgency": "high",
+          "rationale": "Highest coherence cluster (0.56) with strong causal links suggests sector catalyst",
+          "time_horizon": "intraday"
+        },
+        {
+          "action_type": "reduce",
+          "target": "Fertilizer and agricultural chemical exposure",
+          "urgency": "medium",
+          "rationale": "Tight causal structure (p=0.53-0.66) indicates systematic repricing",
+          "time_horizon": "1-5 days"
+        },
+        {
+          "action_type": "monitor",
+          "target": "Agricultural commodity prices and planting intentions",
+          "urgency": "medium",
+          "rationale": "MOS epicenter suggests fundamental shift in fertilizer demand expectations",
+          "time_horizon": "1-2 weeks"
+        }
+      ],
+      "related_moves": [
+        "CF",
+        "DOW"
+      ],
+      "news_count": 18,
+      "created_at": "2026-03-13 21:25:12.816518+00:00"
+    },
+    {
+      "id": "c4f3492ae4b7",
+      "ticker": "PSKY",
+      "company_name": "Paramount Skydance Corporation",
+      "alert_level": "medium",
+      "title": "PSKY -18.2% Idiosyncratic Collapse (5.0 Sigma) in Technology Cluster",
+      "summary": "PluralSight (PSKY) suffered an -18.2% idiosyncratic move at 5.0 sigma, the second-worst performer in Cluster 0 after ULTA. Despite being part of the 22-stock technology cluster, PSKY shows no direct causal links in the provided data, suggesting either a company-specific catalyst or a measurement artifact. The magnitude warrants immediate investigation for earnings, guidance, or M&A developments. The move is particularly concerning given its severity and lack of obvious connection to the SNDK (+26.2%) epicenter.",
+      "move": {
+        "ticker": "PSKY",
+        "company_name": "Paramount Skydance Corporation",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 11.99,
+        "price_end": 9.72,
+        "pct_change": -18.93,
+        "historical_volatility": 0.6302,
+        "daily_sigma": 0.039696,
+        "move_in_sigma": 2.13,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816533+00:00",
+        "period_end": "2026-03-13 21:25:12.816533+00:00",
+        "detected_at": "2026-03-13 21:25:12.816534+00:00",
+        "market_component": -0.28,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -18.16,
+        "idiosyncratic_sigma": 5.02,
+        "r_squared": 0.011
+      },
+      "root_cause": {
+        "ticker": "PSKY",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "PluralSight (PSKY) suffered an -18.2% idiosyncratic move at 5.0 sigma, the second-worst performer in Cluster 0 after ULTA. Despite being part of the 22-stock technology cluster, PSKY shows no direct causal links in the provided data, suggesting either a company-specific catalyst or a measurement artifact. The magnitude warrants immediate investigation for earnings, guidance, or M&A developments. The move is particularly concerning given its severity and lack of obvious connection to the SNDK (+26.2%) epicenter.",
+        "confidence": 0.34285783767700195,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "ULTA",
+          "ADBE",
+          "GDDY"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "PSKY",
+          "urgency": "immediate",
+          "rationale": "5.0\u03c3 move with no clear causal links requires immediate news/event verification",
+          "time_horizon": "intraday"
+        },
+        {
+          "action_type": "exit",
+          "target": "PSKY long positions",
+          "urgency": "high",
+          "rationale": "-18.2% idiosyncratic move suggests material undisclosed information",
+          "time_horizon": "immediate"
+        }
+      ],
+      "related_moves": [
+        "ULTA",
+        "ADBE",
+        "GDDY"
+      ],
+      "news_count": 3,
+      "created_at": "2026-03-13 21:25:12.816542+00:00"
+    },
+    {
+      "id": "d71456b6a7e5",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "alert_level": "medium",
+      "title": "BR -9.43%",
+      "summary": "",
+      "move": {
+        "ticker": "BR",
+        "company_name": "Broadridge Financial Solutions, Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 196.88,
+        "price_end": 178.32,
+        "pct_change": -9.43,
+        "historical_volatility": 0.3161,
+        "daily_sigma": 0.019915,
+        "move_in_sigma": 2.12,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816553+00:00",
+        "period_end": "2026-03-13 21:25:12.816553+00:00",
+        "detected_at": "2026-03-13 21:25:12.816554+00:00",
+        "market_component": -0.01,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -9.19,
+        "idiosyncratic_sigma": 5.81,
+        "r_squared": 0.0
+      },
+      "root_cause": {
+        "ticker": "BR",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.2973448634147644,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 20,
+      "created_at": "2026-03-13 21:25:12.816561+00:00"
+    },
+    {
+      "id": "113564b952d4",
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "alert_level": "medium",
+      "title": "ADP -7.83%",
+      "summary": "",
+      "move": {
+        "ticker": "ADP",
+        "company_name": "Automatic Data Processing, Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 226.24,
+        "price_end": 208.52,
+        "pct_change": -7.83,
+        "historical_volatility": 0.2657,
+        "daily_sigma": 0.016738,
+        "move_in_sigma": 2.09,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816569+00:00",
+        "period_end": "2026-03-13 21:25:12.816570+00:00",
+        "detected_at": "2026-03-13 21:25:12.816570+00:00",
+        "market_component": -0.23,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -7.34,
+        "idiosyncratic_sigma": 5.12,
+        "r_squared": 0.043
+      },
+      "root_cause": {
+        "ticker": "ADP",
+        "primary_cause": "earnings",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.25345516204833984,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 20,
+      "created_at": "2026-03-13 21:25:12.816577+00:00"
+    },
+    {
+      "id": "6994715493ce",
+      "ticker": "MKC",
+      "company_name": "McCormick & Company, Incorporated",
+      "alert_level": "medium",
+      "title": "MKC -10.12%",
+      "summary": "",
+      "move": {
+        "ticker": "MKC",
+        "company_name": "McCormick & Company, Incorporated",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 64.85,
+        "price_end": 58.29,
+        "pct_change": -10.12,
+        "historical_volatility": 0.346,
+        "daily_sigma": 0.021793,
+        "move_in_sigma": 2.08,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816585+00:00",
+        "period_end": "2026-03-13 21:25:12.816585+00:00",
+        "detected_at": "2026-03-13 21:25:12.816585+00:00",
+        "market_component": 0.18,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -10.23,
+        "idiosyncratic_sigma": 5.63,
+        "r_squared": 0.017
+      },
+      "root_cause": {
+        "ticker": "MKC",
+        "primary_cause": "earnings",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.3010043501853943,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 0,
+      "created_at": "2026-03-13 21:25:12.816592+00:00"
+    },
+    {
+      "id": "ab52f1c2adfc",
+      "ticker": "TMO",
+      "company_name": "Thermo Fisher Scientific Inc.",
+      "alert_level": "medium",
+      "title": "TMO -7.49%",
+      "summary": "",
+      "move": {
+        "ticker": "TMO",
+        "company_name": "Thermo Fisher Scientific Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 501.97,
+        "price_end": 464.37,
+        "pct_change": -7.49,
+        "historical_volatility": 0.2644,
+        "daily_sigma": 0.016658,
+        "move_in_sigma": 2.01,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816601+00:00",
+        "period_end": "2026-03-13 21:25:12.816601+00:00",
+        "detected_at": "2026-03-13 21:25:12.816601+00:00",
+        "market_component": -0.49,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -6.91,
+        "idiosyncratic_sigma": 5.06,
+        "r_squared": 0.391
+      },
+      "root_cause": {
+        "ticker": "TMO",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.30939653515815735,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 6,
+      "created_at": "2026-03-13 21:25:12.816609+00:00"
+    },
+    {
+      "id": "1abf5cc45080",
+      "ticker": "KHC",
+      "company_name": "The Kraft Heinz Company",
+      "alert_level": "medium",
+      "title": "KHC -7.99%",
+      "summary": "",
+      "move": {
+        "ticker": "KHC",
+        "company_name": "The Kraft Heinz Company",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 24.54,
+        "price_end": 22.58,
+        "pct_change": -7.99,
+        "historical_volatility": 0.2832,
+        "daily_sigma": 0.01784,
+        "move_in_sigma": 2.0,
+        "threshold_sigma": 2.0,
+        "alert_level": "medium",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816616+00:00",
+        "period_end": "2026-03-13 21:25:12.816616+00:00",
+        "detected_at": "2026-03-13 21:25:12.816617+00:00",
+        "market_component": 0.05,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -7.95,
+        "idiosyncratic_sigma": 5.2,
+        "r_squared": 0.002
+      },
+      "root_cause": {
+        "ticker": "KHC",
+        "primary_cause": "earnings",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.30718424916267395,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 0,
+      "created_at": "2026-03-13 21:25:12.816624+00:00"
+    },
+    {
+      "id": "2ba89b48ea66",
+      "ticker": "GDDY",
+      "company_name": "GoDaddy Inc.",
+      "alert_level": "low",
+      "title": "GDDY -12.8% Idiosyncratic Drop (5.2 Sigma) in Technology Cluster",
+      "summary": "GoDaddy experienced a -12.8% idiosyncratic residual at 5.2 sigma within the technology cluster. While no direct causal links are specified in the data, GDDY's presence in the same cluster as ADBE (-11.3%), PSKY (-18.2%), and FISV suggests potential shared concerns about SMB spending, web services demand, or payment processing volumes. The move is significant given GDDY's exposure to small business formation and digital presence trends.",
+      "move": {
+        "ticker": "GDDY",
+        "company_name": "GoDaddy Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 93.95,
+        "price_end": 81.22,
+        "pct_change": -13.55,
+        "historical_volatility": 0.5012,
+        "daily_sigma": 0.03157,
+        "move_in_sigma": 1.92,
+        "threshold_sigma": 2.0,
+        "alert_level": "low",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816637+00:00",
+        "period_end": "2026-03-13 21:25:12.816638+00:00",
+        "detected_at": "2026-03-13 21:25:12.816638+00:00",
+        "market_component": -0.29,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -12.81,
+        "idiosyncratic_sigma": 5.22,
+        "r_squared": 0.025
+      },
+      "root_cause": {
+        "ticker": "GDDY",
+        "primary_cause": "earnings",
+        "secondary_causes": [],
+        "explanation": "GoDaddy experienced a -12.8% idiosyncratic residual at 5.2 sigma within the technology cluster. While no direct causal links are specified in the data, GDDY's presence in the same cluster as ADBE (-11.3%), PSKY (-18.2%), and FISV suggests potential shared concerns about SMB spending, web services demand, or payment processing volumes. The move is significant given GDDY's exposure to small business formation and digital presence trends.",
+        "confidence": 0.2941993772983551,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "ADBE",
+          "PSKY",
+          "FISV",
+          "WDAY"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "reduce",
+          "target": "GDDY and SMB-exposed technology names",
+          "urgency": "high",
+          "rationale": "5.2\u03c3 idiosyncratic move suggests repricing of SMB demand expectations",
+          "time_horizon": "1-5 days"
+        }
+      ],
+      "related_moves": [
+        "ADBE",
+        "PSKY",
+        "FISV",
+        "WDAY"
+      ],
+      "news_count": 0,
+      "created_at": "2026-03-13 21:25:12.816646+00:00"
+    }
+  ],
+  "critical_alerts": [
+    {
+      "id": "b62d25ec01a7",
+      "ticker": "ULTA",
+      "company_name": "Ulta Beauty, Inc.",
+      "alert_level": "critical",
+      "title": "ULTA -16.8% Idiosyncratic Drop Anchors 22-Stock Technology/Consumer Discretionary Cluster",
+      "summary": "ULTA experienced a -16.8% idiosyncratic move (7.3 sigma) that shows causal linkage to ADBE (-11.3%, 5.7 sigma) and COO (-8.2%, 5.3 sigma) with p-values of 0.36 and 0.44 respectively. This cluster of 22 stocks spans technology and consumer discretionary sectors with coherence 0.24, suggesting a shared but diffuse driver. The epicenter is actually SNDK (+26.2% idio), creating a bifurcated cluster with extreme positive and negative residuals. Without specific news catalysts provided, the causal mechanism linking beauty retail (ULTA) to enterprise software (ADBE, WDAY, FISV), healthcare tech (RMD, TMO), and memory (MU, WDC, SNDK) remains unclear, though the SNDK surge may indicate sector-specific storage/memory news affecting tech spending expectations.",
+      "move": {
+        "ticker": "ULTA",
+        "company_name": "Ulta Beauty, Inc.",
+        "sector": null,
+        "period": "daily",
+        "direction": "down",
+        "price_start": 624.7,
+        "price_end": 535.72,
+        "pct_change": -14.24,
+        "historical_volatility": 0.393,
+        "daily_sigma": 0.024756,
+        "move_in_sigma": 5.75,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816086+00:00",
+        "period_end": "2026-03-13 21:25:12.816088+00:00",
+        "detected_at": "2026-03-13 21:25:12.816089+00:00",
+        "market_component": -0.39,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -13.9,
+        "idiosyncratic_sigma": 6.09,
+        "r_squared": 0.049
+      },
+      "root_cause": {
+        "ticker": "ULTA",
+        "primary_cause": "earnings",
+        "secondary_causes": [],
+        "explanation": "ULTA experienced a -16.8% idiosyncratic move (7.3 sigma) that shows causal linkage to ADBE (-11.3%, 5.7 sigma) and COO (-8.2%, 5.3 sigma) with p-values of 0.36 and 0.44 respectively. This cluster of 22 stocks spans technology and consumer discretionary sectors with coherence 0.24, suggesting a shared but diffuse driver. The epicenter is actually SNDK (+26.2% idio), creating a bifurcated cluster with extreme positive and negative residuals. Without specific news catalysts provided, the causal mechanism linking beauty retail (ULTA) to enterprise software (ADBE, WDAY, FISV), healthcare tech (RMD, TMO), and memory (MU, WDC, SNDK) remains unclear, though the SNDK surge may indicate sector-specific storage/memory news affecting tech spending expectations.",
+        "confidence": 0.37020623683929443,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "ADBE",
+          "COO",
+          "DG",
+          "CPRT",
+          "RMD",
+          "OTIS",
+          "PSKY",
+          "BR",
+          "ADP",
+          "TMO",
+          "GDDY",
+          "SNDK",
+          "MU",
+          "WDC"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "ULTA, ADBE, PSKY, GDDY",
+          "urgency": "immediate",
+          "rationale": "Extreme sigma events (5.0-7.3\u03c3) with unclear causal driver require news verification",
+          "time_horizon": "intraday"
+        },
+        {
+          "action_type": "hedge",
+          "target": "Consumer discretionary retail exposure (ULTA, DG, BR)",
+          "urgency": "high",
+          "rationale": "Cluster shows -16.8% to -9.2% idiosyncratic moves suggesting unpriced retail-specific risk",
+          "time_horizon": "1-3 days"
+        },
+        {
+          "action_type": "monitor",
+          "target": "SNDK and memory sector (MU, WDC)",
+          "urgency": "medium",
+          "rationale": "SNDK +26.2% epicenter may signal storage/memory catalyst affecting broader tech capex",
+          "time_horizon": "1-5 days"
+        }
+      ],
+      "related_moves": [
+        "ADBE",
+        "COO",
+        "DG",
+        "CPRT",
+        "RMD",
+        "OTIS",
+        "PSKY",
+        "BR",
+        "ADP",
+        "TMO",
+        "GDDY",
+        "SNDK",
+        "MU",
+        "WDC"
+      ],
+      "news_count": 6,
+      "created_at": "2026-03-13 21:25:12.816110+00:00"
+    },
+    {
+      "id": "f1fb2de1d8a0",
+      "ticker": "PODD",
+      "company_name": "Insulet Corporation",
+      "alert_level": "critical",
+      "title": "PODD -6.88%",
+      "summary": "",
+      "move": {
+        "ticker": "PODD",
+        "company_name": "Insulet Corporation",
+        "sector": null,
+        "period": "daily",
+        "direction": "down",
+        "price_start": 236.07,
+        "price_end": 219.84,
+        "pct_change": -6.88,
+        "historical_volatility": 0.3144,
+        "daily_sigma": 0.019808,
+        "move_in_sigma": 3.47,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816133+00:00",
+        "period_end": "2026-03-13 21:25:12.816134+00:00",
+        "detected_at": "2026-03-13 21:25:12.816135+00:00",
+        "market_component": -0.44,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -6.12,
+        "idiosyncratic_sigma": 3.02,
+        "r_squared": 0.077
+      },
+      "root_cause": {
+        "ticker": "PODD",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "",
+        "confidence": 0.27686360478401184,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": []
+      },
+      "sector_impacts": [],
+      "recommended_actions": [],
+      "related_moves": [],
+      "news_count": 1,
+      "created_at": "2026-03-13 21:25:12.816147+00:00"
+    },
+    {
+      "id": "890f633f8f60",
+      "ticker": "ADBE",
+      "company_name": "Adobe Inc.",
+      "alert_level": "critical",
+      "title": "ADBE -11.3% Idiosyncratic Move Shows Causal Links to ULTA, COO, BR, ADP",
+      "summary": "Adobe's -11.3% idiosyncratic residual (5.7 sigma) demonstrates causal relationships with COO (p=0.40), BR (p=0.46), and ADP (p=0.52), suggesting a shared driver beyond sector factors. The connection to ULTA (-16.8%) with p=0.36 is unusual given sector divergence. This may indicate concerns about enterprise software spending, AI monetization challenges, or subscription model pressures affecting multiple business services companies. The move is particularly significant given ADBE's role as a bellwether for creative software and digital experience platforms.",
+      "move": {
+        "ticker": "ADBE",
+        "company_name": "Adobe Inc.",
+        "sector": null,
+        "period": "daily",
+        "direction": "down",
+        "price_start": 269.78,
+        "price_end": 249.32,
+        "pct_change": -7.58,
+        "historical_volatility": 0.3628,
+        "daily_sigma": 0.022851,
+        "move_in_sigma": 3.32,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816169+00:00",
+        "period_end": "2026-03-13 21:25:12.816170+00:00",
+        "detected_at": "2026-03-13 21:25:12.816170+00:00",
+        "market_component": -0.38,
+        "sector_component": -0.07,
+        "idiosyncratic_return": -6.83,
+        "idiosyncratic_sigma": 3.44,
+        "r_squared": 0.075
+      },
+      "root_cause": {
+        "ticker": "ADBE",
+        "primary_cause": "company_event",
+        "secondary_causes": [],
+        "explanation": "Adobe's -11.3% idiosyncratic residual (5.7 sigma) demonstrates causal relationships with COO (p=0.40), BR (p=0.46), and ADP (p=0.52), suggesting a shared driver beyond sector factors. The connection to ULTA (-16.8%) with p=0.36 is unusual given sector divergence. This may indicate concerns about enterprise software spending, AI monetization challenges, or subscription model pressures affecting multiple business services companies. The move is particularly significant given ADBE's role as a bellwether for creative software and digital experience platforms.",
+        "confidence": 0.2850663661956787,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "ULTA",
+          "COO",
+          "BR",
+          "ADP",
+          "WDAY",
+          "FISV",
+          "GDDY"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "reduce",
+          "target": "ADBE, WDAY, FISV enterprise software exposure",
+          "urgency": "high",
+          "rationale": "5.7\u03c3 move with multiple causal links (p=0.40-0.52) suggests systematic repricing",
+          "time_horizon": "1-5 days"
+        },
+        {
+          "action_type": "investigate",
+          "target": "ADBE AI monetization and subscription metrics",
+          "urgency": "immediate",
+          "rationale": "Idiosyncratic move of this magnitude typically precedes material news",
+          "time_horizon": "intraday"
+        }
+      ],
+      "related_moves": [
+        "ULTA",
+        "COO",
+        "BR",
+        "ADP",
+        "WDAY",
+        "FISV",
+        "GDDY"
+      ],
+      "news_count": 1,
+      "created_at": "2026-03-13 21:25:12.816182+00:00"
+    },
+    {
+      "id": "e083d4a4c291",
+      "ticker": "CPB",
+      "company_name": "The Campbell's Company",
+      "alert_level": "critical",
+      "title": "CPB -15.7% Idiosyncratic Drop (8.1 Sigma) Shows Strong Causal Links to CAG, GIS",
+      "summary": "Campbell Soup (CPB) declined -15.7% on an idiosyncratic basis at 8.1 sigma, demonstrating strong causal relationships with CAG (p=0.69) and GIS (p=0.75). This represents one of the highest-sigma events in the dataset and suggests a packaged food sector-specific catalyst beyond general consumer staples factors. The tight causal linkage indicates potential concerns about pricing power, volume trends, private label competition, or input costs specific to shelf-stable packaged foods. CPB also shows weaker links to SYK (p=0.31) and BA (p=0.36), though the mechanism is unclear.",
+      "move": {
+        "ticker": "CPB",
+        "company_name": "The Campbell's Company",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 25.8,
+        "price_end": 21.71,
+        "pct_change": -15.85,
+        "historical_volatility": 0.353,
+        "daily_sigma": 0.022235,
+        "move_in_sigma": 3.19,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816200+00:00",
+        "period_end": "2026-03-13 21:25:12.816201+00:00",
+        "detected_at": "2026-03-13 21:25:12.816201+00:00",
+        "market_component": 0.19,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -15.73,
+        "idiosyncratic_sigma": 8.06,
+        "r_squared": 0.017
+      },
+      "root_cause": {
+        "ticker": "CPB",
+        "primary_cause": "macro_economic",
+        "secondary_causes": [],
+        "explanation": "Campbell Soup (CPB) declined -15.7% on an idiosyncratic basis at 8.1 sigma, demonstrating strong causal relationships with CAG (p=0.69) and GIS (p=0.75). This represents one of the highest-sigma events in the dataset and suggests a packaged food sector-specific catalyst beyond general consumer staples factors. The tight causal linkage indicates potential concerns about pricing power, volume trends, private label competition, or input costs specific to shelf-stable packaged foods. CPB also shows weaker links to SYK (p=0.31) and BA (p=0.36), though the mechanism is unclear.",
+        "confidence": 0.39927130937576294,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "CAG",
+          "GIS",
+          "MKC",
+          "KHC",
+          "CNC"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "exit",
+          "target": "CPB, CAG, GIS packaged food longs",
+          "urgency": "immediate",
+          "rationale": "8.1\u03c3 event with p=0.69-0.75 causal links indicates systematic packaged food repricing",
+          "time_horizon": "immediate"
+        },
+        {
+          "action_type": "investigate",
+          "target": "Packaged food sector pricing, volume, and margin trends",
+          "urgency": "immediate",
+          "rationale": "Extreme sigma events across multiple names demand catalyst identification",
+          "time_horizon": "intraday"
+        },
+        {
+          "action_type": "short",
+          "target": "Other packaged food names not yet moved",
+          "urgency": "medium",
+          "rationale": "Strong causal structure suggests contagion risk to related names",
+          "time_horizon": "1-3 days"
+        }
+      ],
+      "related_moves": [
+        "CAG",
+        "GIS",
+        "MKC",
+        "KHC",
+        "CNC"
+      ],
+      "news_count": 1,
+      "created_at": "2026-03-13 21:25:12.816210+00:00"
+    },
+    {
+      "id": "faba02e99f26",
+      "ticker": "ULTA",
+      "company_name": "Ulta Beauty, Inc.",
+      "alert_level": "critical",
+      "title": "ULTA -16.8% Idiosyncratic Drop Anchors 22-Stock Technology/Consumer Discretionary Cluster",
+      "summary": "ULTA experienced a -16.8% idiosyncratic move (7.3 sigma) that shows causal linkage to ADBE (-11.3%, 5.7 sigma) and COO (-8.2%, 5.3 sigma) with p-values of 0.36 and 0.44 respectively. This cluster of 22 stocks spans technology and consumer discretionary sectors with coherence 0.24, suggesting a shared but diffuse driver. The epicenter is actually SNDK (+26.2% idio), creating a bifurcated cluster with extreme positive and negative residuals. Without specific news catalysts provided, the causal mechanism linking beauty retail (ULTA) to enterprise software (ADBE, WDAY, FISV), healthcare tech (RMD, TMO), and memory (MU, WDC, SNDK) remains unclear, though the SNDK surge may indicate sector-specific storage/memory news affecting tech spending expectations.",
+      "move": {
+        "ticker": "ULTA",
+        "company_name": "Ulta Beauty, Inc.",
+        "sector": null,
+        "period": "weekly",
+        "direction": "down",
+        "price_start": 646.34,
+        "price_end": 535.72,
+        "pct_change": -17.11,
+        "historical_volatility": 0.393,
+        "daily_sigma": 0.024756,
+        "move_in_sigma": 3.09,
+        "threshold_sigma": 2.0,
+        "alert_level": "critical",
+        "volume": null,
+        "avg_volume": null,
+        "volume_ratio": null,
+        "period_start": "2026-03-13 21:25:12.816235+00:00",
+        "period_end": "2026-03-13 21:25:12.816236+00:00",
+        "detected_at": "2026-03-13 21:25:12.816236+00:00",
+        "market_component": -0.39,
+        "sector_component": 0.0,
+        "idiosyncratic_return": -16.77,
+        "idiosyncratic_sigma": 7.34,
+        "r_squared": 0.049
+      },
+      "root_cause": {
+        "ticker": "ULTA",
+        "primary_cause": "earnings",
+        "secondary_causes": [],
+        "explanation": "ULTA experienced a -16.8% idiosyncratic move (7.3 sigma) that shows causal linkage to ADBE (-11.3%, 5.7 sigma) and COO (-8.2%, 5.3 sigma) with p-values of 0.36 and 0.44 respectively. This cluster of 22 stocks spans technology and consumer discretionary sectors with coherence 0.24, suggesting a shared but diffuse driver. The epicenter is actually SNDK (+26.2% idio), creating a bifurcated cluster with extreme positive and negative residuals. Without specific news catalysts provided, the causal mechanism linking beauty retail (ULTA) to enterprise software (ADBE, WDAY, FISV), healthcare tech (RMD, TMO), and memory (MU, WDC, SNDK) remains unclear, though the SNDK surge may indicate sector-specific storage/memory news affecting tech spending expectations.",
+        "confidence": 0.3714115023612976,
+        "key_articles": [],
+        "is_company_specific": true,
+        "related_tickers": [
+          "ADBE",
+          "COO",
+          "DG",
+          "CPRT",
+          "RMD",
+          "OTIS",
+          "PSKY",
+          "BR",
+          "ADP",
+          "TMO",
+          "GDDY",
+          "SNDK",
+          "MU",
+          "WDC"
+        ]
+      },
+      "sector_impacts": [],
+      "recommended_actions": [
+        {
+          "action_type": "investigate",
+          "target": "ULTA, ADBE, PSKY, GDDY",
+          "urgency": "immediate",
+          "rationale": "Extreme sigma events (5.0-7.3\u03c3) with unclear causal driver require news verification",
+          "time_horizon": "intraday"
+        },
+        {
+          "action_type": "hedge",
+          "target": "Consumer discretionary retail exposure (ULTA, DG, BR)",
+          "urgency": "high",
+          "rationale": "Cluster shows -16.8% to -9.2% idiosyncratic moves suggesting unpriced retail-specific risk",
+          "time_horizon": "1-3 days"
+        },
+        {
+          "action_type": "monitor",
+          "target": "SNDK and memory sector (MU, WDC)",
+          "urgency": "medium",
+          "rationale": "SNDK +26.2% epicenter may signal storage/memory catalyst affecting broader tech capex",
+          "time_horizon": "1-5 days"
+        }
+      ],
+      "related_moves": [
+        "ADBE",
+        "COO",
+        "DG",
+        "CPRT",
+        "RMD",
+        "OTIS",
+        "PSKY",
+        "BR",
+        "ADP",
+        "TMO",
+        "GDDY",
+        "SNDK",
+        "MU",
+        "WDC"
+      ],
+      "news_count": 6,
+      "created_at": "2026-03-13 21:25:12.816245+00:00"
+    }
+  ],
+  "sector_summary": {
+    "Consumer Staples - Packaged Foods": "Catastrophic idiosyncratic repricing with CPB -15.7% (8.1\u03c3), CAG -13.8% (7.4\u03c3), and GIS -11.8% (9.3\u03c3) showing the tightest causal structure in the dataset (p=0.69-0.75). The 9.3\u03c3 GIS move is the highest sigma event across all flagged moves. High cluster coherence (0.50) confirms genuine shared catalyst affecting shelf-stable food companies. MKC -10.2% (5.6\u03c3) and KHC -8.0% (5.2\u03c3) extend the weakness. This represents systematic repricing beyond normal sector factors.",
+    "Healthcare - Managed Care & Devices": "CNC -20.9% (6.5\u03c3) serves as Cluster 1 epicenter, representing the largest percentage idiosyncratic move in the dataset. SYK -7.4% (5.6\u03c3) and PODD -6.1% (3.0\u03c3) show correlated weakness with causal links to packaged foods, suggesting potential shared consumer spending or government reimbursement concerns. The healthcare-staples linkage is unusual but coherence of 0.50 supports genuine connection.",
+    "Technology - Software & Services": "Bifurcated cluster with low coherence (0.24) indicating multiple drivers. Severe weakness in PSKY -18.2% (5.0\u03c3), ADBE -11.3% (5.7\u03c3), GDDY -12.8% (5.2\u03c3), WDAY, FISV suggests enterprise software/SMB spending concerns. ADBE shows causal centrality with links to COO (p=0.40), BR (p=0.46), ADP (p=0.52). Offset by SNDK +26.2% epicenter with MU, WDC suggesting memory/storage catalyst. Low coherence warrants skepticism about unified narrative.",
+    "Consumer Discretionary - Retail": "ULTA -16.8% (7.3\u03c3) represents the second-largest percentage idiosyncratic move and shows unusual causal links to technology names. DG -9.8% (4.2\u03c3) and BR -9.2% (5.8\u03c3) extend retail weakness. The ULTA-ADBE connection (p=0.36) is mechanistically unclear given sector divergence, suggesting either spurious correlation or a deeper consumer spending signal affecting both beauty retail and enterprise software.",
+    "Industrials": "CPRT -9.2% (5.8\u03c3), COO -8.2% (5.3\u03c3), OTIS -6.7% (5.7\u03c3), and BA -8.8% (4.8\u03c3) show synchronized weakness within Cluster 0 and 1. COO receives causal influence from both ULTA (p=0.44) and ADBE (p=0.40). BA's presence in the consumer staples cluster (Cluster 1) with causal link from CPB (p=0.36) is mechanistically unclear.",
+    "Materials - Fertilizers & Chemicals": "MOS -6.2% (2.2\u03c3) anchors the highest coherence cluster (0.56) with strong causal propagation to CF (p=0.66) and DOW (p=0.53). Despite lower sigma values than other clusters, the tight causal structure and high coherence make this the most reliable signal for systematic fertilizer/agricultural chemical repricing. Note data inconsistency: header shows MOS epicenter at +12.7% idio but member list shows -6.2%."
+  },
+  "top_recommendations": [
+    {
+      "action_type": "exit",
+      "target": "CNC, CPB, CAG, GIS",
+      "urgency": "immediate",
+      "rationale": "Cluster 1 epicenter CNC at -20.9% (6.5\u03c3) and packaged foods at 7.4-9.3\u03c3 with p=0.69-0.75 causal links represent the most extreme and coherent repricing in the dataset",
+      "time_horizon": "immediate"
+    },
+    {
+      "action_type": "investigate",
+      "target": "ULTA, PSKY, ADBE catalyst identification",
+      "urgency": "immediate",
+      "rationale": "Cluster 0 shows 5.0-7.3\u03c3 moves but low coherence (0.24), requiring news verification to distinguish genuine shared catalyst from coincidental timing",
+      "time_horizon": "intraday"
+    },
+    {
+      "action_type": "hedge",
+      "target": "Consumer discretionary retail (ULTA, DG, BR) and enterprise software (ADBE, WDAY, FISV)",
+      "urgency": "high",
+      "rationale": "Cluster 0's -16.8% to -9.2% idiosyncratic moves across retail and software suggest unpriced spending weakness risk",
+      "time_horizon": "1-3 days"
+    },
+    {
+      "action_type": "reduce",
+      "target": "Fertilizer and agricultural chemicals (MOS, CF, DOW)",
+      "urgency": "medium",
+      "rationale": "Cluster 2's highest coherence (0.56) and tight causal structure (p=0.53-0.66) indicate reliable fertilizer sector repricing signal",
+      "time_horizon": "1-5 days"
+    },
+    {
+      "action_type": "monitor",
+      "target": "SNDK and memory sector (MU, WDC) for positive catalyst propagation",
+      "urgency": "medium",
+      "rationale": "SNDK +26.2% epicenter in Cluster 0 may signal storage/memory catalyst that could offset broader tech weakness",
+      "time_horizon": "1-5 days"
+    }
+  ],
+  "causal_clusters": [
+    {
+      "cluster_id": 0,
+      "tickers": [
+        "ULTA",
+        "ADBE",
+        "COO",
+        "DG",
+        "CPRT",
+        "RMD",
+        "OTIS",
+        "PSKY",
+        "BR",
+        "ADP",
+        "TMO",
+        "GDDY",
+        "FISV",
+        "WDAY",
+        "EFX",
+        "SNDK",
+        "CRL",
+        "ARES",
+        "AXON",
+        "MU",
+        "CIEN",
+        "WDC"
+      ],
+      "epicenter_ticker": "SNDK",
+      "epicenter_idio_return": 26.23,
+      "dominant_sector": "technology",
+      "avg_partial_correlation": 0.242,
+      "coherence_score": 0.242,
+      "is_singleton": false,
+      "is_sector_cluster": false,
+      "size": 22,
+      "edges": [
+        {
+          "source": "ULTA",
+          "target": "ADBE",
+          "partial_correlation": 0.357,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ULTA",
+          "target": "COO",
+          "partial_correlation": 0.442,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADBE",
+          "target": "COO",
+          "partial_correlation": 0.398,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADBE",
+          "target": "BR",
+          "partial_correlation": 0.458,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADBE",
+          "target": "ADP",
+          "partial_correlation": 0.515,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADBE",
+          "target": "GDDY",
+          "partial_correlation": 0.341,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADBE",
+          "target": "FISV",
+          "partial_correlation": 0.435,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADBE",
+          "target": "WDAY",
+          "partial_correlation": 0.684,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADBE",
+          "target": "EFX",
+          "partial_correlation": 0.332,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADBE",
+          "target": "MU",
+          "partial_correlation": -0.303,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADBE",
+          "target": "CIEN",
+          "partial_correlation": -0.353,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "COO",
+          "target": "DG",
+          "partial_correlation": 0.459,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "COO",
+          "target": "CPRT",
+          "partial_correlation": 0.308,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "COO",
+          "target": "RMD",
+          "partial_correlation": 0.386,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPRT",
+          "target": "RMD",
+          "partial_correlation": 0.459,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPRT",
+          "target": "PSKY",
+          "partial_correlation": 0.384,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPRT",
+          "target": "ADP",
+          "partial_correlation": 0.525,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPRT",
+          "target": "GDDY",
+          "partial_correlation": 0.369,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPRT",
+          "target": "FISV",
+          "partial_correlation": 0.466,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPRT",
+          "target": "WDAY",
+          "partial_correlation": 0.398,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPRT",
+          "target": "EFX",
+          "partial_correlation": 0.521,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPRT",
+          "target": "CRL",
+          "partial_correlation": 0.428,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "MU",
+          "target": "CPRT",
+          "partial_correlation": -0.378,
+          "lead_lag_days": 1
+        },
+        {
+          "source": "CPRT",
+          "target": "CIEN",
+          "partial_correlation": -0.427,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "BR",
+          "target": "RMD",
+          "partial_correlation": 0.33,
+          "lead_lag_days": 2
+        },
+        {
+          "source": "RMD",
+          "target": "EFX",
+          "partial_correlation": 0.302,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "BR",
+          "target": "OTIS",
+          "partial_correlation": 0.343,
+          "lead_lag_days": 4
+        },
+        {
+          "source": "FISV",
+          "target": "OTIS",
+          "partial_correlation": 0.311,
+          "lead_lag_days": 5
+        },
+        {
+          "source": "OTIS",
+          "target": "CIEN",
+          "partial_correlation": -0.303,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "BR",
+          "target": "ADP",
+          "partial_correlation": 0.613,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "BR",
+          "target": "GDDY",
+          "partial_correlation": 0.472,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "BR",
+          "target": "FISV",
+          "partial_correlation": 0.356,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "BR",
+          "target": "WDAY",
+          "partial_correlation": 0.442,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "BR",
+          "target": "EFX",
+          "partial_correlation": 0.568,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADP",
+          "target": "FISV",
+          "partial_correlation": 0.682,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADP",
+          "target": "WDAY",
+          "partial_correlation": 0.607,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADP",
+          "target": "EFX",
+          "partial_correlation": 0.598,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADP",
+          "target": "CRL",
+          "partial_correlation": 0.43,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADP",
+          "target": "AXON",
+          "partial_correlation": 0.344,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "ADP",
+          "target": "CIEN",
+          "partial_correlation": -0.453,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "TMO",
+          "target": "CRL",
+          "partial_correlation": 0.526,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "GDDY",
+          "target": "WDAY",
+          "partial_correlation": 0.421,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "GDDY",
+          "target": "EFX",
+          "partial_correlation": 0.434,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "GDDY",
+          "target": "CRL",
+          "partial_correlation": 0.401,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "FISV",
+          "target": "WDAY",
+          "partial_correlation": 0.495,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "FISV",
+          "target": "EFX",
+          "partial_correlation": 0.527,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "FISV",
+          "target": "SNDK",
+          "partial_correlation": -0.471,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "FISV",
+          "target": "CRL",
+          "partial_correlation": 0.305,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "FISV",
+          "target": "ARES",
+          "partial_correlation": 0.344,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "MU",
+          "target": "FISV",
+          "partial_correlation": -0.354,
+          "lead_lag_days": 2
+        },
+        {
+          "source": "FISV",
+          "target": "CIEN",
+          "partial_correlation": -0.452,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "WDC",
+          "target": "FISV",
+          "partial_correlation": -0.417,
+          "lead_lag_days": 2
+        },
+        {
+          "source": "WDAY",
+          "target": "EFX",
+          "partial_correlation": 0.366,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "WDAY",
+          "target": "SNDK",
+          "partial_correlation": -0.313,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "WDAY",
+          "target": "CRL",
+          "partial_correlation": 0.369,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "WDAY",
+          "target": "ARES",
+          "partial_correlation": 0.33,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "AXON",
+          "target": "WDAY",
+          "partial_correlation": 0.329,
+          "lead_lag_days": 4
+        },
+        {
+          "source": "WDAY",
+          "target": "MU",
+          "partial_correlation": -0.352,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "WDAY",
+          "target": "CIEN",
+          "partial_correlation": -0.385,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "SNDK",
+          "target": "EFX",
+          "partial_correlation": -0.397,
+          "lead_lag_days": 1
+        },
+        {
+          "source": "MU",
+          "target": "EFX",
+          "partial_correlation": -0.307,
+          "lead_lag_days": 1
+        },
+        {
+          "source": "EFX",
+          "target": "CIEN",
+          "partial_correlation": -0.387,
+          "lead_lag_days": 1
+        },
+        {
+          "source": "EFX",
+          "target": "WDC",
+          "partial_correlation": -0.472,
+          "lead_lag_days": 3
+        },
+        {
+          "source": "SNDK",
+          "target": "MU",
+          "partial_correlation": 0.671,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "SNDK",
+          "target": "CIEN",
+          "partial_correlation": 0.514,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "SNDK",
+          "target": "WDC",
+          "partial_correlation": 0.716,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "MU",
+          "target": "CIEN",
+          "partial_correlation": 0.393,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "MU",
+          "target": "WDC",
+          "partial_correlation": 0.61,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CIEN",
+          "target": "WDC",
+          "partial_correlation": 0.428,
+          "lead_lag_days": 0
+        }
+      ]
+    },
+    {
+      "cluster_id": 1,
+      "tickers": [
+        "PODD",
+        "CPB",
+        "CNC",
+        "CAG",
+        "GIS",
+        "SYK",
+        "WEC",
+        "BA",
+        "MKC",
+        "KHC",
+        "LW"
+      ],
+      "epicenter_ticker": "CNC",
+      "epicenter_idio_return": -20.91,
+      "dominant_sector": "consumer_staples",
+      "avg_partial_correlation": 0.499,
+      "coherence_score": 0.499,
+      "is_singleton": false,
+      "is_sector_cluster": false,
+      "size": 11,
+      "edges": [
+        {
+          "source": "PODD",
+          "target": "SYK",
+          "partial_correlation": 0.379,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPB",
+          "target": "CAG",
+          "partial_correlation": 0.691,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPB",
+          "target": "GIS",
+          "partial_correlation": 0.747,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPB",
+          "target": "SYK",
+          "partial_correlation": 0.312,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPB",
+          "target": "BA",
+          "partial_correlation": 0.361,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPB",
+          "target": "MKC",
+          "partial_correlation": 0.538,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPB",
+          "target": "KHC",
+          "partial_correlation": 0.709,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CPB",
+          "target": "LW",
+          "partial_correlation": 0.32,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CNC",
+          "target": "SYK",
+          "partial_correlation": 0.32,
+          "lead_lag_days": 1
+        },
+        {
+          "source": "CAG",
+          "target": "GIS",
+          "partial_correlation": 0.802,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CAG",
+          "target": "WEC",
+          "partial_correlation": 0.36,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CAG",
+          "target": "MKC",
+          "partial_correlation": 0.622,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CAG",
+          "target": "KHC",
+          "partial_correlation": 0.647,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CAG",
+          "target": "LW",
+          "partial_correlation": 0.426,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "GIS",
+          "target": "MKC",
+          "partial_correlation": 0.578,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "GIS",
+          "target": "KHC",
+          "partial_correlation": 0.71,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "GIS",
+          "target": "LW",
+          "partial_correlation": 0.373,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "SYK",
+          "target": "MKC",
+          "partial_correlation": 0.314,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "MKC",
+          "target": "KHC",
+          "partial_correlation": 0.446,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "KHC",
+          "target": "LW",
+          "partial_correlation": 0.316,
+          "lead_lag_days": 0
+        }
+      ]
+    },
+    {
+      "cluster_id": 2,
+      "tickers": [
+        "MOS",
+        "CF",
+        "DOW"
+      ],
+      "epicenter_ticker": "MOS",
+      "epicenter_idio_return": 12.73,
+      "dominant_sector": "materials",
+      "avg_partial_correlation": 0.559,
+      "coherence_score": 0.559,
+      "is_singleton": false,
+      "is_sector_cluster": true,
+      "size": 3,
+      "edges": [
+        {
+          "source": "MOS",
+          "target": "CF",
+          "partial_correlation": 0.66,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "MOS",
+          "target": "DOW",
+          "partial_correlation": 0.527,
+          "lead_lag_days": 0
+        },
+        {
+          "source": "CF",
+          "target": "DOW",
+          "partial_correlation": 0.489,
+          "lead_lag_days": 0
+        }
+      ]
+    }
+  ],
+  "total_articles_analyzed": 351,
+  "generation_time_seconds": 136.1
+}

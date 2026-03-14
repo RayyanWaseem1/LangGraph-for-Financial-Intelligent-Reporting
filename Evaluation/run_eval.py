@@ -39,6 +39,7 @@ class EvaluationRunner:
         slm_model_path: str = "models/financial_slm",
         output_dir: str = "evaluation_results",
         sigma_threshold: float = 2.0,
+        distribution: str = "normal",
     ):
         self.tickers = tickers or self._default_tickers()
         self.test_data_dir = test_data_dir
@@ -46,6 +47,7 @@ class EvaluationRunner:
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents = True, exist_ok=True)
         self.sigma_threshold = sigma_threshold
+        self.distribution = distribution
         self.results: Dict = {}
 
     async def run_all(
@@ -73,7 +75,7 @@ class EvaluationRunner:
             logger.info("\n [1/5] Evaluating Factor Decomposition Model")
             try:
                 from Evaluation.factor_eval import FactorModelEvaluator
-                evaluator = FactorModelEvaluator()
+                evaluator = FactorModelEvaluator(distribution=self.distribution)
                 factor_metrics = evaluator.evaluate(self.tickers, test_period_days = 60)
                 self.results["components"]["factor_model"] = asdict(factor_metrics)
                 logger.info(f" R-squared: {factor_metrics.avg_r_squared} | "
@@ -212,21 +214,77 @@ class EvaluationRunner:
                 return 
             briefs_to_judge = [brief_data]
         else:
-            #Judge existing briefs
+            #Judge existing briefs — pass FULL content, not just executive summary
             briefs_to_judge = []
-            for bf in brief_files[:5]: #Max 5 briefs
+            for bf in sorted(brief_files, reverse=True)[:5]:  # Most recent first
                 try:
                     with open(bf) as f:
                         data = json.load(f)
+
+                    # Build FULL brief text from all sections
+                    sections = []
+                    sections.append(f"EXECUTIVE SUMMARY:\n{data.get('executive_summary', 'N/A')}")
+
+                    # Sector summaries
+                    sector_sum = data.get("sector_summary", {})
+                    if sector_sum:
+                        sector_lines = [f"  {sector}: {summary}" for sector, summary in sector_sum.items()]
+                        sections.append(f"SECTOR ANALYSIS:\n" + "\n".join(sector_lines))
+
+                    # Top recommendations
+                    recs = data.get("top_recommendations", [])
+                    if recs:
+                        rec_lines = []
+                        for i, rec in enumerate(recs, 1):
+                            if isinstance(rec, dict):
+                                rec_lines.append(
+                                    f"  {i}. [{rec.get('urgency', 'N/A')}] {rec.get('action_type', '')}: "
+                                    f"{rec.get('target', '')} — {rec.get('rationale', '')}"
+                                )
+                        sections.append(f"RECOMMENDATIONS:\n" + "\n".join(rec_lines))
+
+                    # Alert summaries
+                    alerts = data.get("alerts", [])
+                    if alerts:
+                        alert_lines = []
+                        for a in alerts[:10]:
+                            alert_lines.append(
+                                f"  [{a.get('alert_level', '?')}] {a.get('title', 'N/A')}: "
+                                f"{a.get('summary', '')[:200]}"
+                            )
+                        sections.append(f"ALERTS ({len(alerts)} total):\n" + "\n".join(alert_lines))
+
+                    full_brief_text = "\n\n".join(sections)
+
+                    # Build input data with move details from alerts
+                    moves_data = []
+                    for a in alerts:
+                        move = a.get("move", {})
+                        moves_data.append({
+                            "ticker": a.get("ticker", "?"),
+                            "pct_change": move.get("pct_change", 0),
+                            "move_in_sigma": move.get("move_in_sigma", 0),
+                            "alert_level": a.get("alert_level", "?"),
+                            "idiosyncratic_return": move.get("idiosyncratic_return", move.get("pct_change", 0)),
+                            "idiosyncratic_sigma": move.get("idiosyncratic_sigma", move.get("move_in_sigma", 0)),
+                            "market_component": move.get("market_component", 0),
+                            "sector_component": move.get("sector_component", 0),
+                            "r_squared": move.get("r_squared", 0),
+                            "total_return": move.get("pct_change", 0),
+                        })
+
                     briefs_to_judge.append({
-                        "brief_text": data.get("executive_summary", ""),
+                        "brief_text": full_brief_text,
                         "input_data": {
-                            "moves": data.get("alerts", []),
-                            "decomposed_moves": data.get("alerts", []),
-                            "clusters": [],
+                            "moves": moves_data,
+                            "decomposed_moves": moves_data,
+                            "clusters": data.get("causal_clusters", []),
                         },
                     })
-                except Exception:
+                    logger.info(f"  Loaded brief from {bf.name}: {len(alerts)} alerts, "
+                                f"{len(recs)} recommendations, {len(full_brief_text)} chars")
+                except Exception as e:
+                    logger.warning(f"  Failed to load brief {bf}: {e}")
                     continue 
 
         if not briefs_to_judge:
@@ -548,6 +606,8 @@ async def main():
     parser.add_argument("--skip-counterfactual", action="store_true")
     parser.add_argument("--sigma", type=float, default = 2.0,
                         help = "σ threshold for move detection in eval (lower = more moves detected, default: 2.0)")
+    parser.add_argument("--distribution", default="normal", choices=["normal", "student_t"],
+                        help="Distribution for calibration: 'normal' or 'student_t' (default: normal)")
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -556,6 +616,7 @@ async def main():
         tickers=args.tickers,
         output_dir=args.output,
         sigma_threshold=args.sigma,
+        distribution=args.distribution,
     )
 
     results = await runner.run_all(

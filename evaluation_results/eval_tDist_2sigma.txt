@@ -1,0 +1,89 @@
+(.venv) (base) rayyanwaseem@Rayyans-MacBook-Pro LangGraph-for-Financial-Intelligent-Reporting % python -m Evaluation.run_eval --sigma 2.0 --distribution student_t
+
+2026-03-14 00:49:57,167 - INFO - ================================================================================
+2026-03-14 00:49:57,167 - INFO - Financial Intelligence - Evaluation Suite
+2026-03-14 00:49:57,167 - INFO - ================================================================================
+2026-03-14 00:49:57,167 - INFO - 
+ [1/5] Evaluating Factor Decomposition Model
+2026-03-14 00:49:57,632 - INFO - Evaluating factor model on 25 tickers, 60d test period
+2026-03-14 00:49:59,430 - INFO -  R-squared: 0.4153 | Calibration error: 0.02978 | Normal residuals: 52.0%
+2026-03-14 00:49:59,431 - INFO - 
+ [2/5] Evaluating SLM (FinBERT multi-fask model)
+2026-03-14 00:50:01,372 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-14 00:50:01,403 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-14 00:50:01,457 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-14 00:50:01,488 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-14 00:50:01,542 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-03-14 00:50:01,598 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-03-14 00:50:01,656 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-14 00:50:01,682 - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-14 00:50:01,781 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-03-14 00:50:01,853 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-03-14 00:50:01,950 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/main "HTTP/1.1 200 OK"
+Loading weights: 100%|███████████████████████████████████████████████████████████████| 199/199 [00:00<00:00, 9575.60it/s, Materializing param=pooler.dense.weight]
+BertModel LOAD REPORT from: ProsusAI/finbert
+Key                          | Status     |  | 
+-----------------------------+------------+--+-
+bert.embeddings.position_ids | UNEXPECTED |  | 
+classifier.weight            | UNEXPECTED |  | 
+classifier.bias              | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED    :can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+2026-03-14 00:50:02,058 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/discussions?p=0 "HTTP/1.1 200 OK"
+2026-03-14 00:50:02,125 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/refs%2Fpr%2F29 "HTTP/1.1 200 OK"
+2026-03-14 00:50:02,191 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-03-14 00:50:02,192 - WARNING - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-03-14 00:50:02,246 - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors "HTTP/1.1 302 Found"
+ Loaded fine-tuned SLM from models/financial_slm
+2026-03-14 00:50:24,757 - INFO - Classification: accuracy = 0.9267, macro F1 = 0.3643, top 3 = 0.9553
+2026-03-14 00:50:30,935 - INFO - Sentiment: MAE = 0.092, Spearman = 0.8565, directional = 0.9266
+2026-03-14 00:50:39,307 - INFO - Relevance: P = 0.8279, R = 0.9806, F1 = 0.8978, AUC = 0.8737
+2026-03-14 00:51:18,358 - INFO - Latency: single = 28.48 ms, Batch100 = 861.2 ms, Speedup = 58.1 x vs API
+2026-03-14 00:51:18,374 - INFO -  Cls F1: 0.3643 |  Sent MAE: 0.092 |  Rel AUC: 0.8737 |  Speedup: 58.1x
+2026-03-14 00:51:18,374 - INFO - 
+ [3/5] Evaluating Causal Graph Clustering
+2026-03-14 00:51:18,380 - INFO - Monitoring 25 tickers (Eval)
+2026-03-14 00:51:18,380 - INFO - Scanning 25 tickers for significant moves 
+2026-03-14 00:51:20,406 - INFO - Scan complete: 1 signficant moves detectedout of 25 tickers
+2026-03-14 00:51:20,407 - INFO - Decomposing 1 moves into factor components
+2026-03-14 00:51:20,648 - INFO - Decomposition complete: 1 significant idiosyncratic moves, 0 mostly systematic (filtered out)
+2026-03-14 00:51:20,648 - INFO - 
+ [4/5] Running LLM-as-Judge evaluation
+2026-03-14 00:51:21,060 - INFO -   Loaded brief from market_brief_20260313_212512.json: 25 alerts, 5 recommendations, 6830 chars
+2026-03-14 00:51:21,060 - INFO - Judging brief 1/1 ...
+2026-03-14 00:51:54,146 - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-14 00:51:55,173 - INFO - LLM Judge: 1 briefs evaluated | Overall: 4.0/5 | Factual: 3.0/5 | Causal: 4.0/5 | Decomp: 5.0/5
+2026-03-14 00:51:55,173 - INFO -  Overall: 4.0/5 | Factual: 3.0/5 | Causal: 4.0/5 | Decomp awareness: 5.0/5 | Hallucination rate: 100.0%
+2026-03-14 00:51:55,173 - INFO - 
+ [5/5] Evaluating Counterfactual Filtering Rate
+2026-03-14 00:51:55,180 - INFO - Monitoring 25 tickers (Eval)
+2026-03-14 00:51:55,180 - INFO - Scanning 25 tickers for significant moves 
+2026-03-14 00:51:56,911 - INFO - Scan complete: 1 signficant moves detectedout of 25 tickers
+2026-03-14 00:51:56,911 - INFO - Decomposing 1 moves into factor components
+2026-03-14 00:51:57,124 - INFO - Decomposition complete: 1 significant idiosyncratic moves, 0 mostly systematic (filtered out)
+2026-03-14 00:51:57,341 - INFO -   Filtering rate: 0.0% | Quality score: 0.533 | Reversion separation: -100.0pp | False negatives: 0.0%
+2026-03-14 00:51:57,343 - INFO - JSON report: evaluation_results/evaluation_report.json
+2026-03-14 00:51:57,343 - INFO - Markdown report: evaluation_results/evaluation_report.md
+2026-03-14 00:51:57,343 - INFO - 
+ Evlauation complete. Reports saved to evaluation_results/
+
+============================================================
+ EVALUATION SUMMARY
+============================================================
+
+  factor_model:
+    R² = 0.4153 | Calibration err = 0.02978
+
+  slm:
+    Cls F1 = 0.3643 | Rel AUC = 0.8737
+
+  llm_judge:
+    Overall = 4.0/5 | Hallucinations = 100.0%
+
+  counterfactual:
+    Filter quality = 0.533/1.0 | Filtering rate = 0.0%
+
+  Reports saved to: evaluation_results/
+(.venv) (base) rayyanwaseem@Rayyans-MacBook-Pro LangGraph-for-Financial-Intelligent-Reporting % 

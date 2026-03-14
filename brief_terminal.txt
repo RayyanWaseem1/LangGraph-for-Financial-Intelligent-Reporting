@@ -1,0 +1,274 @@
+(.venv) (base) rayyanwaseem@Rayyans-MacBook-Pro LangGraph-for-Financial-Intelligent-Reporting % python -m Pipeline.run_pipeline --sp500
+
+    ╔══════════════════════════════════════════════════════════════════╗
+    ║  Financial Intelligence System                                   ║
+    ║  Quant Decomposition → Causal Graph → SLM → LLM Brief            ║
+    ╚══════════════════════════════════════════════════════════════════╝
+    
+  Portfolio: S&P 500
+  Thresholds: raw=2.0σ, idiosyncratic=1.5σ
+/Users/rayyanwaseem/Desktop/Projects/LangGraph-for-Financial-Intelligent-Reporting/Data/market_monitor.py:41: FutureWarning: Passing literal html to 'read_html' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+  table = pd.read_html(resp.text)[0]
+2026-03-13 17:19:28,801 - Data.market_monitor - INFO - Fetched 503 S&P500 tickers from Wikipedia
+2026-03-13 17:19:28,805 - Data.market_monitor - INFO - Monitoring 503 tickers (S&P 500)
+2026-03-13 17:19:28,818 - __main__ - INFO - ======================================================================
+2026-03-13 17:19:28,819 - __main__ - INFO - Financial Intelligence Pipeline
+2026-03-13 17:19:28,819 - __main__ - INFO - ======================================================================
+2026-03-13 17:19:28,819 - __main__ - INFO - 
+ [1/6] Scanning the portfolio for significant moves ...
+2026-03-13 17:19:28,819 - Data.market_monitor - INFO - Scanning 503 tickers for significant moves 
+2026-03-13 17:21:35,321 - Data.market_monitor - INFO - Scan complete: 42 signficant moves detectedout of 503 tickers
+2026-03-13 17:21:35,322 - __main__ - INFO -  42 raw significant moves detected
+2026-03-13 17:21:35,323 - __main__ - INFO - 
+ [2/6] Decomposing moves into market/sector/idiosyncratic components...
+2026-03-13 17:21:35,323 - Quant.factor_decomposition - INFO - Decomposing 42 moves into factor components
+2026-03-13 17:21:36,176 - Quant.factor_decomposition - INFO - Decomposition complete: 40 significant idiosyncratic moves, 2 mostly systematic (filtered out)
+2026-03-13 17:21:36,176 - __main__ - INFO - Factor decomposition: 40 genuine idiosyncratic moves, 2 filtered (explained by market/sector beta)
+
+ Market: SPY -0.57% | QQQ -0.59% | VIX 27.19
+
+ Filtered (2 explained by market/sector):
+ HOLX: -0.8% total -> market -0.1% + sector +0.0% + idio -0.9% (1.2 sigma)
+ SNDK: +6.9% total -> market -2.6% + sector +0.0% + idio +7.7% (1.2 sigma)
+
+ Significant idiosyncratic moves (40): 
+ 🔴 ULTA: -14.2% total -> market -0.4% + sector +0.0% + IDIO -13.9% (6.1 sigma) [CRITICAL] | R-squared = 0.05
+ 🔴 PODD: -6.9% total -> market -0.4% + sector +0.0% + IDIO -6.1% (3.0 sigma) [CRITICAL] | R-squared = 0.08
+ 🔴 ADBE: -7.6% total -> market -0.4% + sector -0.1% + IDIO -6.8% (3.4 sigma) [CRITICAL] | R-squared = 0.07
+ 🔴 CPB: -15.8% total -> market +0.2% + sector +0.0% + IDIO -15.7% (8.1 sigma) [CRITICAL] | R-squared = 0.02
+ 🔴 ULTA: -17.1% total -> market -0.4% + sector +0.0% + IDIO -16.8% (7.3 sigma) [CRITICAL] | R-squared = 0.05
+ 🔴 CNC: -21.1% total -> market -0.3% + sector +0.0% + IDIO -20.9% (6.5 sigma) [CRITICAL] | R-squared = 0.01
+ 🔴 CAG: -13.7% total -> market +0.1% + sector +0.0% + IDIO -13.8% (7.4 sigma) [CRITICAL] | R-squared = 0.01
+ 🔴 COO: -8.7% total -> market -0.5% + sector +0.0% + IDIO -8.2% (5.3 sigma) [CRITICAL] | R-squared = 0.16
+ 🔴 GIS: -11.1% total -> market +0.3% + sector +0.7% + IDIO -11.8% (9.3 sigma) [CRITICAL] | R-squared = 0.41
+ 🔴 SYK: -7.6% total -> market -0.2% + sector +0.0% + IDIO -7.4% (5.6 sigma) [CRITICAL] | R-squared = 0.03
+2026-03-13 17:21:36,176 - __main__ - INFO - [3/6] Computing prediction residuals (what can't the model explain?) ...
+2026-03-13 17:21:46,710 - __main__ - INFO - Prediction model fitted: 0 tickers | Average residual sigma: 0.0
+2026-03-13 17:21:46,710 - __main__ - INFO - 
+[4/6] Retrieving news for 40 idiosyncratic moves
+2026-03-13 17:21:46,711 - Data.news_retriever - INFO - Retrieving news for 36 unique tickers (lookback = 72h)
+2026-03-13 17:21:47,091 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ulta+Beauty%2C+Inc.%22+OR+%22ULTA%22+OR+%22%24ULTA%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:21:47,093 - Data.news_retriever - WARNING - GDELT search failed for ULTA: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ulta+Beauty%2C+Inc.%22+OR+%22ULTA%22+OR+%22%24ULTA%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:21:47,266 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Ulta+Beauty%2C+Inc.%22+OR+%22ULTA%22&from=2026-03-10T21%3A21%3A47&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:21:49,136 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Insulet+Corporation%22+OR+%22PODD%22+OR+%22%24PODD%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-13 17:21:49,139 - Data.news_retriever - WARNING - GDELT parse error for PODD: Expecting value: line 1 column 1 (char 0)
+2026-03-13 17:21:49,203 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Insulet+Corporation%22+OR+%22PODD%22&from=2026-03-10T21%3A21%3A49&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:21:50,994 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Adobe+Inc.%22+OR+%22ADBE%22+OR+%22%24ADBE%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-13 17:21:50,997 - Data.news_retriever - WARNING - GDELT parse error for ADBE: Expecting value: line 1 column 1 (char 0)
+2026-03-13 17:21:51,058 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Adobe+Inc.%22+OR+%22ADBE%22&from=2026-03-10T21%3A21%3A50&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:21:52,948 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22The+Campbell%27s+Company%22+OR+%22CPB%22+OR+%22%24CPB%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:21:52,950 - Data.news_retriever - WARNING - GDELT search failed for CPB: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22The+Campbell%27s+Company%22+OR+%22CPB%22+OR+%22%24CPB%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:21:53,022 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22The+Campbell%27s+Company%22+OR+%22CPB%22&from=2026-03-10T21%3A21%3A52&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:21:55,250 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Centene+Corporation%22+OR+%22CNC%22+OR+%22%24CNC%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:21:55,268 - Data.news_retriever - WARNING - GDELT search failed for CNC: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Centene+Corporation%22+OR+%22CNC%22+OR+%22%24CNC%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:21:55,348 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Centene+Corporation%22+OR+%22CNC%22&from=2026-03-10T21%3A21%3A55&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:21:57,149 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Conagra+Brands%2C+Inc.%22+OR+%22CAG%22+OR+%22%24CAG%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:21:57,151 - Data.news_retriever - WARNING - GDELT search failed for CAG: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Conagra+Brands%2C+Inc.%22+OR+%22CAG%22+OR+%22%24CAG%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:21:57,226 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Conagra+Brands%2C+Inc.%22+OR+%22CAG%22&from=2026-03-10T21%3A21%3A57&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:21:59,037 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22The+Cooper+Companies%2C+Inc.%22+OR+%22COO%22+OR+%22%24COO%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:21:59,042 - Data.news_retriever - WARNING - GDELT search failed for COO: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22The+Cooper+Companies%2C+Inc.%22+OR+%22COO%22+OR+%22%24COO%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:21:59,120 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22The+Cooper+Companies%2C+Inc.%22+OR+%22COO%22&from=2026-03-10T21%3A21%3A59&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:00,912 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22General+Mills%2C+Inc.%22+OR+%22GIS%22+OR+%22%24GIS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:00,915 - Data.news_retriever - WARNING - GDELT search failed for GIS: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22General+Mills%2C+Inc.%22+OR+%22GIS%22+OR+%22%24GIS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:00,997 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22General+Mills%2C+Inc.%22+OR+%22GIS%22&from=2026-03-10T21%3A22%3A00&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:02,791 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Stryker+Corporation%22+OR+%22SYK%22+OR+%22%24SYK%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-13 17:22:02,795 - Data.news_retriever - WARNING - GDELT parse error for SYK: Expecting value: line 1 column 1 (char 0)
+2026-03-13 17:22:02,899 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Stryker+Corporation%22+OR+%22SYK%22&from=2026-03-10T21%3A22%3A02&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:04,693 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22WEC+Energy+Group%2C+Inc.%22+OR+%22WEC%22+OR+%22%24WEC%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-13 17:22:04,695 - Data.news_retriever - WARNING - GDELT parse error for WEC: Expecting value: line 1 column 1 (char 0)
+2026-03-13 17:22:04,770 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22WEC+Energy+Group%2C+Inc.%22+OR+%22WEC%22&from=2026-03-10T21%3A22%3A04&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:06,588 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Boeing%22+OR+%22BA%22+OR+%22%24BA%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:06,592 - Data.news_retriever - WARNING - GDELT search failed for BA: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Boeing%22+OR+%22BA%22+OR+%22%24BA%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:06,669 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Boeing%22+OR+%22BA%22&from=2026-03-10T21%3A22%3A06&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:08,568 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Dollar+General+Corporation%22+OR+%22DG%22+OR+%22%24DG%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-13 17:22:08,570 - Data.news_retriever - WARNING - GDELT parse error for DG: Expecting value: line 1 column 1 (char 0)
+2026-03-13 17:22:08,660 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Dollar+General+Corporation%22+OR+%22DG%22&from=2026-03-10T21%3A22%3A08&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:10,547 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Copart%2C+Inc.%22+OR+%22CPRT%22+OR+%22%24CPRT%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:10,549 - Data.news_retriever - WARNING - GDELT search failed for CPRT: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Copart%2C+Inc.%22+OR+%22CPRT%22+OR+%22%24CPRT%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:10,602 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Copart%2C+Inc.%22+OR+%22CPRT%22&from=2026-03-10T21%3A22%3A10&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:12,862 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22ResMed+Inc.%22+OR+%22RMD%22+OR+%22%24RMD%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-13 17:22:12,862 - Data.news_retriever - WARNING - GDELT parse error for RMD: Expecting value: line 1 column 1 (char 0)
+2026-03-13 17:22:12,924 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22ResMed+Inc.%22+OR+%22RMD%22&from=2026-03-10T21%3A22%3A12&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:14,759 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Otis+Worldwide+Corporation%22+OR+%22OTIS%22+OR+%22%24OTIS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:14,762 - Data.news_retriever - WARNING - GDELT search failed for OTIS: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Otis+Worldwide+Corporation%22+OR+%22OTIS%22+OR+%22%24OTIS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:14,831 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Otis+Worldwide+Corporation%22+OR+%22OTIS%22&from=2026-03-10T21%3A22%3A14&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:16,637 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22The+Mosaic+Company%22+OR+%22MOS%22+OR+%22%24MOS%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-13 17:22:16,641 - Data.news_retriever - WARNING - GDELT parse error for MOS: Expecting value: line 1 column 1 (char 0)
+2026-03-13 17:22:16,733 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22The+Mosaic+Company%22+OR+%22MOS%22&from=2026-03-10T21%3A22%3A16&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:18,534 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Paramount+Skydance+Corporation%22+OR+%22PSKY%22+OR+%22%24PSKY%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:18,537 - Data.news_retriever - WARNING - GDELT search failed for PSKY: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Paramount+Skydance+Corporation%22+OR+%22PSKY%22+OR+%22%24PSKY%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:18,599 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Paramount+Skydance+Corporation%22+OR+%22PSKY%22&from=2026-03-10T21%3A22%3A18&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:20,954 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Broadridge+Financial+Solutions%2C+Inc.%22+OR+%22BR%22+OR+%22%24BR%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:20,956 - Data.news_retriever - WARNING - GDELT search failed for BR: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Broadridge+Financial+Solutions%2C+Inc.%22+OR+%22BR%22+OR+%22%24BR%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:21,039 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Broadridge+Financial+Solutions%2C+Inc.%22+OR+%22BR%22&from=2026-03-10T21%3A22%3A20&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:22,859 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Automatic+Data+Processing%2C+Inc.%22+OR+%22ADP%22+OR+%22%24ADP%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:22,862 - Data.news_retriever - WARNING - GDELT search failed for ADP: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Automatic+Data+Processing%2C+Inc.%22+OR+%22ADP%22+OR+%22%24ADP%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:22,951 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Automatic+Data+Processing%2C+Inc.%22+OR+%22ADP%22&from=2026-03-10T21%3A22%3A22&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:24,734 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22McCormick+%26+Company%2C+Incorporated%22+OR+%22MKC%22+OR+%22%24MKC%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:24,737 - Data.news_retriever - WARNING - GDELT search failed for MKC: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22McCormick+%26+Company%2C+Incorporated%22+OR+%22MKC%22+OR+%22%24MKC%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:24,791 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22McCormick+%26+Company%2C+Incorporated%22+OR+%22MKC%22&from=2026-03-10T21%3A22%3A24&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:26,895 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Thermo+Fisher+Scientific+Inc.%22+OR+%22TMO%22+OR+%22%24TMO%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-13 17:22:26,927 - Data.news_retriever - WARNING - GDELT parse error for TMO: Expecting value: line 1 column 1 (char 0)
+2026-03-13 17:22:27,001 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Thermo+Fisher+Scientific+Inc.%22+OR+%22TMO%22&from=2026-03-10T21%3A22%3A26&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:28,796 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22The+Kraft+Heinz+Company%22+OR+%22KHC%22+OR+%22%24KHC%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-13 17:22:28,799 - Data.news_retriever - WARNING - GDELT parse error for KHC: Expecting value: line 1 column 1 (char 0)
+2026-03-13 17:22:28,865 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22The+Kraft+Heinz+Company%22+OR+%22KHC%22&from=2026-03-10T21%3A22%3A28&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:30,693 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22GoDaddy+Inc.%22+OR+%22GDDY%22+OR+%22%24GDDY%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:30,697 - Data.news_retriever - WARNING - GDELT search failed for GDDY: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22GoDaddy+Inc.%22+OR+%22GDDY%22+OR+%22%24GDDY%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:30,751 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22GoDaddy+Inc.%22+OR+%22GDDY%22&from=2026-03-10T21%3A22%3A30&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:32,579 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Fiserv%2C+Inc.%22+OR+%22FISV%22+OR+%22%24FISV%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:32,582 - Data.news_retriever - WARNING - GDELT search failed for FISV: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Fiserv%2C+Inc.%22+OR+%22FISV%22+OR+%22%24FISV%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:32,641 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Fiserv%2C+Inc.%22+OR+%22FISV%22&from=2026-03-10T21%3A22%3A32&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:34,575 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Workday%2C+Inc.%22+OR+%22WDAY%22+OR+%22%24WDAY%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-13 17:22:34,578 - Data.news_retriever - WARNING - GDELT parse error for WDAY: Expecting value: line 1 column 1 (char 0)
+2026-03-13 17:22:34,642 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Workday%2C+Inc.%22+OR+%22WDAY%22&from=2026-03-10T21%3A22%3A34&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:36,442 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Equifax+Inc.%22+OR+%22EFX%22+OR+%22%24EFX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:36,446 - Data.news_retriever - WARNING - GDELT search failed for EFX: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Equifax+Inc.%22+OR+%22EFX%22+OR+%22%24EFX%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:36,509 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Equifax+Inc.%22+OR+%22EFX%22&from=2026-03-10T21%3A22%3A36&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:38,409 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22CF+Industries+Holdings%2C+Inc.%22+OR+%22CF%22+OR+%22%24CF%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:38,411 - Data.news_retriever - WARNING - GDELT search failed for CF: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22CF+Industries+Holdings%2C+Inc.%22+OR+%22CF%22+OR+%22%24CF%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:38,527 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22CF+Industries+Holdings%2C+Inc.%22+OR+%22CF%22&from=2026-03-10T21%3A22%3A38&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:40,359 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Sandisk+Corporation%22+OR+%22SNDK%22+OR+%22%24SNDK%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:40,362 - Data.news_retriever - WARNING - GDELT search failed for SNDK: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Sandisk+Corporation%22+OR+%22SNDK%22+OR+%22%24SNDK%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:40,475 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Sandisk+Corporation%22+OR+%22SNDK%22&from=2026-03-10T21%3A22%3A40&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:42,271 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Charles+River+Laboratories+International%2C+Inc.%22+OR+%22CRL%22+OR+%22%24CRL%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-13 17:22:42,274 - Data.news_retriever - WARNING - GDELT parse error for CRL: Expecting value: line 1 column 1 (char 0)
+2026-03-13 17:22:42,363 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Charles+River+Laboratories+International%2C+Inc.%22+OR+%22CRL%22&from=2026-03-10T21%3A22%3A42&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:44,178 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ares+Management+Corporation%22+OR+%22ARES%22+OR+%22%24ARES%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-13 17:22:44,181 - Data.news_retriever - WARNING - GDELT parse error for ARES: Expecting value: line 1 column 1 (char 0)
+2026-03-13 17:22:44,255 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Ares+Management+Corporation%22+OR+%22ARES%22&from=2026-03-10T21%3A22%3A44&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:46,346 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Axon+Enterprise%2C+Inc.%22+OR+%22AXON%22+OR+%22%24AXON%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:46,348 - Data.news_retriever - WARNING - GDELT search failed for AXON: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Axon+Enterprise%2C+Inc.%22+OR+%22AXON%22+OR+%22%24AXON%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:46,439 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Axon+Enterprise%2C+Inc.%22+OR+%22AXON%22&from=2026-03-10T21%3A22%3A46&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:48,227 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Micron+Technology%2C+Inc.%22+OR+%22MU%22+OR+%22%24MU%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:48,229 - Data.news_retriever - WARNING - GDELT search failed for MU: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Micron+Technology%2C+Inc.%22+OR+%22MU%22+OR+%22%24MU%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:48,321 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Micron+Technology%2C+Inc.%22+OR+%22MU%22&from=2026-03-10T21%3A22%3A48&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:50,168 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Dow+Inc.%22+OR+%22DOW%22+OR+%22%24DOW%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 200 OK"
+2026-03-13 17:22:50,174 - Data.news_retriever - WARNING - GDELT parse error for DOW: Expecting value: line 1 column 1 (char 0)
+2026-03-13 17:22:50,253 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Dow+Inc.%22+OR+%22DOW%22&from=2026-03-10T21%3A22%3A50&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:52,043 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ciena+Corporation%22+OR+%22CIEN%22+OR+%22%24CIEN%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:52,047 - Data.news_retriever - WARNING - GDELT search failed for CIEN: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ciena+Corporation%22+OR+%22CIEN%22+OR+%22%24CIEN%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:52,109 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Ciena+Corporation%22+OR+%22CIEN%22&from=2026-03-10T21%3A22%3A52&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:53,918 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Lamb+Weston+Holdings%2C+Inc.%22+OR+%22LW%22+OR+%22%24LW%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:53,923 - Data.news_retriever - WARNING - GDELT search failed for LW: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Lamb+Weston+Holdings%2C+Inc.%22+OR+%22LW%22+OR+%22%24LW%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:54,003 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Lamb+Weston+Holdings%2C+Inc.%22+OR+%22LW%22&from=2026-03-10T21%3A22%3A53&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:55,802 - httpx - INFO - HTTP Request: GET https://api.gdeltproject.org/api/v2/doc/doc?query=%22Western+Digital+Corporation%22+OR+%22WDC%22+OR+%22%24WDC%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc "HTTP/1.1 429 Too Many Requests"
+2026-03-13 17:22:55,806 - Data.news_retriever - WARNING - GDELT search failed for WDC: Client error '429 Too Many Requests' for url 'https://api.gdeltproject.org/api/v2/doc/doc?query=%22Western+Digital+Corporation%22+OR+%22WDC%22+OR+%22%24WDC%22&mode=ArtList&maxrecords=40&timespan=4320+min&format=json&sort=DateDesc'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+2026-03-13 17:22:55,877 - httpx - INFO - HTTP Request: GET https://newsapi.org/v2/everything?q=%22Western+Digital+Corporation%22+OR+%22WDC%22&from=2026-03-10T21%3A22%3A55&sortBy=relevancy&pageSize=20&language=en&apiKey=cd8ffb1ac7704d73ae3f45b116a8d09a "HTTP/1.1 200 OK"
+2026-03-13 17:22:55,880 - Data.news_retriever - INFO - Retrieved 308 total articles for 36 tickers
+2026-03-13 17:22:55,880 - __main__ - INFO - Retrieved 308 articles for 36 tickers
+2026-03-13 17:22:55,880 - __main__ - INFO - 
+ [5/6] Building causal grpah (clustering related moves) ...
+2026-03-13 17:22:55,880 - Quant.causal_graph - INFO - Building causal graph for 40 flagged tickers
+2026-03-13 17:22:56,687 - Quant.causal_graph - WARNING - Matrix shape mismatch in causal graph builder (corr=(37, 37), partial=(36, 36), tickers=37). Truncating to 36.
+2026-03-13 17:22:56,706 - Quant.causal_graph - INFO - Causal graph: 3 clusters (3 multi-move, 0 singletons), 105 edges
+
+ Causal graph: 3 clusters (3 multi-move, 0 singletons)
+ [Cluster 0] ULTA, ADBE, COO, DG, CPRT, RMD, OTIS, PSKY, BR, ADP, TMO, GDDY, FISV, WDAY, EFX, SNDK, CRL, ARES, AXON, MU, CIEN, WDC | epicenter: SNDK (+26.2% | sector: technology | coherence: 0.24
+ [Cluster 1] PODD, CPB, CNC, CAG, GIS, SYK, WEC, BA, MKC, KHC, LW | epicenter: CNC (-20.9% | sector: consumer_staples | coherence: 0.50
+ [Cluster 2] MOS, CF, DOW | epicenter: MOS (+12.7% | sector: materials | coherence: 0.56
+2026-03-13 17:22:56,707 - __main__ - INFO - 
+ [6/6] Running SLM -> LLM intelligence pipeline on 3 clusters...
+2026-03-13 17:22:56,716 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-13 17:22:56,716 - Pipeline.intelligence_workflow - INFO - [Agent 1: SLM] Classification + Sentiment + Relevance
+2026-03-13 17:22:56,716 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-13 17:22:56,875 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-03-13 17:22:56,876 - huggingface_hub.utils._http - WARNING - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-03-13 17:22:56,904 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-13 17:22:56,977 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-13 17:22:57,008 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-03-13 17:22:57,061 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-03-13 17:22:57,122 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-03-13 17:22:57,202 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-03-13 17:22:57,231 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ProsusAI/finbert/4556d13015211d73dccd3fdd39d39232506f3e43/config.json "HTTP/1.1 200 OK"
+2026-03-13 17:22:57,664 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+2026-03-13 17:22:57,721 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-03-13 17:22:57,867 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/main "HTTP/1.1 200 OK"
+Loading weights: 100%|██████████████████████████████████████████████████████████████| 199/199 [00:00<00:00, 10812.30it/s, Materializing param=pooler.dense.weight]
+BertModel LOAD REPORT from: ProsusAI/finbert
+Key                          | Status     |  | 
+-----------------------------+------------+--+-
+classifier.weight            | UNEXPECTED |  | 
+bert.embeddings.position_ids | UNEXPECTED |  | 
+classifier.bias              | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED    :can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+2026-03-13 17:22:57,959 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/discussions?p=0 "HTTP/1.1 200 OK"
+2026-03-13 17:22:58,030 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/commits/refs%2Fpr%2F29 "HTTP/1.1 200 OK"
+ Loaded fine-tuned SLM from models/financial_slm
+2026-03-13 17:22:58,069 - Pipeline.intelligence_workflow - INFO - SLM loaded - using local model for classification/sentiment/relevance
+2026-03-13 17:22:58,069 - Pipeline.intelligence_workflow - INFO - [SLM] Running local inference ... 
+2026-03-13 17:22:58,083 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+2026-03-13 17:22:58,126 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/ProsusAI/finbert/resolve/refs%2Fpr%2F29/model.safetensors "HTTP/1.1 302 Found"
+2026-03-13 17:23:07,576 - Pipeline.intelligence_workflow - INFO - [SLM] Processed 40 moves locally
+2026-03-13 17:23:07,577 - Pipeline.intelligence_workflow - INFO - [Agent 1] Enriched 40 moves
+2026-03-13 17:23:07,577 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-13 17:23:07,577 - Pipeline.intelligence_workflow - INFO - [Agent 2: LLM] Impact Assessment + Synthesis + Brief
+2026-03-13 17:23:07,577 - Pipeline.intelligence_workflow - INFO - ============================================================
+2026-03-13 17:25:12,785 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-03-13 17:25:12,815 - Pipeline.intelligence_workflow - INFO - [Agent 2] Generated 25 alerts, 5 critical (1 LLM call)
+2026-03-13 17:25:12,816 - Pipeline.intelligence_workflow - INFO - Pipeline complete: 25 alerts, 5 critical, 136.1s | SLM → LLM (2-agent architecture)
+
+ ================================================================================
+ Market Intelligence Brief
+================================================================================
+
+ 2026-03-13 21:25 UTC
+ S&P 500 : 503 monitored -> 40 flagged
+ Generated in: 136.1s
+
+ Executive Summary 
+--------------------------------------------------------------------------------
+Today's idiosyncratic moves reveal three distinct causal clusters with varying coherence. Cluster 1 (consumer staples/healthcare, coherence 0.50) shows the most severe systematic repricing: CNC collapsed -20.9% (6.5σ) while packaged foods CPB, CAG, and GIS suffered -15.7% to -11.8% moves at extreme 7.4-9.3 sigma levels with tight causal links (p=0.69-0.75). Cluster 0 (technology, coherence 0.24) is bifurcated with SNDK +26.2% epicenter versus ULTA -16.8% (7.3σ), PSKY -18.2% (5.0σ), and ADBE -11.3% (5.7σ) weakness, suggesting diffuse rather than unified causation. Cluster 2 (materials, coherence 0.56) shows the tightest structure with MOS anchoring fertilizer weakness propagating to CF and DOW. The packaged food collapse and CNC managed care crisis demand immediate investigation, while the 
+
+ Critical Alerts (5)
+ [CRITICAL] ULTA -16.8% Idiosyncratic Drop Anchors 22-Stock Technology/Consumer Discretionary Cluster
+ ULTA experienced a -16.8% idiosyncratic move (7.3 sigma) that shows causal linkage to ADBE (-11.3%, 5.7 sigma) and COO (-8.2%, 5.3 sigma) with p-values of 0.36 and 0.44 respectively. This cluster of 2
+ [CRITICAL] PODD -6.88%
+ 
+ [CRITICAL] ADBE -11.3% Idiosyncratic Move Shows Causal Links to ULTA, COO, BR, ADP
+ Adobe's -11.3% idiosyncratic residual (5.7 sigma) demonstrates causal relationships with COO (p=0.40), BR (p=0.46), and ADP (p=0.52), suggesting a shared driver beyond sector factors. The connection t
+ [CRITICAL] CPB -15.7% Idiosyncratic Drop (8.1 Sigma) Shows Strong Causal Links to CAG, GIS
+ Campbell Soup (CPB) declined -15.7% on an idiosyncratic basis at 8.1 sigma, demonstrating strong causal relationships with CAG (p=0.69) and GIS (p=0.75). This represents one of the highest-sigma event
+ [CRITICAL] ULTA -16.8% Idiosyncratic Drop Anchors 22-Stock Technology/Consumer Discretionary Cluster
+ ULTA experienced a -16.8% idiosyncratic move (7.3 sigma) that shows causal linkage to ADBE (-11.3%, 5.7 sigma) and COO (-8.2%, 5.3 sigma) with p-values of 0.36 and 0.44 respectively. This cluster of 2
+
+ Top Recommendations
+ 1. [IMMEDIATE] exit: CNC, CPB, CAG, GIS
+ Cluster 1 epicenter CNC at -20.9% (6.5σ) and packaged foods at 7.4-9.3σ with p=0.69-0.75 causal links represent the most extreme and coherent repricin
+ 2. [IMMEDIATE] investigate: ULTA, PSKY, ADBE catalyst identification
+ Cluster 0 shows 5.0-7.3σ moves but low coherence (0.24), requiring news verification to distinguish genuine shared catalyst from coincidental timing
+ 3. [HIGH] hedge: Consumer discretionary retail (ULTA, DG, BR) and enterprise software (ADBE, WDAY, FISV)
+ Cluster 0's -16.8% to -9.2% idiosyncratic moves across retail and software suggest unpriced spending weakness risk
+ 4. [MEDIUM] reduce: Fertilizer and agricultural chemicals (MOS, CF, DOW)
+ Cluster 2's highest coherence (0.56) and tight causal structure (p=0.53-0.66) indicate reliable fertilizer sector repricing signal
+ 5. [MEDIUM] monitor: SNDK and memory sector (MU, WDC) for positive catalyst propagation
+ SNDK +26.2% epicenter in Cluster 0 may signal storage/memory catalyst that could offset broader tech weakness
+2026-03-13 17:25:12,821 - __main__ - INFO -  Brief saved to: market_brief_20260313_212512.json
+2026-03-13 17:25:12,821 - __main__ - INFO - Pipeline Completed!
+(.venv) (base) rayyanwaseem@Rayyans-MacBook-Pro LangGraph-for-Financial-Intelligent-Reporting % 
