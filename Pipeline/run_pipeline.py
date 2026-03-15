@@ -37,6 +37,8 @@ from Quant.factor_decomposition import FactorDecomposer, ReturnPredictor, Decomp
 from Quant.causal_graph import CausalGraphBuilder, CausalGraph
 from Pipeline.intelligence_workflow import run_intelligence_pipeline
 
+from Storage.sqlite_store import BriefDatabase
+
 logging.basicConfig(
     level = logging.INFO,
     format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -245,6 +247,14 @@ class FinPipeline:
         with open(filename, "w") as f:
             json.dump(brief.model_dump(), f, indent = 2, default = str)
         logger.info(f" Brief saved to: {filename}")
+
+        from Storage.sqlite_store import BriefDatabase
+        try:
+            db = BriefDatabase()
+            brief_id = db.store_brief(brief)
+            logger.info(f" Brief stored in SQLite: {db.db_path} (id={brief_id})")
+        except Exception as e:
+            logger.warning(f" Database store failed (brief JSON still is saved): {e}")
 
     @staticmethod
     def _avg_pred_sigma(results: dict) -> float:

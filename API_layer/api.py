@@ -1,6 +1,19 @@
 """
-FastAPI REST API for Financial Intelligence System
-Endpoints for portfolio scanning, alerts, briefs, and live streaming.
+FastAPI REST API for GeoFinancial Intelligence System
+SQLite-backed endpoints for briefs, alerts, moves, clusters, and SQL explorer.
+
+Endpoints:
+    GET  /health                        System health check
+    GET  /api/v1/briefs                 List recent briefs
+    GET  /api/v1/briefs/latest          Full latest brief (dashboard landing)
+    GET  /api/v1/briefs/{id}            Full brief by ID
+    GET  /api/v1/moves                  Query flagged moves (filter by ticker, level, sigma)
+    GET  /api/v1/moves/{ticker}         Move history for a specific ticker
+    GET  /api/v1/alerts/critical        Critical alerts from last N days
+    GET  /api/v1/clusters/{brief_id}    Clusters for a specific brief
+    POST /api/v1/scan                   Trigger a pipeline scan
+    POST /api/v1/sql                    Execute a read-only SQL query
+    GET  /api/v1/stats                  Database statistics
 """
 
 import asyncio
@@ -10,32 +23,27 @@ from datetime import datetime, timezone
 from typing import List, Optional
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from Data.data_model import Portfolio, ThresholdConfig
-from Storage.storage import StorageManager
+from Storage.sqlite_store import BriefDatabase
 
 logger = logging.getLogger(__name__)
 
-storage = StorageManager()
+db = BriefDatabase()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    try:
-        await storage.connect_all()
-    except Exception as e:
-        logger.warning(f"Storage connection failed (degraded mode): {e}")
+    logger.info(f"Database ready: {db.stats()}")
     yield
-    await storage.close_all()
 
 
 app = FastAPI(
     title="GeoFinancial Intelligence API",
-    description="Portfolio monitoring with news-driven intelligence briefings",
-    version="2.0.0",
+    description="Portfolio monitoring with factor-decomposed intelligence briefings",
+    version="2.1.0",
     lifespan=lifespan,
 )
 
@@ -46,7 +54,7 @@ app.add_middleware(
 )
 
 
-# ── Request/Response Models ──────────────────────────────────────────────────
+# ── Request / Response Models ────────────────────────────────────────────────
 
 class ScanRequest(BaseModel):
     tickers: Optional[List[str]] = None
@@ -54,31 +62,155 @@ class ScanRequest(BaseModel):
     portfolio_name: str = "Custom Portfolio"
     daily_sigma: float = 2.0
     weekly_sigma: float = 2.0
-    news_lookback_hours: int = 72
-    max_news_per_ticker: int = 20
+    idio_sigma: float = 1.5
     skip_news: bool = False
 
 
 class ScanResponse(BaseModel):
     status: str
     message: str
-    moves_detected: int = 0
-    task_id: Optional[str] = None
+    brief_id: Optional[str] = None
 
 
-# ── Endpoints ────────────────────────────────────────────────────────────────
+class SqlRequest(BaseModel):
+    query: str
+    limit: int = 200
+
+
+# ── Health ───────────────────────────────────────────────────────────────────
 
 @app.get("/health")
 async def health():
-    return {"status": "healthy", "timestamp": datetime.now(timezone.utc).isoformat(), "version": "2.0.0"}
+    stats = db.stats()
+    return {
+        "status": "healthy",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "version": "2.1.0",
+        "database": stats,
+    }
 
+
+# ── Briefs ───────────────────────────────────────────────────────────────────
+
+@app.get("/api/v1/briefs")
+async def list_briefs(limit: int = Query(20, ge=1, le=100)):
+    """List recent briefs (summary metadata, no full alerts)."""
+    return db.get_recent_briefs(limit)
+
+
+@app.get("/api/v1/briefs/latest")
+async def get_latest_brief():
+    """Full latest brief with all alerts, clusters, recommendations, sectors."""
+    brief = db.get_latest_brief()
+    if not brief:
+        raise HTTPException(404, "No briefs in database. Run a scan first.")
+    return brief
+
+
+@app.get("/api/v1/briefs/{brief_id}")
+async def get_brief(brief_id: str):
+    """Full brief by ID."""
+    brief = db.get_brief_full(brief_id)
+    if not brief:
+        raise HTTPException(404, f"Brief {brief_id} not found")
+    return brief
+
+
+# ── Moves / Alerts ───────────────────────────────────────────────────────────
+
+@app.get("/api/v1/moves")
+async def get_moves(
+    ticker: Optional[str] = None,
+    level: Optional[str] = None,
+    min_sigma: Optional[float] = None,
+    brief_id: Optional[str] = None,
+    limit: int = Query(100, ge=1, le=500),
+):
+    """Query flagged moves with optional filters."""
+    conditions = []
+    params = []
+
+    if brief_id:
+        conditions.append("fm.brief_id = ?")
+        params.append(brief_id)
+    if ticker:
+        conditions.append("fm.ticker = ?")
+        params.append(ticker.upper())
+    if level:
+        conditions.append("fm.alert_level = ?")
+        params.append(level.lower())
+    if min_sigma is not None:
+        conditions.append("fm.idiosyncratic_sigma >= ?")
+        params.append(min_sigma)
+
+    where = f"WHERE {' AND '.join(conditions)}" if conditions else ""
+    params.append(limit)
+
+    query = f"""
+        SELECT fm.*, b.date as brief_date, b.portfolio_name
+        FROM flagged_moves fm
+        JOIN briefs b ON fm.brief_id = b.id
+        {where}
+        ORDER BY fm.idiosyncratic_sigma DESC
+        LIMIT ?
+    """
+
+    result = db.execute_sql(query.replace("?", "{}").format(*params))
+    # Use parameterized query directly instead
+    with db._connect() as conn:
+        rows = conn.execute(query, params).fetchall()
+        return {"count": len(rows), "moves": [dict(r) for r in rows]}
+
+
+@app.get("/api/v1/moves/{ticker}")
+async def get_ticker_history(ticker: str, limit: int = Query(50, ge=1, le=200)):
+    """All flagged moves for a specific ticker across all briefs."""
+    return db.get_moves_by_ticker(ticker, limit)
+
+
+@app.get("/api/v1/alerts/critical")
+async def get_critical_alerts(days: int = Query(7, ge=1, le=90)):
+    """Critical alerts from the last N days."""
+    return db.get_critical_alerts(days)
+
+
+# ── Clusters ─────────────────────────────────────────────────────────────────
+
+@app.get("/api/v1/clusters/{brief_id}")
+async def get_clusters(brief_id: str):
+    """Causal clusters for a specific brief."""
+    with db._connect() as conn:
+        rows = conn.execute(
+            "SELECT * FROM causal_clusters WHERE brief_id = ? ORDER BY cluster_id",
+            (brief_id,)
+        ).fetchall()
+        clusters = []
+        for r in rows:
+            c = dict(r)
+            c["tickers"] = json.loads(c.get("tickers") or "[]")
+            clusters.append(c)
+        return clusters
+
+
+# ── SQL Explorer ─────────────────────────────────────────────────────────────
+
+@app.post("/api/v1/sql")
+async def execute_sql(req: SqlRequest):
+    """Execute a read-only SQL query against the brief database."""
+    result = db.execute_sql(req.query, limit=req.limit)
+    if "error" in result:
+        raise HTTPException(400, result["error"])
+    return result
+
+
+# ── Scan Trigger ─────────────────────────────────────────────────────────────
 
 pipeline_lock = asyncio.Lock()
 
 
 @app.post("/api/v1/scan", response_model=ScanResponse)
 async def trigger_scan(req: ScanRequest):
-    """Trigger an on-demand portfolio scan."""
+    """Trigger an on-demand pipeline scan. Writes results to SQLite."""
     if pipeline_lock.locked():
         return ScanResponse(status="busy", message="Scan already running")
 
@@ -87,122 +219,45 @@ async def trigger_scan(req: ScanRequest):
 
     async def _run():
         async with pipeline_lock:
+            from Data.data_model import Portfolio, ThresholdConfig
             from Pipeline.run_pipeline import FinPipeline
+
+            threshold = ThresholdConfig(
+                daily_sigma_threshold=req.daily_sigma,
+                weekly_sigma_threshold=req.weekly_sigma,
+            )
             portfolio = Portfolio(
                 name=req.portfolio_name,
                 tickers=req.tickers or [],
                 use_sp500=req.use_sp500,
-                threshold_config=ThresholdConfig(
-                    daily_sigma_threshold=req.daily_sigma,
-                    weekly_sigma_threshold=req.weekly_sigma,
-                ),
+                threshold_config=threshold,
             )
             pipeline = FinPipeline(portfolio)
-            await pipeline.run(
-                news_lookback_hours=req.news_lookback_hours,
-                max_news_per_ticker=req.max_news_per_ticker,
+            brief = await pipeline.run(
                 skip_news=req.skip_news,
+                idio_sigma_threshold=req.idio_sigma,
             )
+            # Store in SQLite
+            if brief:
+                db.store_brief(brief)
 
-    task = asyncio.create_task(_run())
-    ticker_count = len(req.tickers or [])
-    return ScanResponse(
-        status="started",
-        message=f"Scan triggered: {'S&P 500' if req.use_sp500 else f'{ticker_count} tickers'}",
-        task_id=str(id(task)),
-    )
-
-
-@app.get("/api/v1/alerts")
-async def get_alerts(
-    hours: int = Query(24, ge=1, le=168),
-    limit: int = Query(50, ge=1, le=200),
-    level: Optional[str] = None,
-):
-    """Retrieve recent alerts."""
-    try:
-        alerts = await storage.postgres.get_recent_alerts(hours=hours, limit=limit)
-        if level:
-            alerts = [a for a in alerts if a.get("alert_level") == level]
-        return {"count": len(alerts), "alerts": alerts}
-    except Exception as e:
-        raise HTTPException(500, str(e))
+    asyncio.create_task(_run())
+    source = "S&P 500" if req.use_sp500 else f"{len(req.tickers or [])} tickers"
+    return ScanResponse(status="started", message=f"Scan triggered: {source}")
 
 
-@app.get("/api/v1/moves")
-async def get_moves(
-    hours: int = Query(24, ge=1, le=168),
-    limit: int = Query(100, ge=1, le=500),
-    ticker: Optional[str] = None,
-):
-    """Retrieve recent flagged moves."""
-    try:
-        moves = await storage.postgres.get_recent_moves(hours=hours, limit=limit)
-        if ticker:
-            moves = [m for m in moves if m.get("ticker") == ticker.upper()]
-        return {"count": len(moves), "moves": moves}
-    except Exception as e:
-        raise HTTPException(500, str(e))
+# ── Stats ────────────────────────────────────────────────────────────────────
+
+@app.get("/api/v1/stats")
+async def get_stats():
+    """Database row counts per table."""
+    return db.stats()
 
 
-@app.get("/api/v1/briefs")
-async def get_briefs(limit: int = Query(10, ge=1, le=50)):
-    """Retrieve recent intelligence briefs."""
-    pool = storage.postgres.pool
-    if pool is None:
-        raise HTTPException(503, "Database unavailable")
-
-    try:
-        async with pool.acquire() as conn:
-            rows = await conn.fetch(
-                "SELECT id, date, portfolio_name, executive_summary, "
-                "tickers_monitored, tickers_flagged, total_articles "
-                "FROM briefs ORDER BY date DESC LIMIT $1", limit
-            )
-        return [dict(r) for r in rows]
-    except Exception as e:
-        raise HTTPException(500, str(e))
-
-
-@app.get("/api/v1/briefs/{brief_id}")
-async def get_brief(brief_id: str):
-    pool = storage.postgres.pool
-    if pool is None:
-        raise HTTPException(503, "Database unavailable")
-
-    try:
-        async with pool.acquire() as conn:
-            row = await conn.fetchrow("SELECT brief_json FROM briefs WHERE id = $1", brief_id)
-        if not row:
-            raise HTTPException(404, "Brief not found")
-        return json.loads(row["brief_json"])
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(500, str(e))
-
-
-# ── WebSocket ────────────────────────────────────────────────────────────────
-
-@app.websocket("/ws/alerts")
-async def websocket_alerts(ws: WebSocket):
-    await ws.accept()
-    try:
-        pubsub = await storage.redis.subscribe_alerts()
-        while True:
-            msg = await pubsub.get_message(ignore_subscribe_messages=True, timeout=1.0)
-            if msg and msg["type"] == "message":
-                await ws.send_text(msg["data"])
-            try:
-                await asyncio.wait_for(ws.receive_text(), timeout=0.1)
-            except asyncio.TimeoutError:
-                pass
-    except WebSocketDisconnect:
-        pass
-    except Exception as e:
-        logger.error(f"WS error: {e}")
-
+# ── Run ──────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    import uvicorn
+    from importlib import import_module
+
+    uvicorn = import_module("uvicorn")
     uvicorn.run("API_layer.api:app", host="0.0.0.0", port=8000, reload=True)
