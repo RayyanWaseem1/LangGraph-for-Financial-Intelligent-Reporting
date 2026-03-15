@@ -79,7 +79,8 @@ CREATE TABLE IF NOT EXISTS flagged_moves (
     root_cause_confidence   REAL,
     root_cause_explanation  TEXT,
     news_count              INTEGER DEFAULT 0,
-    related_tickers         TEXT             -- JSON array
+    related_tickers         TEXT,            -- JSON array
+    top_articles            TEXT             -- JSON array of {url, title, source, sentiment, relevance}
 );
 
 -- ── Causal Clusters ─────────────────────────────────────────────────────────
@@ -222,8 +223,9 @@ class BriefDatabase:
                          idiosyncratic_return, idiosyncratic_sigma,
                          market_component, sector_component, r_squared,
                          title, summary, root_cause, root_cause_confidence,
-                         root_cause_explanation, news_count, related_tickers)
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                         root_cause_explanation, news_count, related_tickers,
+                         top_articles)
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                 """, (
                     brief_id,
                     alert.get("ticker", ""),
@@ -247,6 +249,7 @@ class BriefDatabase:
                     rc.get("explanation", ""),
                     alert.get("news_count", 0),
                     json.dumps(rc.get("related_tickers", [])),
+                    json.dumps(alert.get("top_articles", [])),
                 ))
 
             # ── causal_clusters table ──
@@ -321,12 +324,22 @@ class BriefDatabase:
 
             brief = dict(brief_row)
 
-            brief["alerts"] = [
-                dict(r) for r in conn.execute(
-                    "SELECT * FROM flagged_moves WHERE brief_id = ? ORDER BY idiosyncratic_sigma DESC",
-                    (brief_id,)
-                ).fetchall()
-            ]
+            brief["alerts"] = []
+            for r in conn.execute(
+                "SELECT * FROM flagged_moves WHERE brief_id = ? ORDER BY idiosyncratic_sigma DESC",
+                (brief_id,)
+            ).fetchall():
+                alert = dict(r)
+                # Parse JSON columns
+                try:
+                    alert["top_articles"] = json.loads(alert.get("top_articles") or "[]")
+                except (json.JSONDecodeError, TypeError):
+                    alert["top_articles"] = []
+                try:
+                    alert["related_tickers"] = json.loads(alert.get("related_tickers") or "[]")
+                except (json.JSONDecodeError, TypeError):
+                    alert["related_tickers"] = []
+                brief["alerts"].append(alert)
 
             brief["causal_clusters"] = [
                 {**dict(r), "tickers": json.loads(r["tickers"] or "[]")}

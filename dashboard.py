@@ -365,6 +365,26 @@ if page == "📊 Dashboard":
                 mc[2].metric("R²", f"{r2:.3f}")
             mc[3].metric("Root Cause", str(cause))
 
+            # Source articles with links
+            articles = a.get("top_articles", [])
+            if isinstance(articles, str):
+                try:
+                    articles = json.loads(articles)
+                except (json.JSONDecodeError, TypeError):
+                    articles = []
+            if articles:
+                st.markdown("**📰 Source Articles:**")
+                for art in articles:
+                    url = art.get("url", "")
+                    title = art.get("title", "Untitled")
+                    source = art.get("source", "")
+                    sent = art.get("sentiment", 0) or 0
+                    sent_icon = "🟢" if sent > 0.1 else "🔴" if sent < -0.1 else "⚪"
+                    if url:
+                        st.markdown(f"  {sent_icon} [{title}]({url}) — *{source}*")
+                    else:
+                        st.markdown(f"  {sent_icon} {title} — *{source}*")
+
     # Sector analysis
     sector_data = brief.get("sector_analysis", [])
     sector_dict = brief.get("sector_summary", {})

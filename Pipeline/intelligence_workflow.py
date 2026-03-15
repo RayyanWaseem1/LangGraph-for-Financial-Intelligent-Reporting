@@ -617,6 +617,17 @@ Generate impact assessments per cluster and a synthesized brief."""
                 "recommended_actions": impact.recommended_actions if impact else [],
                 "related_moves": impact.related_moves if impact else [],
                 "news_count": em.get("total_article_count", 0),
+                "top_articles": [
+                    {
+                        "url": a.get("url", ""),
+                        "title": a.get("title", ""),
+                        "source": a.get("source_name", a.get("source", "")),
+                        "sentiment": round(a.get("slm_sentiment", a.get("sentiment_score", 0)), 3),
+                        "relevance": round(a.get("slm_relevance", a.get("relevance_score", 0)), 3),
+                    }
+                    for a in em.get("relevant_articles", em.get("all_scored_articles", []))[:5]
+                    if a.get("url")
+                ],
                 "forward_looking": impact.forward_looking if impact else "",
             }
             alerts.append(alert)
@@ -899,6 +910,7 @@ async def run_intelligence_pipeline(
                 recommended_actions=actions,
                 related_moves=alert_data.get("related_moves", []),
                 news_count=alert_data.get("news_count", 0),
+                top_articles = alert_data.get("top_articles", []),
             )
             brief.alerts.append(alert)
             if alert.alert_level == AlertLevel.CRITICAL:

@@ -240,6 +240,10 @@ class MoveAlert(BaseModel):
     recommended_actions: List[ActionRecommendation] = Field(default_factory=list)
     related_moves: List[str] = Field(default_factory=list)
     news_count: int = 0
+    top_articles: List[Dict[str, Any]] = Field(
+        default_factory = list,
+        description = "Top scored articles with urls"
+    )
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
